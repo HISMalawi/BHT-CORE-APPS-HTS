@@ -1,0 +1,168 @@
+
+<script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
+<!-- <script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/standard.js" defer="true"></script> -->
+<script type="text/javascript" src="/assets/js/jquery.min.js"></script>
+
+<script type="text/javascript" src="/assets/js/post_parameters.js"></script>
+<script type="text/javascript" src="/assets/js/generic_ajaxrequest.js"></script>
+<script type="text/javascript" src="/apps/ART/assets/js/arv_number.js"></script>
+<script type="text/javascript" src="/assets/js/moment.js"></script>
+<script type="text/javascript" src="/assets/js/alertifyjs/alertify.js"></script>
+<script type="text/javascript" src="/assets/js/does_connection_exist.js"></script>
+
+<link rel="stylesheet" href="/assets/css/bootstrap/bootstrap.min.css" type="text/css">
+<style>
+    body {
+      font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
+      background-color: #fff;
+  }
+
+  #tasks-container {
+    display: table;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px;
+  }
+
+  .tasks-container-row {
+    display: table-row;
+    margin-left:40px;
+  }
+
+  .tasks-container-cell {
+    display: table-cell;
+    border-style: solid;
+    column-span :3;
+    border: 1px solid #5ca6c4;
+    cursor: pointer;
+    box-shadow: inset 2px -4px 2px 0px;
+    background-color: #5480a8;
+    border-radius: 7px;
+    border: solid black 3px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -moz-box-shadow: inset 0 0 10px #000000;
+    -webkit-box-shadow: inset 0 0 10px #5ca6c4;
+    box-shadow: inset 0 0 10px #000000;
+
+    width: 300px;
+    color: white;
+  }
+
+  .report-icons {
+   height: 50px;
+    width:  50px;
+  }
+
+  .info-table {
+    padding: 8px;
+    color: #fff;
+  }
+
+  .left{
+    margin-left: 50px;
+  }
+
+
+  </style>
+<body id="mateme">
+    <div id="container">
+        <div id="content">
+          <div id="tasks-container">
+            <form>
+                <input type="text" name="summary" id="tasks-container"
+                tt_onLoad="__$('keyboard').style.display = 'none'; buildReportLinks('main');"
+                tt_pageStyleClass= "NoControls" optional="true" helpText="Antenal Tasks"/>
+            </form>
+          </div>
+        </div>
+   </div>
+</body>
+<script>
+ var patientID = sessionStorage.getItem("patientID");
+    var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
+    var tt_cancel_destination = "/views/patient_dashboard.html?patient_id=" + patientID;
+    function taskGrouping(group) {
+    if(group == 'main'){
+        return [
+          ['Social History','/assets/images/social_history.png','/apps/MATERNITY/views/encounters/social_history.html', 'link'],
+          ['Admission Details','/assets/images/obstetric_history.png','/apps/MATERNITY/views/encounters/admission_details.html', 'link'],
+          ['Vitals','/assets/images/vitals.png','/views/patient/vitals.html', 'link'],
+          ["Patient History","/assets/images/medical_history.png","/apps/MATERNITY/views/encounters/patient_history.html",'link'],
+          ["PMTCT","/assets/images/pmtct.png","/apps/MATERNITY/views/encounters/pmtct.html",'link'],
+          ["Physical Examination","/assets/images/consultation.png","/apps/MATERNITY/views/encounters/physical_examination.html",'link'],
+          ["Vaginal Examination","/assets/images/consultation.png","/apps/MATERNITY/views/encounters/vaginal_exam.html",'link'],
+          ["Clinical Examination","/assets/images/consultation.png","/apps/MATERNITY/views/encounters/clinical_exam.html",'link'],
+          ["Admission Diagnosis","/assets/images/diagnosis.png","/apps/MATERNITY/views/encounters/admission_diagnosis.html",'link'],
+          ["Notes","/assets/images/clinical-notes.png","/apps/MATERNITY/views/encounters/notes.html",'link'],
+          ["Admission Notes printing","/assets/images/print.png","#",'link']
+        ];
+      }
+
+    }
+
+    function buildReportLinks(group) {
+      var frame = document.getElementById('inputFrame' + tstCurrentPage);
+    frame.style.height = "90%";
+      var counter = 0;
+      var row = null;
+      var taskContainer = document.getElementById("tasks-container");
+      taskContainer.innerHTML = null;
+
+      var tasks = taskGrouping(group);
+
+      for(var i = 0 ; i < tasks.length ; i++){
+
+        if(counter == 0) {
+          row = document.createElement("div");
+          row.setAttribute("class","tasks-container-row ");
+         taskContainer.appendChild(row);
+
+          }
+        var cell = document.createElement("div");
+        cell.setAttribute("class","tasks-container-cell left");
+        var table = document.createElement("table");
+        table.setAttribute("class","info-table");
+        var tr = document.createElement("tr");
+        table.appendChild(tr);
+        var td = document.createElement("td");
+
+        var img = document.createElement("img");
+        var imgSRC = tasks[i][1];
+        imgSRC = imgSRC.length < 1 ? "/assets/images/vitals.png" : imgSRC;
+        img.setAttribute("src", imgSRC);
+        img.setAttribute("class","report-icons");
+        td.appendChild(img);
+        tr.appendChild(td);
+
+        var td = document.createElement("td");
+        td.setAttribute("id", i.toString());
+        if(tasks[i][3] == 'link'){
+          if(tasks[i][2] != '#')
+            cell.setAttribute("onmousedown", "window.top.location='" + tasks[i][2] + "'");
+
+        }else{
+          cell.setAttribute("onmousedown", "buildReportLinks('" + tasks[i][2] + "');");
+        }
+        td.innerHTML = tasks[i][0];
+        tr.appendChild(td);
+
+        cell.appendChild(table);
+        row.appendChild(cell);
+        frame.appendChild(taskContainer);
+        counter++;
+        if(counter == 3){
+          counter = 0;
+        }
+      }
+    }
+
+    function _testFunc(){
+       var newURL = window.location.protocol + "//" + window.location.host + tasks[parseInt(this.id)][2];
+       window.top.location = newURL;
+    }
+
+
+    </script>
+

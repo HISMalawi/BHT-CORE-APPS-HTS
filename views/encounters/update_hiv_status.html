@@ -1,0 +1,132 @@
+
+<script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
+<!--script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/standard.js" defer="true"></script-->
+<script type="text/javascript" src="/assets/js/jquery.min.js"></script>
+
+<script type="text/javascript" src="/assets/js/yes_no_ctrls.js"></script>
+<link rel="stylesheet" href="/assets/css/yes_no_ctrls.css" type="text/css">
+<script type="text/javascript" src="/assets/js/post_parameters.js"></script>
+<script type="text/javascript" src="/assets/js/generic_ajaxrequest.js"></script>
+<script type="text/javascript" src="/assets/js/alertifyjs/alertify.js"></script>
+<script type="text/javascript" src="/assets/js/does_connection_exist.js"></script>
+<script type="text/javascript" src="/assets/js/moment.js"></script>
+<link rel="stylesheet" href="/assets/css/alertifyjs/css/alertify.css" type="text/css">
+
+<style>
+
+.inputFrameClass {
+  width: 96% !important;
+}
+</style>
+
+<body id="mateme">
+  <div id="container">
+    <div id="content">
+
+
+      <form>
+
+        <select id="hiv_status_update_visit" name="hiv_status_update_visit" tt_onLoad="changeNextBTN();" helpText="Outcome">   
+            <option>Positve</option>
+            <option>Negative</option>
+        </select>
+         <select id="hiv_test_visit" name="hiv_test_visit" tt_onLoad="changeNextBTN();" helpText="HIV Test visit"> 
+            <option>Current Visit</option>
+            <option>Previous Visit</option>
+         </select>
+
+         <input type="text" name="hiv_test_date" 
+          id="hiv_test_date" field_type="date" 
+          key="hiv_test_date" helpText="HIV test date"  
+          tt_pageStyleClass="date" 
+         tt_onLoad="changeNextButton();" /> 
+      </form>
+
+   </div>
+ </div>
+</body>
+
+<script>
+    var patientID = sessionStorage.getItem("patientID");
+    var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
+    var tt_cancel_destination = "/views/patient_dashboard.html?patient_id=" + patientID;
+    
+    function changeNextButton() {
+        var nextButton =  document.getElementById('nextButton');
+        nextButton.setAttribute("onmousedown","postHivStatus();")
+    }
+
+    function postHivStatus() {
+        var currentTime = moment().format(' HH:mm:ss');
+        var encounter_datetime = moment(sessionStorage.sessionDate).format('YYYY-MM-DD');
+        encounter_datetime += currentTime;
+
+        var encounter = {
+            encounter_type_name: 'UPDATE HIV STATUS',
+            encounter_type_id:  39,
+            patient_id: sessionStorage.patientID,
+            encounter_datetime: encounter_datetime
+        };
+
+        submitParameters(encounter, "/encounters", "postHivStatusObs");
+    }
+
+    function postHivStatusObs(encounter) {
+
+        var hivStatusUpdate = document.getElementById('hiv_status_update_visit').value;
+        var hivTestVisit = document.getElementById('hiv_test_visit').value;
+        var hivTestDate = document.getElementById('touchscreenInput' + tstCurrentPage).value;
+
+        var conceptAnswers = [
+            //Status update
+            {
+                "positive": 703,
+                "negative": 664
+            },
+            // HIV Test visit
+            {
+                "currentVisit": 7022,
+                "previousVisit": 7023
+            }
+        ];
+
+        var hivStatusAnswer;
+        var hivVisitAnswer
+
+        switch(hivStatusUpdate.toUpperCase()) {
+            case 'POSITIVE':
+                hivStatusAnswer = conceptAnswers[0].positive;
+                break;
+            case 'NEGATIVE':
+                hivStatusAnswer = conceptAnswers[0].negative;
+                break;
+        }
+
+        switch(hivTestVisit.toUpperCase()) {
+            case 'CURRENT VISIT':
+                hivVisitAnswer = conceptAnswers[1].currentVisit;
+                break;
+            case 'PREVIOUS VISIT':
+                hivVisitAnswer = conceptAnswers[1].previousVisit;
+                break;
+        }
+            var hivTestDay = hivTestDate.split('-')[0];
+            var hivTestMonth = hivTestDate.split('-')[1];
+            var hivTestYear = hivTestDate.split('-')[2];
+
+            var hivTestDates = hivTestYear + "-" + hivTestMonth + "-" + hivTestDay;
+            var obs = {
+            encounter_id: encounter["encounter_id"],
+            observations: [
+                { concept_id: 3387, value_coded: hivStatusAnswer },
+                { concept_id: 7021, value_coded: hivVisitAnswer },
+                { concept_id: 1837, value_datetime: hivTestDates }
+            ]
+        };
+        submitParameters(obs, "/observations", "nextPage")
+    }
+
+    function nextPage(){
+          window.location.href =  "/views/patient_dashboard.html?patient_id=" + patientID;
+    }
+</script>

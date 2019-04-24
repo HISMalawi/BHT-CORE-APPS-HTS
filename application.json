@@ -1,0 +1,169 @@
+{
+  "encounters": {
+    "antenatal": {
+      "available": true,
+      "encountersName": "antenatal",
+      "activitiesIcon": "/assets/images/anc.png",
+      "url": "/apps/MATERNITY/views/antenatal_tasks.html"
+    },
+    "postnatal": {
+      "available": true,
+      "encountersName": "postnatal",
+      "activitiesIcon": "/assets/images/consultation.png",
+      "url": "/apps/MATERNITY/views/prenatalTasks.html"
+    },
+    "update outcome": {
+      "available": true,
+      "encountersName": "update outcome",
+      "activitiesIcon": "/assets/images/outcomes.png",
+      "url": "/apps/MATERNITY/views/encounters/update_outcome.html"
+    },
+    "update hiv status": {
+      "available": true,
+      "encountersName": "update hiv status",
+      "activitiesIcon": "/assets/images/hiv-staging.png",
+      "url": "/apps/MATERNITY/views/encounters/update_hiv_status.html"
+    },
+    "vitals": {
+      "available": true,
+      "encountersName": "vitals",
+      "activitiesIcon": "/assets/images/vitals.png",
+      "url": "/views/patient/vitals.html"
+    },
+    "medical history": {
+      "available": true,
+      "encountersName": "medical history",
+      "activitiesIcon": "/assets/images/medical_history.png",
+      "url": "/apps/MATERNITY/views/encounters/patient_history.html"
+    },
+    "social history": {
+      "available": true,
+      "encountersName": "social history",
+      "activitiesIcon": "/assets/images/social_history.png",
+      "url": "/apps/MATERNITY/views/encounters/social_history.html"
+    },
+    "pmtct history": {
+      "available": true,
+      "encountersName": "pmtct history",
+      "activitiesIcon": "/assets/images/pmtct.png",
+      "url": "/apps/MATERNITY/views/encounters/pmtct.html"
+    },
+    "physical examination": {
+      "available": true,
+      "encountersName": "physical examination",
+      "activitiesIcon": "/assets/images/consultation.png",
+      "url": "/apps/MATERNITY/views/encounters/physical_examination.html"
+    },
+    "vaginal examination": {
+      "available": true,
+      "encountersName": "vagina examination",
+      "activitiesIcon": "/assets/images/consultation.png",
+      "url": "/apps/MATERNITY/views/encounters/vaginal_exam.html"
+    },
+    "maternity examination": {
+      "available": true,
+      "encountersName": "maternity examination",
+      "activitiesIcon": "/assets/images/maternity.jpg",
+      "url": "/apps/MATERNITY/views/encounters/clinical_exam.html"
+    },
+    "obstetric history": {
+      "available": true,
+      "encountersName": "obstetric history",
+      "activitiesIcon": "/assets/images/obstetric_history.png",
+      "url": "/apps/MATERNITY/views/encounters/admission_details.html"
+    },
+    "admission notes": {
+      "available": true,
+      "encountersName": "clinician notes",
+      "activitiesIcon": "/assets/images/clinical-notes.png",
+      "url": "/apps/MATERNITY/views/encounters/notes.html"
+    },
+    "admission diagnosis": {
+      "available": true,
+      "encountersName": "admission diagnosis",
+      "activitiesIcon": "/assets/images/diagnosis.png",
+      "url": "/apps/MATERNITY/views/antenatal/admission_diagnosis.html"
+    },
+    "admission notes printing": {
+      "available": true,
+      "encountersName": "clinician notes",
+      "activitiesIcon": "/assets/images/print.png",
+      "url": "#"
+    }
+  },
+  "activities": {
+    "url": "/apps/MATERNITY/views/activities.html",
+    "tasks": [
+      ["Social History","social history"],
+      ["Vitals","vitals"],
+      ["PMTCT History","pmtct history"],
+      ["Physical Examination","physical examination"],
+      ["Vaginal Examination","vaginal examination"],
+      ["Maternity Examination","maternity examination"],
+      ["Obstetric History","obstetric history"],
+      ["Medical History","medical history"]
+    ]
+    
+  },
+  "others": [
+    {
+      "activitiesName": "National Health ID (Print)",
+      "available": false,
+      "activitiesIcon": "/assets/images/barcode.png",
+      "activitiesDescription": "Print Patient National Health ID",
+      "comment": "these are examples, add another application with this template at the end of these curly braces by adding a comma and copying this template"
+    },
+    {
+      "activitiesName": "Lab activities",
+      "available": false,
+      "activitiesIcon": "/assets/images/lab.png",
+      "url": "/views/patient/labs.html",
+      "activitiesDescription": "Print Patient Visit Summary",
+      "comment": "these are examples, add another application with this template at the end of these curly braces by adding a comma and copying this template"
+    },
+    {
+      "activitiesName": "Demographics (Print)",
+      "available": false,
+      "activitiesIcon": "/assets/images/print.png",
+      "activitiesDescription": "Print Patient Demographics",
+      "comment": "these are examples, add another application with this template at the end of these curly braces by adding a comma and copying this template"
+    },
+    {
+      "activitiesName": "Demographics (Edit)",
+      "available": false,
+      "activitiesIcon": "/assets/images/edit.png",
+      "url": "/views/patient/edit_demographics.html",
+      "activitiesDescription": "Print Patient Demographics",
+      "comment": "these are examples, add another application with this template at the end of these curly braces by adding a comma and copying this template"
+    },
+    {
+      "activitiesName": "Change session date",
+      "available": false,
+      "activitiesIcon": "/assets/images/time.png",
+      "url": "/views/change_session_date.html",
+      "activitiesDescription": "Change session date (for retrospective entry)",
+      "comment": "these are examples, add another application with this template at the end of these curly braces by adding a comma and copying this template"
+    },
+    {
+      "activitiesName": "Program(s)",
+      "available": false,
+      "activitiesIcon": "/assets/images/programs.png",
+      "url": "/views/patient/programs.html",
+      "activitiesDescription": "View / update patient's programs",
+      "comment": "these are examples, add another application with this template at the end of these curly braces by adding a comma and copying this template"
+    },{
+      "activitiesName": "Filing Number (Print)",
+      "available": false,
+      "activitiesIcon": "/assets/images/folder.png",
+      "activitiesDescription": "Print Patient Filing Number",
+      "comment": "these are examples, add another application with this template at the end of these curly braces by adding a comma and copying this template"
+    },{
+      "activitiesName": "Visit Summary (Print)",
+      "available": false,
+      "activitiesIcon": "/assets/images/folder.png",
+      "activitiesDescription": "Print Patient Visit Summary",
+      "comment": "these are examples, add another application with this template at the end of these curly braces by adding a comma and copying this template"
+    }
+
+  ]
+}
