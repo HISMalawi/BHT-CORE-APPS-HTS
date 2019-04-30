@@ -1,0 +1,147 @@
+
+<script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
+<!--script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/standard.js" defer="true"></script-->
+<script type="text/javascript" src="/assets/js/jquery.min.js"></script>
+
+<script type="text/javascript" src="/assets/js/yes_no_ctrls.js"></script>
+<link rel="stylesheet" href="/assets/css/yes_no_ctrls.css" type="text/css">
+<script type="text/javascript" src="/assets/js/post_parameters.js"></script>
+<script type="text/javascript" src="/assets/js/generic_ajaxrequest.js"></script>
+<script type="text/javascript" src="/assets/js/alertifyjs/alertify.js"></script>
+<script type="text/javascript" src="/assets/js/does_connection_exist.js"></script>
+<script type="text/javascript" src="/assets/js/moment.js"></script>
+<script type="text/javascript" src="/apps/HTS/assets/js/common.js"></script>
+<script type="text/javascript" src="/apps/HTS/assets/js/htn_visit.js"></script>
+<link rel="stylesheet" href="/assets/css/alertifyjs/css/alertify.css" type="text/css">
+
+<style>
+
+    .inputFrameClass {
+        width: 96% !important;
+    }
+
+    .active{
+        background-color: #ffc579 !important;
+    }
+    .btn-yellow {
+    min-height: 40px;
+    margin: 0px;
+        margin-bottom: 0px;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+    background-color: #ffc579;
+    color: #FFF;
+    font-weight: normal;
+    border: 5px outset #000;
+    padding: 9px;
+    cursor: pointer;
+    background: url(/assets/images/btn_yellow.png) right repeat;
+    -moz-user-select: none;
+    -moz-user-focus: disabled;
+    border-radius: 12px;
+    pointer-events: none;
+}
+</style>
+<body id="mateme">
+<div id="container">
+    <div id="content">
+
+
+        <form>
+             
+
+            <select id="hts_access_type" name="hts_access_type" tt_onLoad="changeNextButton();" helpText="HTS Access Type" tt_onLoad="showCategory2('HTS Visit');">
+                <option>Routine HTS (PITC) within Health Service</option>
+                <option>Comes with HTS Family Referral Slip</option>
+                <option>Other(VCR, etc)</option>
+            </select>
+            <select id="referred_slip" name="referred_slip" helpText="Who referred slip" tt_pageStyleClass="NoKeyboard" tt_onLoad="howCategory2('HTS Visit');" 
+            condition = "__$('hts_access_type').value == 'Comes with HTS Family Referral Slip'">
+                <option></option>
+                <option>Spouse/Sexual Partner</option>
+                <option>Parent</option>
+                <option>Other</option>
+            </select>
+
+            <select id="last_hiv_test" name="last_hiv_test" tt_onLoad="changeNextButton();" helpText="Last HIV Test Result" tt_onLoad="showCategory2('HTS Visit');"
+            condition = "__$('hts_access_type').value == 'Routine HTS (PITC) within Health Service'">
+
+                    <option>Never Tested</option>
+                    <option>Last Negative</option>
+                    <option>Last Positive</option>
+                    <option>Last Inconclusive</option>
+                    <option>Last Exposed Infant</option>
+                </select>
+                <input type="text" name="test_date"
+                id="test_date" field_type="date"
+                 helpText="Time since last Test"
+                tt_pageStyleClass="date" allowFreeText="true"
+                tt_onLoad=" showCategory2('HTS Visit');"
+                tt_onUnLoad = "$('last_hiv_test').value != 'Never Tested'" />
+
+                <select id="client_risk" name="client_risk" helpText="Client risk category" tt_pageStyleClass="NoKeyboard"  tt_onLoad=" showCategory2('HTS Visit');"
+                condition = "__$('last_hiv_test').value != 'Never Tested'" >
+                        <option>Low Risk</option>
+                        <option>On-going Risk</option>
+                        <option>High Risk Event in Last 3 months</option>
+                        <option>Risk assessment Not Done</option>
+                 </select>
+                 <select id="pregnant" name="pregnant" helpText="Pregnant?" tt_pageStyleClass="NoKeyboard" tt_onLoad="showCategory2('HTS Visit');" >
+                        <option></option>
+                        <option>No</option>
+                        <option>Yes</option>
+                    </select>
+           
+                 <select id="client_consent" name="client_consent" helpText="Client gives consent to be tested?" tt_pageStyleClass="NoKeyboard" tt_onLoad="showCategory2('HTS Visit');" >
+                        <option></option>
+                        <option>No</option>
+                        <option>Yes</option>
+                    </select>
+                   
+
+                    <input type="text" name="summary" id="test_result_one"
+                    tt_onLoad="__$('keyboard').style.display = 'none';showCategory2('HTS Visit');buildTest();"
+                    tt_pageStyleClass= "NoControls" helpText="First Pass Test 1 Result" optional="true"/>
+                    
+                    <input type="text" name="summary" id="test_result_two"
+                    tt_onLoad="__$('keyboard').style.display = 'none';showCategory2('HTS Visit');buildTestTwo();"
+                    tt_pageStyleClass= "NoControls" helpText="First Pass Test 2 Result" optional="true"
+                    condition = " testResultOne == 'reactive'"/>
+    
+                    <input type="text" name="summary" id="parallel_test"
+                    tt_onLoad="__$('keyboard').style.display = 'none';showCategory2('HTS Visit');buildParallelTest();"
+                    tt_pageStyleClass= "NoControls" helpText="Immediate Parallel Repeat Test 1 & 2 Results" optional="true"
+                    condition = " testResultOne == 'reactive' && testResultTwo == 'Non reactive'"/>
+
+                    <input type="text" name="appointment_date"
+                    id="appointment_date" field_type="date"
+                     helpText="Appointment Date Given"
+                    tt_pageStyleClass="date" allowFreeText="true"
+                    tt_onLoad=" checkResult();showCategory2('HTS Visit');"
+                    tt_onUnLoad = "" />
+
+                    <select id="partner_status" name="partner_status" helpText="Partner HIV Status" tt_pageStyleClass="NoKeyboard" tt_onLoad="showCategory2('HTS Visit');" >
+                            <option></option>
+                            <option>No Partner</option>
+                            <option>HIV Unknown</option>
+                            <option>Partner Negative</option>
+                            <option>Partner Positive</option>
+                        </select>
+                    
+                    <input type="text" name="male_condoms" id="male_condoms"  helpText="Number of male condoms given" field_type="number"  tt_pageStyleClass="Numeric NumbersOnly"
+                    tt_onLoad="showCategory2('HTS Visit');"/>
+
+                    <input type="text" name="female_condoms" id="female_condoms"  helpText="Number of fesmale condoms given" field_type="number"  tt_pageStyleClass="Numeric NumbersOnly"
+                    tt_onLoad="showCategory2('HTS Visit');"/>
+       
+        </form>
+
+    </div>
+</div>
+</body>
+
+<script>
+        var patientID = sessionStorage.getItem("patientID");
+        var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
+        var tt_cancel_destination = "/views/patient_dashboard.html?patient_id=" + patientID;
+</script>    
