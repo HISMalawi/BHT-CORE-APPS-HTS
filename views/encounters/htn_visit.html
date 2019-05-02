@@ -48,7 +48,6 @@
 
 
         <form>
-             
 
             <select id="hts_access_type" name="hts_access_type" tt_onLoad="changeNextButton();" helpText="HTS Access Type" tt_onLoad="showCategory2('HTS Visit');">
                 <option>Routine HTS (PITC) within Health Service</option>
@@ -92,7 +91,7 @@
                         <option>Yes</option>
                     </select>
            
-                 <select id="client_consent" name="client_consent" helpText="Client gives consent to be tested?" tt_pageStyleClass="NoKeyboard" tt_onLoad="showCategory2('HTS Visit');" >
+                 <select id="client_consent" name="client_consent" helpText="Client gives consent to be tested?" tt_pageStyleClass="NoKeyboard" tt_onLoad="showCategory2('HTS Visit');changeNextButtonConsent();" >
                         <option></option>
                         <option>No</option>
                         <option>Yes</option>
@@ -133,7 +132,17 @@
 
                     <input type="text" name="female_condoms" id="female_condoms"  helpText="Number of fesmale condoms given" field_type="number"  tt_pageStyleClass="Numeric NumbersOnly"
                     tt_onLoad="showCategory2('HTS Visit');"/>
-       
+                    
+                    <input type="text" name="summary" id="referral_slips"
+                    tt_onLoad="__$('keyboard').style.display = 'none';showCategory2('HTS Visit');buildReferralSlips();"
+                    tt_pageStyleClass= "NoControls" helpText="HTS Family Referral Slips" optional="true"
+                    />
+                    
+                    <input type="text" name="comment" 
+                    id="comment" field_type="comment" 
+                    key="comment" helpText="Comments"  
+                    allowFreeText="true" tt_onLoad="(showCategory2('HTS Visit'););"/>
+  
         </form>
 
     </div>
@@ -144,4 +153,20 @@
         var patientID = sessionStorage.getItem("patientID");
         var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
         var tt_cancel_destination = "/views/patient_dashboard.html?patient_id=" + patientID;
+        function changeNextButtonConsent() {
+        var nextButton =  document.getElementById('nextButton');
+        nextButton.setAttribute("onmousedown","checkConsent();");
+    }
+
+    function checkConsent() {
+        consent = document.getElementById('touchscreenInput'+tstCurrentPage).value;
+
+        if (consent == 'No') {
+            window.location.href =  "/views/patient_dashboard.html?patient_id=" + patientID;
+
+        } else if (consent == "Yes") {
+           gotoNextPage();
+        }
+    }
+
 </script>    

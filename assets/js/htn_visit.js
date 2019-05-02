@@ -1,4 +1,7 @@
-
+var tr_spouse;
+var tr_child;
+var tr_other;
+var td_child;
 var testResultOne;
 var testResultTwo;
 function buildTest(){
@@ -208,7 +211,332 @@ function buildParallelTest(){
 function checkResult(){
     if(testResultOne == "reactive" && testResultTwo == "reactive"){
         showMessage("Confirmatory test and start ART");
-    }else{
+    }else if (testResultOne == "Non reactive"){
+        showMessage("No need for retesting unless: High risk event or risky behaviour in future");
+    }else if (testResultOne == "reactive" && testResultTwo == "Non reactive"){
         showMessage("Repeat test in 4 weeks to rule out new infection");
     }
 }
+
+
+function buildReferralSlips(){
+
+    var frame = document.getElementById('inputFrame' + tstCurrentPage);
+    frame.style.height = "90%";
+    var div = document.createElement("div");
+    var i = 1;
+
+    var table = document.createElement("table");
+    table.id = "ref_tbl";
+    var tbl = document.getElementById("ref_tbl");
+    tr_spouse = document.createElement("tr");
+    var spouse_td = document.createElement("td");
+    var spouse_span = document.createElement("span");
+    spouse_span.style.fontSize = "2.1em";
+    spouse_span.id = "unticked"+i;
+    spouse_span.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
+    spouse_td.appendChild(spouse_span);
+    tr_spouse.appendChild(spouse_td);
+
+    var spouse_td = document.createElement("td");
+    spouse_td.textContent = "Spouse";
+    spouse_td.id = "tdunticked"+i;
+    spouse_td.style.fontSize = "2.1em";
+    tr_spouse.appendChild(spouse_td);
+
+    spouse_span.onclick = function () {
+        if(spouse_span.id == "unticked"+i){
+            spouse_span.id = "ticked"+i;
+            spouse_td.id = "tdticked"+i;
+            spouse_span.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>";
+            spouse_td.textContent = "Spouse "+i;
+            addSpouse(i);
+        }
+        else if(spouse_span.id == "ticked"+i){
+            var k = i+ 1;
+            var span_id = "unticked"+k;
+            var td_id = "tdunticked"+k;
+            var rm_span_spouse = document.getElementById(span_id);
+            if(rm_span_spouse != null){
+          
+             rm_span_spouse.style.display = 'none'; 
+            var rm_td_spouse = document.getElementById(td_id);
+            rm_td_spouse.style.display = 'none';
+            spouse_td.textContent = "Spouse";
+            spouse_span.id = "uncheck";
+            } else{
+                var span_id = "ticked"+k;
+                var td_id = "tdticked"+k;
+                var rm_span_spouse = document.getElementById(span_id);
+                rm_span_spouse.style.display = 'none'; 
+                var rm_td_spouse = document.getElementById(td_id);
+                rm_td_spouse.style.display = 'none';
+                spouse_td.textContent = "Spouse";
+                spouse_span.id = "uncheck";
+            }
+        } else if(spouse_span.id =="uncheck"){
+            spouse_span.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
+            spouse_span.id = "unticked"+i;
+            spouse_td.id = "tdunticked"+i;
+        }  
+    }
+        //CHILD
+    tr_child = document.createElement("tr");
+    var child_td = document.createElement("td");
+    var child_span = document.createElement("span");
+    child_span.style.fontSize = "2.1em";
+    child_span.id = "unticked"+i;
+    child_span.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
+    child_td.appendChild(child_span);
+    tr_child.appendChild(child_td);
+
+    var child_td = document.createElement("td");
+    child_td.textContent = "Child";
+    child_td.id = "tdunticked"+i;
+    child_td.style.fontSize = "2.1em";
+    tr_child.appendChild(child_td);
+
+    child_span.onclick = function () {
+        if(child_span.id == "unticked"+i){
+            child_span.id = "ticked"+i;
+            child_td.id = "tdticked"+i;
+            child_span.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>";
+            child_td.textContent = "Child "+i;
+            addChild(i);
+        }
+        else if(child_span.id == "ticked"+i){
+            var k = i+ 1;
+            var span_id = "unticked"+k;
+            var td_id = "tdunticked"+k;
+            var rm_span_child = document.getElementById(span_id);
+            if(rm_span_child != null){
+          
+            rm_span_child.style.display = 'none'; 
+            var rm_span_child = document.getElementById(td_id);
+            rm_td_child.style.display = 'none';
+            child_td.textContent = "Child";
+            child_span.id = "uncheck";
+            } else{
+                var span_id = "ticked"+k;
+                var td_id = "tdticked"+k;
+                var rm_span_child = document.getElementById(span_id);
+                rm_span_child.style.display = 'none'; 
+                var rm_td_child = document.getElementById(td_id);
+                rm_td_child.style.display = 'none';
+                child_td.textContent = "Child";
+                child_span.id = "uncheck";
+            }
+        } else if(child_span.id =="uncheck"){
+            child_span.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
+            child_span.id = "unticked"+i;
+            child_td.id = "tdunticked"+i;
+        }  
+    }
+
+
+
+
+
+
+    tr_other = document.createElement("tr");
+    var td_other = document.createElement("td");
+    var span_other = document.createElement("span");
+    span_other.style.fontSize = "2.1em";
+    span_other.id = "unticked"+i;
+    span_other.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
+    td_other.appendChild(span_other);
+    tr_other.appendChild(td_other);
+
+    var td_other = document.createElement("td");
+    td_other.textContent = "Other";
+    td_other.style.fontSize = "2.1em";
+    td_other.id = "tdunticked"+i;
+    tr_other.appendChild(td_other);
+
+    span_other.onclick = function () {
+         
+        if(span_other.id == "unticked"+i){
+            span_other.id = "ticked"+i;
+            td_other.id = "tdticked"+i;
+            span_other.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>";
+            td_other.textContent = "Other "+i;
+            addOther(i);
+        }
+        else if(span_other.id == "ticked"+i){
+            var k = i+ 1;
+            var span_id = "unticked"+k;
+            var td_id = "tdunticked"+k;
+            var rm_span = document.getElementById(span_id);
+            if(rm_span != null){
+          
+            rm_span.style.display = 'none'; 
+            var rm_td = document.getElementById(td_id);
+            rm_td.style.display = 'none';
+            td_other.textContent = "Other";
+            span_other.id = "uncheck";
+            }
+            else{
+                var span_id = "ticked"+k;
+                var td_id = "tdticked"+k;
+                var rm_span = document.getElementById(span_id);
+                rm_span.style.display = 'none'; 
+                var rm_td = document.getElementById(td_id);
+                rm_td.style.display = 'none';
+                td_other.textContent = "Other";
+                span_other.id = "uncheck";
+            }
+             }
+            else if(span_other.id =="uncheck"){
+                span_other.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
+                span_other.id = "unticked"+i;
+                td_other.id = "tdunticked"+i;
+            }
+    }
+
+  
+    
+    table.appendChild(tr_spouse);
+    table.appendChild(tr_child);
+    table.appendChild(tr_other);
+    div.appendChild(table);
+    frame.appendChild(div);
+}
+
+function addSpouse(i){
+    i = i+1;
+    var td_spouse2 = document.createElement("td");
+    var span_spouse2 = document.createElement("span");
+    span_spouse2.style.fontSize = "2.1em";
+    span_spouse2.id = "unticked"+i;
+    span_spouse2.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
+    var td_spouse2 = document.createElement("td");
+    td_spouse2.appendChild(span_spouse2);
+    tr_spouse.appendChild(td_spouse2);
+    
+    var td_spouse2 = document.createElement("td");
+    td_spouse2.textContent = "Spouse "+i;
+    td_spouse2.style.fontSize = "2.1em";
+    td_spouse2.id = "tdunticked"+i;
+    tr_spouse.appendChild(td_spouse2);
+    span_spouse2.onclick = function () {  
+        if(span_spouse2.id == "unticked"+i){
+            span_spouse2.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>"; 
+            addSpouse(i);
+            span_spouse2.id = "ticked"+i;
+            td_spouse2.id = "tdticked"+i;
+        }
+        else if(span_spouse2.id == "ticked"+i){
+            var k = i+ 1;
+            var span_id = "unticked"+k;
+            var td_id = "tdunticked"+k;
+            var rm_span_spouse = document.getElementById(span_id);
+            if(rm_span_spouse != null){
+          
+            rm_span_spouse.style.display = 'none'; 
+            var rm_td_spouse = document.getElementById(td_id);
+            rm_td_spouse.style.display = 'none'; }
+            else{
+                var span_id = "ticked"+k;
+                var td_id = "tdticked"+k;
+                var rm_span_spouse = document.getElementById(span_id);
+                rm_span_spouse.style.display = 'none'; 
+                var rm_td_spouse = document.getElementById(td_id);
+                rm_td_spouse.style.display = 'none';
+            }
+             }
+            };
+
+}
+
+
+function addChild(i){
+    i = i+1;
+    var td_child2 = document.createElement("td");
+    var span_child2 = document.createElement("span");
+    span_child2.style.fontSize = "2.1em";
+    span_child2.id = "unticked"+i;
+    span_child2.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
+    var td_child2 = document.createElement("td");
+    td_child2.appendChild(span_child2);
+    tr_child.appendChild(td_child2);
+    
+    var td_child2 = document.createElement("td");
+    td_child2.textContent = "Child "+i;
+    td_child2.style.fontSize = "2.1em";
+    td_child2.id = "tdunticked"+i;
+    tr_child.appendChild(td_child2);
+    span_child2.onclick = function () {  
+        if(span_child2.id == "unticked"+i){
+            span_child2.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>"; 
+            addChild(i);
+            span_child2.id = "ticked"+i;
+            td_child2.id = "tdticked"+i;
+        }
+        else if(span_child2.id == "ticked"+i){
+            var k = i+ 1;
+            var span_id = "unticked"+k;
+            var td_id = "tdunticked"+k;
+            var rm_span_child = document.getElementById(span_id);
+            if(rm_span_child != null){
+          
+             rm_span_child.style.display = 'none'; 
+            var rm_td_child = document.getElementById(td_id);
+            rm_td_child.style.display = 'none'; }
+            else{
+                var span_id = "ticked"+k;
+                var td_id = "tdticked"+k;
+                var rm_span_child = document.getElementById(span_id);
+                rm_span_child.style.display = 'none'; 
+                var rm_td_child = document.getElementById(td_id);
+                rm_td_child.style.display = 'none';
+            }
+             }
+            };
+
+}
+
+function addOther(i){
+    i = i+1;
+    var td_other2 = document.createElement("td");
+    var span_other2 = document.createElement("span");
+    span_other2.style.fontSize = "2.1em";
+    span_other2.id = "unticked"+i;
+    span_other2.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
+    td_other2.appendChild(span_other2);
+    tr_other.appendChild(td_other2);
+    
+    var td_other2 = document.createElement("td");
+    td_other2.textContent = "Other "+i;
+    td_other2.style.fontSize = "2.1em";
+    td_other2.id = "tdunticked"+i;
+    tr_other.appendChild(td_other2);
+    span_other2.onclick = function () {  
+        if(span_other2.id == "unticked"+i){
+            span_other2.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>"; 
+            addOther(i);
+            span_other2.id = "ticked"+i;
+            td_other2.id = "tdticked"+i;
+        }
+        else if(span_other2.id == "ticked"+i){
+            var k = i+ 1;
+            var span_id = "unticked"+k;
+            var td_id = "tdunticked"+k;
+            var rm_span = document.getElementById(span_id);
+            if(rm_span != null){
+          
+            rm_span.style.display = 'none'; 
+            var rm_td = document.getElementById(td_id);
+            rm_td.style.display = 'none'; }
+            else{
+                var span_id = "ticked"+k;
+                var td_id = "tdticked"+k;
+                var rm_span = document.getElementById(span_id);
+                rm_span.style.display = 'none'; 
+                var rm_td = document.getElementById(td_id);
+                rm_td.style.display = 'none';
+            }
+             }
+            };
+
+}
+

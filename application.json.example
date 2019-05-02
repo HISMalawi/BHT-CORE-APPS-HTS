@@ -1,121 +1,30 @@
 {
-  "ebrs": {
-    "ebrsProtocol": "http",
-    "ebrsHost": "localhost",
-    "ebrsPort": "8000",
-    "ebrsURL": "/maternity/create_from_maternity"
-  },
   "encounters": {
-    "social history": {
+    "hts visit": {
       "available": true,
-      "encountersName": "social history",
-      "activitiesIcon": "/assets/images/social_history.png",
-      "url": "/apps/MATERNITY/views/encounters/social_history.html"
+      "encountersName": "hts visit",
+      "activitiesIcon": "/assets/images/anc.png",
+      "url": "/apps/HTS/views/encounters/hts_visit.html"
     },
-    "vitals": {
+    "art referral": {
       "available": true,
-      "encountersName": "vitals",
-      "activitiesIcon": "/assets/images/vitals.png",
-      "url": "/views/patient/vitals.html"
+      "encountersName": "art referral",
+      "activitiesIcon": "/assets/images/anc.png",
+      "url": "/apps/HTS/views/encounters/art_referral.html"
     },
-    "patient admissions": {
+    "find record": {
       "available": true,
-      "encountersName": "patient admissions",
-      "activitiesIcon": "/assets/images/medical_history.png",
-      "url": "/apps/MATERNITY/views/encounters/admission_details.html"
-    },
-    "pmtct history": {
-      "available": true,
-      "encountersName": "pmtct history",
-      "activitiesIcon": "/assets/images/pmtct.png",
-      "url": "/apps/MATERNITY/views/encounters/pmtct.html"
-    },
-    "physical examination": {
-      "available": true,
-      "encountersName": "physical examination",
-      "activitiesIcon": "/assets/images/consultation.png",
-      "url": "/apps/MATERNITY/views/encounters/physical_examination.html"
-    },
-    "vaginal examination": {
-      "available": true,
-      "encountersName": "vagina examination",
-      "activitiesIcon": "/assets/images/consultation.png",
-      "url": "/apps/MATERNITY/views/encounters/vaginal_exam.html"
-    },
-    "maternity examination": {
-      "available": true,
-      "encountersName": "maternity examination",
-      "activitiesIcon": "/assets/images/maternity.jpg",
-      "url": "/apps/MATERNITY/views/encounters/clinical_exam.html"
-    },
-    "obstetric history": {
-      "available": true,
-      "encountersName": "obstretic history",
-      "activitiesIcon": "/assets/images/obstetric_history.png",
-      "url": "/apps/MATERNITY/views/encounters/patient_history.html"
-    },
-    "admission notes": {
-      "available": true,
-      "encountersName": "clinician notes",
-      "activitiesIcon": "/assets/images/clinical-notes.png",
-      "url": "/apps/MATERNITY/views/encounters/notes.html"
-    },
-    "admission diagnosis": {
-      "available": true,
-      "encountersName": "admission diagnosis",
-      "activitiesIcon": "/assets/images/diagnosis.png",
-      "url": "/apps/MATERNITY/views/encounters/admission_diagnosis.html"
-    },
-    "current delivery": {
-      "available": true,
-      "encountersName": "baby delivery",
-      "activitiesIcon": "/assets/images/current_preg.png",
-      "url": "/apps/MATERNITY/views/encounters/current_delivery.html"
-    },
-    "post admission details": {
-      "available": true,
-      "encountersName": "admission details",
-      "activitiesIcon": "/assets/images/obstetric_history.png",
-      "url": "/apps/MATERNITY/views/encounters/post_admission_details.html"
-    },
-    "abdominal examination": {
-      "available": true,
-      "encountersName": "abdominal examination",
-      "activitiesIcon": "/assets/images/consultation.png",
-      "url": "/apps/MATERNITY/views/encounters/abnorminal_exam.html"
-    },
-    "physical examination baby": {
-      "available": true,
-      "encountersName": "physical examination baby",
-      "activitiesIcon": "/assets/images/consultation.png",
-      "url": "/apps/MATERNITY/views/encounters/physical_examination_baby.html"
-    },
-    "post vaginal examination": {
-      "available": true,
-      "encountersName": "vaginal examination",
-      "activitiesIcon": "/assets/images/consultation.png",
-      "url": "/apps/MATERNITY/views/encounters/post_vaginal_exam.html"
-    },
-    "update hiv status": {
-      "available": true,
-      "encountersName": "update hiv status",
-      "activitiesIcon": "/assets/images/hiv-staging.png",
-      "url": "/apps/MATERNITY/views/encounters/update_hiv_status.html"
+      "encountersName": "Find enterred record",
+      "activitiesIcon": "/assets/images/anc.png",
+      "url": "/apps/HTS/views/encounters/art_referral.html"
     }
   },
   "activities": {
     "url": "/apps/MATERNITY/views/activities.html",
     "tasks": [
-      ["Social History","social history"],
-      ["Vitals","vitals"],
-      ["PMTCT History","pmtct history"],
-      ["Physical Examination","physical examination"],
-      ["Vaginal Examination","vaginal examination"],
-      ["Maternity Examination","maternity examination"],
-      ["Obstetric History","obstetric history"],
-      ["Patient Admissions","patient admissions"],
-      ["Current Delivery","current delivery "],
-      ["Admission Diagnosis","admission diagnosis"]
+      ["HTS Visit","hts visit"],
+      ["ART Referral","art referral"],
+      ["Find Record","find record"]
     ]
     
   },
@@ -125,6 +34,14 @@
       "available": false,
       "activitiesIcon": "/assets/images/barcode.png",
       "activitiesDescription": "Print Patient National Health ID",
+      "comment": "these are examples, add another application with this template at the end of these curly braces by adding a comma and copying this template"
+    },
+    {
+      "activitiesName": "Lab activities",
+      "available": false,
+      "activitiesIcon": "/assets/images/lab.png",
+      "url": "/views/patient/labs.html",
+      "activitiesDescription": "Print Patient Visit Summary",
       "comment": "these are examples, add another application with this template at the end of these curly braces by adding a comma and copying this template"
     },
     {
@@ -158,26 +75,16 @@
       "activitiesDescription": "View / update patient's programs",
       "comment": "these are examples, add another application with this template at the end of these curly braces by adding a comma and copying this template"
     },{
+      "activitiesName": "Filing Number (Print)",
+      "available": false,
+      "activitiesIcon": "/assets/images/folder.png",
+      "activitiesDescription": "Print Patient Filing Number",
+      "comment": "these are examples, add another application with this template at the end of these curly braces by adding a comma and copying this template"
+    },{
       "activitiesName": "Visit Summary (Print)",
       "available": false,
       "activitiesIcon": "/assets/images/folder.png",
       "activitiesDescription": "Print Patient Visit Summary",
-      "comment": "these are examples, add another application with this template at the end of these curly braces by adding a comma and copying this template"
-    },
-    {
-      "activitiesName": "Register father",
-      "available": false,
-      "activitiesIcon": "/assets/images/edit.png",
-      "url": "/views/patient/father_demographics/search.html",
-      "activitiesDescription": "Change session date (for retrospective entry)",
-      "comment": "these are examples, add another application with this template at the end of these curly braces by adding a comma and copying this template"
-    },
-    {
-      "activitiesName": "Associated Demographics",
-      "available": false,
-      "activitiesIcon": "/assets/images/edit.png",
-      "url": "/apps/MATERNITY/views/ebrs_tools/associated_demographics.html",
-      "activitiesDescription": "Change session date (for retrospective entry)",
       "comment": "these are examples, add another application with this template at the end of these curly braces by adding a comma and copying this template"
     }
 
