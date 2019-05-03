@@ -4,6 +4,12 @@ var tr_other;
 var td_child;
 var testResultOne;
 var testResultTwo;
+var script = document.createElement('script');
+script.src = '/assets/js/jquery.min.js';
+script.type = 'text/javascript';
+document.getElementsByTagName('head')[0].appendChild(script);
+
+
 function buildTest(){
     var frame = document.getElementById('inputFrame' + tstCurrentPage);
     frame.style.height = "90%";
@@ -224,12 +230,14 @@ function buildReferralSlips(){
     var frame = document.getElementById('inputFrame' + tstCurrentPage);
     frame.style.height = "90%";
     var div = document.createElement("div");
+    div.id = "referalls";
     var i = 1;
 
     var table = document.createElement("table");
     table.id = "ref_tbl";
     var tbl = document.getElementById("ref_tbl");
     tr_spouse = document.createElement("tr");
+    tr_spouse.id = "spouse";
     var spouse_td = document.createElement("td");
     var spouse_span = document.createElement("span");
     spouse_span.style.fontSize = "2.1em";
@@ -251,6 +259,7 @@ function buildReferralSlips(){
             spouse_span.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>";
             spouse_td.textContent = "Spouse "+i;
             addSpouse(i);
+            span_none.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
         }
         else if(spouse_span.id == "ticked"+i){
             var k = i+ 1;
@@ -270,7 +279,7 @@ function buildReferralSlips(){
                 var rm_span_spouse = document.getElementById(span_id);
                 rm_span_spouse.style.display = 'none'; 
                 var rm_td_spouse = document.getElementById(td_id);
-                rm_td_spouse.style.display = 'none';
+                rm_td_spouse.stytr_spousele.display = 'none';
                 spouse_td.textContent = "Spouse";
                 spouse_span.id = "uncheck";
             }
@@ -282,6 +291,7 @@ function buildReferralSlips(){
     }
         //CHILD
     tr_child = document.createElement("tr");
+    tr_child.id = "child";
     var child_td = document.createElement("td");
     var child_span = document.createElement("span");
     child_span.style.fontSize = "2.1em";
@@ -303,6 +313,7 @@ function buildReferralSlips(){
             child_span.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>";
             child_td.textContent = "Child "+i;
             addChild(i);
+            span_none.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
         }
         else if(child_span.id == "ticked"+i){
             var k = i+ 1;
@@ -327,6 +338,7 @@ function buildReferralSlips(){
                 child_span.id = "uncheck";
             }
         } else if(child_span.id =="uncheck"){
+            
             child_span.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
             child_span.id = "unticked"+i;
             child_td.id = "tdunticked"+i;
@@ -339,6 +351,7 @@ function buildReferralSlips(){
 
 
     tr_other = document.createElement("tr");
+    tr_other.id = "other";
     var td_other = document.createElement("td");
     var span_other = document.createElement("span");
     span_other.style.fontSize = "2.1em";
@@ -361,6 +374,7 @@ function buildReferralSlips(){
             span_other.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>";
             td_other.textContent = "Other "+i;
             addOther(i);
+            span_none.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
         }
         else if(span_other.id == "ticked"+i){
             var k = i+ 1;
@@ -393,12 +407,65 @@ function buildReferralSlips(){
             }
     }
 
-  
-    
+    var table_none = document.createElement("table");
+    table_none.style.paddingTop = "21%";
+    var tr_none = document.createElement("tr");
+    var td_none = document.createElement("td");
+    var span_none = document.createElement("span");
+    span_none.style.fontSize = "2.1em";
+    span_none.id = "unticked"+i;
+    span_none.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
+    td_none.appendChild(span_none);
+    tr_none.appendChild(td_none);
+
+    var td_none = document.createElement("td");
+    td_none.textContent = "None";
+    td_none.style.fontSize = "2.1em";
+    td_none.id = "tdunticked"+i;
+    tr_none.appendChild(td_none);
+
+    span_none.onclick = function () {
+        
+        span_none.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>";
+        var uncheck = 1;
+        var $j = jQuery.noConflict();
+     
+        //Uncheck Spouse
+       var spouse = document.getElementById('spouse');
+        while (spouse.childNodes.length > 2) {
+         spouse.removeChild(spouse.lastChild);
+         }
+        spouse_span.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
+        spouse_span.id = "unticked"+i;
+        spouse_td.id = "tdunticked"+i;
+        spouse_td.textContent = "Spouse";
+        //Uncheck Child
+       var child = document.getElementById('child');
+        while (child.childNodes.length > 2) {
+         child.removeChild(child.lastChild);
+         }
+        child_span.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
+        child_span.id = "unticked"+i;
+        child_td.id = "tdunticked"+i;
+        child_td.textContent = "Child";
+        //Uncheck Other
+        var other = document.getElementById('other');
+        while (other.childNodes.length > 2) {
+         other.removeChild(other.lastChild);
+         }
+        span_other.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
+        span_other.id = "unticked"+i;
+        td_other.id = "tdunticked"+i;
+        td_other.textContent = "Other";
+    }
+
+
     table.appendChild(tr_spouse);
     table.appendChild(tr_child);
     table.appendChild(tr_other);
+    table_none.appendChild(tr_none);
     div.appendChild(table);
+    div.appendChild(table_none);
     frame.appendChild(div);
 }
 

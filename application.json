@@ -3,19 +3,19 @@
     "hts visit": {
       "available": true,
       "encountersName": "hts visit",
-      "activitiesIcon": "/assets/images/anc.png",
+      "activitiesIcon": "/assets/images/hts.png",
       "url": "/apps/HTS/views/encounters/hts_visit.html"
     },
     "art referral": {
       "available": true,
       "encountersName": "art referral",
-      "activitiesIcon": "/assets/images/anc.png",
+      "activitiesIcon": "/assets/images/hiv-staging.png",
       "url": "/apps/HTS/views/encounters/art_referral.html"
     },
     "find record": {
       "available": true,
       "encountersName": "Find enterred record",
-      "activitiesIcon": "/assets/images/anc.png",
+      "activitiesIcon": "/assets/images/social_history.png",
       "url": "/apps/HTS/views/encounters/art_referral.html"
     }
   },
