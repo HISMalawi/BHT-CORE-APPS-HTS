@@ -259,7 +259,6 @@ function buildReferralSlips(){
             spouse_span.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>";
             spouse_td.textContent = "Spouse "+i;
             addSpouse(i);
-            span_none.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
         }
         else if(spouse_span.id == "ticked"+i){
             var k = i+ 1;
@@ -313,7 +312,6 @@ function buildReferralSlips(){
             child_span.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>";
             child_td.textContent = "Child "+i;
             addChild(i);
-            span_none.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
         }
         else if(child_span.id == "ticked"+i){
             var k = i+ 1;
@@ -374,7 +372,6 @@ function buildReferralSlips(){
             span_other.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>";
             td_other.textContent = "Other "+i;
             addOther(i);
-            span_none.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/unticked.jpg' class='mark'>";
         }
         else if(span_other.id == "ticked"+i){
             var k = i+ 1;
@@ -427,9 +424,7 @@ function buildReferralSlips(){
     span_none.onclick = function () {
         
         span_none.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>";
-        var uncheck = 1;
-        var $j = jQuery.noConflict();
-     
+        //var $j = jQuery.noConflict();     
         //Uncheck Spouse
        var spouse = document.getElementById('spouse');
         while (spouse.childNodes.length > 2) {
