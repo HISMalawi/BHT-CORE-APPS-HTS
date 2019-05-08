@@ -76,10 +76,7 @@ td:last-of-type, th:last-of-type {
 
 
         <form>  
-            <input type="text" name="summary" id="referral_slips"
-            tt_onLoad="__$('keyboard').style.display = 'none';showCategory2('Backdata entry');buildBackdataTable();"
-            tt_pageStyleClass= "NoControls" helpText="HTS Family Referral Slips" optional="true"
-            />
+            
             <input type="text" name="testing_date"
             id="testing_date" field_type="date"
             key="testing_date" helpText="Testing Date"
@@ -93,7 +90,10 @@ td:last-of-type, th:last-of-type {
                 <option>4-VCT/Other (Health Facility)</option>
             </select>
 
-      
+            <input type="text" name="summary" id="referral_slips"
+            tt_onLoad="__$('keyboard').style.display = 'none';showCategory2('Backdata entry');buildBackdataTable();"
+            tt_pageStyleClass= "NoControls" helpText="HTS Family Referral Slips" optional="true"
+            />
         </form>
 
     </div>
