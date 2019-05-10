@@ -2,21 +2,24 @@
 <head>
         
 <script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
+<script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/standard.js" defer="true"></script>
+
 <script type="text/javascript" src="/assets/js/yes_no_ctrls.js"></script>
 <link rel="stylesheet" href="/assets/css/yes_no_ctrls.css" type="text/css">
-<link rel="stylesheet" href="/apps/HTS/assets/css/backdata.css" type="text/css">
 <script type="text/javascript" src="/assets/js/post_parameters.js"></script>
 <script type="text/javascript" src="/assets/js/generic_ajaxrequest.js"></script>
 <script type="text/javascript" src="/assets/js/alertifyjs/alertify.js"></script>
 <script type="text/javascript" src="/assets/js/does_connection_exist.js"></script>
 <script type="text/javascript" src="/assets/js/moment.js"></script>
 <script type="text/javascript" src="/apps/HTS/assets/js/common.js"></script>
+<script type="text/javascript" src="/apps/HTS/assets/js/elements.js"></script>
+<script src="../../../../assets/js/jquery.min.js"></script>
 <script type="text/javascript" src="/apps/HTS/assets/js/backdata2.js"></script>
 <link rel="stylesheet" href="/assets/css/alertifyjs/css/alertify.css" type="text/css">
 <link rel="stylesheet" type="text/css" href="../../../../assets/css/datatables/jquery.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="../../../../assets/css/datatables/fixedHeader.dataTables.min.css">
 <link rel="stylesheet" href="/assets/css/maindashboard/footer.css">
-<link rel="stylesheet" href="/apps/HTS/assets/css/custom.css">
+<link rel="stylesheet" href="/apps/HTS/assets/css/backdata.css" type="text/css">
 
 
 <style>
@@ -25,9 +28,7 @@
         width: 1000%;
     }
     
-        .active{
-            background-color: #ffc579 !important;
-        }
+    
         .btn-yellow {
         min-height: 40px;
         margin: 0px;
@@ -46,7 +47,7 @@
         border-radius: 12px;
         pointer-events: none;
     }
-    td {
+    .td {
       border: 1px solid black;
     }
     
@@ -98,50 +99,462 @@ div.dataTables_wrapper {
 #save {
     min-width: 140px;
   }
-    </style>
-        <style media="save">
-                button {
-                  display: none;
-                }
-                #main {
-                  height: 100%;
-                }
-              </style>
+  .popup-overlay{
+  /*Hides pop-up when there is no "active" class*/
+  visibility:hidden;
+  position:absolute;
+  background:#ffffff;
+  border:3px solid #666666;
+  width:50%;
+  height:50%;
+  left:25%; 
+}
+.popup-overlay.active{
+  /*displays pop-up when "active" class is present*/
+  visibility:visible;
+  text-align:center;
+}
+
+.popup-content {
+  /*Hides pop-up content when there is no "active" class */
+ visibility:hidden;
+}
+
+.popup-content.active {
+  /*Shows pop-up content when "active" class is present */
+  visibility:visible;
+}
+ </style>
+<style media="save">
+        button {
+            display: none;
+        }
+        #main {
+            height: 100%;
+        }  </style>
+
+        
 </head>
 <body id="mateme" onload="addRow();">
 <div id="container">
 <div id="content" class="main" style="width:100%; overflow-x: scroll;height: 735px;">
 <div class="bdeSectionHeader">Backdata Entry</div>
-<table  width="100%">
-    <tbody>
-        <tr id="main_row">
-            <td>
 <table id="backdata" cellpadding="5px;">
-<tr><th rowspan="4" style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); vertical-align: top; height: 50px;" class="boldRight">Entry Code</th><th rowspan="4" style="border-color: rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); width: 130px; vertical-align: top; font-size: 14px;" class="boldRight 0">Date</th><th rowspan="4" style="border-color: rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 1">HTS Provider ID</th><th colspan="3" style="border-left: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 2">Sex/Pregnancy</th><th rowspan="4" style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 3">Age</th><th colspan="4" style="vertical-align: top; font-size: 14px;" class="boldRight 4">Age Group</th><th colspan="3" style="border-left: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 5">HTS Access Type</th><th colspan="5" style="border-left: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="6">Last HIV Test</th><td rowspan="4" style="border-bottom: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 6"><b>Time<br>Since Last<br>Test</b><br><br><span style="font-size: 12px;">No.of<br>Days<br>Weeks<br>Months or<br>Years</span></td><td colspan="2" style="border-right: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); width: 30px; height: 50px; vertical-align: top; text-align: center; font-size: 14px;" class="boldRight 7"><b>Partner Present</b><br><span style="font-size: 11px;">at this session</span></td><th colspan="8" style="border-left: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 8">HIV Rapid Test Outcomes</th><th colspan="5" style="border-left: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 9">Outcome Summary</th><th colspan="6" style="vertical-align: top; font-size: 14px;" class="boldRight 10">Result Given to Client</th><th colspan="4" rowspan="2" style="border-left: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 11">Partner HIV Status</th><th colspan="4" rowspan="2" style="border-left: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 12">Client Risk Category</th><th colspan="4" rowspan="2" style="padding: 10px; border-left: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 13">Referral for Re - Testing</th><th colspan="3" style="padding: 10px; border-left: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 14">Number of Items<br>Given</th><th style="padding: 10px; border-right: 1px solid rgb(51, 51, 51); vertical-align: top; border-left: 1px solid rgb(51, 51, 51); font-size: 14px;" class="boldRight 15">Comments</th><td rowspan="4" colspan="2" style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;">&nbsp;</td>
+<tr>
+    <th rowspan="4" style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); vertical-align: top; height: 50px;" class="boldRight">
+        Entry Code
+    </th>
+    <th rowspan="4" style="border-color: rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); width: 130px; vertical-align: top; font-size: 14px;" class="boldRight 0">Date
+    </th>
+    <th rowspan="4" style="border-color: rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 1">
+        HTS Provider ID
+    </th>
+    <th colspan="3" style="border-left: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 2">
+        Sex/Pregnancy
+    </th>
+    <th rowspan="4" style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 3">
+        Age
+    </th>
+    <th colspan="4" style="vertical-align: top; font-size: 14px;" class="boldRight 4">
+        Age Group
+    </th>
+    <th colspan="3" style="border-left: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 5">
+        HTS Access Type</th>
+    <th colspan="5" style="border-left: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="6">
+        Last HIV Test
+    </th>
+    <td rowspan="4" style="border-bottom: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 6"><b>
+    Time<br>Since Last<br>Test</b><br><br><span style="font-size: 12px;">No.of<br>Days<br>Weeks<br>Months or<br>Years</span>
+    </td>
+    <td colspan="2" style="border-right: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); width: 30px; height: 50px; vertical-align: top; text-align: center; font-size: 14px;" class="boldRight 7"><b>Partner Present</b><br><span style="font-size: 11px;">at this session</span>
+    </td>
+    <th colspan="8" style="border-left: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 8">
+     HIV Rapid Test Outcomes
+    </th>
+    <th colspan="5" style="border-left: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 9">
+    Outcome Summary</th>
+    <th colspan="6" style="vertical-align: top; font-size: 14px;" class="boldRight 10">
+    Result Given to Client</th>
+    <th colspan="4" rowspan="2" style="border-left: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 11">
+    Partner HIV Status
+    </th>
+    <th colspan="4" rowspan="2" style="border-left: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 12">
+    Client Risk Category</th>
+    <th colspan="4" rowspan="2" style="padding: 10px; border-left: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 13">
+    Referral for Re - Testing</th>
+    <th colspan="3" style="padding: 10px; border-left: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 14px;" class="boldRight 14">
+    Number of Items<br>Given</th>
+    <th style="padding: 10px; border-right: 1px solid rgb(51, 51, 51); vertical-align: top; border-left: 1px solid rgb(51, 51, 51); font-size: 14px;" class="boldRight 15">
+    Comments</th>
+    <td rowspan="4" colspan="2" style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;">&nbsp;</td>
 </tr>
 <tr>
-    <td rowspan="3" style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); height: 70px;" class="2"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">Male</div></div></td><td rowspan="3" style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 100px;" class="2"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">Female<i style="color: rgb(255, 255, 255);">_</i>Non-Preg.</div></div></td><td rowspan="3" style="border-right: 3px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 100px;" class="2"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">Female<i style="color: rgb(255, 255, 255);">_</i>Pregnant</div></div></td><td rowspan="3" style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 100px;" class="4"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">0 - 11<i style="color: rgb(255, 255, 255);">_</i>months</div></div></td><td rowspan="3" style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="4"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">1 - 14<i style="color: rgb(255, 255, 255);">_</i>years</div></div></td><td rowspan="3" style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="4"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">15 - 24 <i style="color: rgb(255, 255, 255);">_</i>years</div></div></td><td rowspan="3" style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="boldRight 4"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">25 +<i style="color: rgb(255, 255, 255);">_</i>years</div></div></td><td rowspan="3" style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="5"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -85px;">Routine<i style="color: rgb(255, 255, 255);">_</i>HTS<i style="color: rgb(255, 255, 255);">_</i>within Health<i style="color: rgb(255, 255, 255);">_</i>Service</div></div></td><td rowspan="3" style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="5"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -85px;">Comes<i style="color: rgb(255, 255, 255);">_</i>with<i style="color: rgb(255, 255, 255);">_</i>HTS Family<i style="color: rgb(255, 255, 255);">_</i>Ref.<i style="color: rgb(255, 255, 255);">_</i>Slip</div></div></td><td rowspan="3" style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="boldRight 5"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">Other<i style="color: rgb(255, 255, 255);">_</i>(VCT,etc.)<i style="color: rgb(255, 255, 255);">________________________</i></div></div></td><td rowspan="3" style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="6"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">Never Tested</div></div></td><td rowspan="3" style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="6"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">Last Negative</div></div></td><td rowspan="3" style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="6"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">Last Positive</div></div></td><td rowspan="3" style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="6"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -85px;">Last<i style="color: rgb(255, 255, 255);">_</i>Expos. <i style="color: rgb(255, 255, 255);">_</i>Infant</div></div></td><td rowspan="3" style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="6"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">Last Inconclusive</div></div></td><td rowspan="3" style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="7"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">No</div></div></td><td rowspan="3" style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="boldRight 7"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">Yes</div></div></td><td colspan="8" style="border-right: 1px solid rgb(51, 51, 51);" class="boldRight 8"></td><td colspan="2" style="font-size: 12px; text-align: center;" class="9">Only Test 1 used</td><td colspan="3" style="border-right: 1px solid rgb(51, 51, 51); font-size: 12px; text-align: center;" class="boldRight 9">Test 1 &amp; Test 2<br>Used± Repeat</td><td colspan="4" class="10">&nbsp;</td><td colspan="2" style="border-right: 3px solid rgb(0, 0, 0); border-bottom: 1px dotted rgb(51, 51, 51); font-size: 12px; text-align: center; vertical-align: bottom;" class="10">Confirmatory<br>Results for<br>Clients Last +</td><td style="vertical-align: top; font-size: 12px;" class="14" align="center"><b>HTS<br>Family<br>Ref Slips</b></td><td colspan="2" style="border-right: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 12px;" class="boldRight 14" align="center"><b>Condoms</b></td><td style="border-right: 3px solid rgb(0, 0, 0); vertical-align: top; font-size: 12px; text-align: center;" class="15"><i>Specimen ID for DBS<br>samples sent to lab.</i><br></td>
+    <td rowspan="3" class="td" style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); height: 70px;" class="2">
+        <div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">
+            Male</div></div>
+        </td>
+    <td rowspan="3" class="td"  style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 100px;" class="2">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">
+        Female<i style="color: rgb(255, 255, 255);">_</i>Non-Preg.</div></div>
+    </td>
+    <td rowspan="3" class="td"  style="border-right: 3px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 100px;" class="2">
+    <div style="height: 120px; font-size: 12px; width: 30px;">
+        <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">
+        Female<i style="color: rgb(255, 255, 255);">_</i>Pregnant</div></div>
+    </td>
+    <td rowspan="3" class="td"  style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 100px;" class="4">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">0 - 11<i style="color: rgb(255, 255, 255);">_</i>months</div></div>
+    </td>
+    <td rowspan="3" class="td"  style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="4">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">1 - 14<i style="color: rgb(255, 255, 255);">_</i>years</div></div>
+    </td>
+    <td rowspan="3" class="td"  style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="4">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">15 - 24 <i style="color: rgb(255, 255, 255);">_</i>years</div></div>
+    </td>
+    <td rowspan="3" class="td"  style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="boldRight 4">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">25 +<i style="color: rgb(255, 255, 255);">_</i>years</div></div>
+    </td>
+    <td rowspan="3" class="td"  style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="5">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -85px;">Routine<i style="color: rgb(255, 255, 255);">_</i>HTS<i style="color: rgb(255, 255, 255);">_</i>within Health<i style="color: rgb(255, 255, 255);">_</i>Service</div></div>
+    </td>
+    <td rowspan="3" class="td"  style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="5">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -85px;">Comes<i style="color: rgb(255, 255, 255);">_</i>with<i style="color: rgb(255, 255, 255);">_</i>HTS Family<i style="color: rgb(255, 255, 255);">_</i>Ref.<i style="color: rgb(255, 255, 255);">_</i>Slip</div></div>
+    </td>
+    <td rowspan="3" class="td"  style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="boldRight 5">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">Other<i style="color: rgb(255, 255, 255);">_</i>(VCT,etc.)<i style="color: rgb(255, 255, 255);">________________________</i></div></div>
+    </td>
+    <td rowspan="3" class="td"  style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="6">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">Never Tested</div></div>
+    </td>
+    <td rowspan="3" class="td"  style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="6">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">Last Negative</div></div>
+    </td>
+    <td rowspan="3" class="td"  style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="6">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">Last Positive</div></div>
+    </td>
+    <td rowspan="3" class="td"  style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="6">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -85px;">Last<i style="color: rgb(255, 255, 255);">_</i>Expos. <i style="color: rgb(255, 255, 255);">_</i>Infant</div></div>
+    </td>
+    <td rowspan="3" class="td"  style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="6">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">Last Inconclusive</div></div>
+    </td>
+    <td rowspan="3" class="td"  style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="7">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">No</div></div>
+    </td>
+    <td rowspan="3" class="td"  style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="boldRight 7">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">Yes</div></div>
+    </td>
+    <td colspan="8" class="td"  style="border-right: 1px solid rgb(51, 51, 51);" class="boldRight 8"></td>
+    <td colspan="2" class="td"  style="font-size: 12px; text-align: center;" class="9">Only Test 1 used</td>
+    <td colspan="3" class="td" style="border-right: 1px solid rgb(51, 51, 51); font-size: 12px; text-align: center;" class="boldRight 9">Test 1 &amp; Test 2<br>Used± Repeat</td><td colspan="4" class="10">&nbsp;
+    </td>
+    <td colspan="2" class="td"  style="border-right: 3px solid rgb(0, 0, 0); border-bottom: 1px dotted rgb(51, 51, 51); font-size: 12px; text-align: center; vertical-align: bottom;" class="10">Confirmatory<br>Results for<br>Clients Last +</td><td style="vertical-align: top; font-size: 12px;" class="14" align="center"><b>HTS<br>Family<br>Ref Slips</b></td><td colspan="2" style="border-right: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 12px;" class="boldRight 14" align="center"><b>Condoms</b></td><td style="border-right: 3px solid rgb(0, 0, 0); vertical-align: top; font-size: 12px; text-align: center;" class="15"><i>Specimen ID for DBS<br>samples sent to lab.</i><br></td>
 </tr>
 <tr>
-    <td colspan="4" style="font-size: 12px; text-align: center; vertical-align: bottom;" class="8">First Pass</td><td colspan="4" style="border-right: 1px solid rgb(51, 51, 51); font-size: 12px; text-align: center; vertical-align: bottom;" class="boldRight 8">Immediate Repeat</td><td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="9" align="center"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -89px;">Single<i style="color: rgb(255, 255, 255);">_</i>Neg</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="9" align="center"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -95px;">Single<i style="color: rgb(255, 255, 255);">_</i>Pos</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="9" align="center"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">Test<i style="color: rgb(255, 255, 255);">_</i>1&amp;2 <i style="color: rgb(255, 255, 255);">_</i>Neg</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="9" align="center"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">Test <i style="color: rgb(255, 255, 255);">_</i>1&amp;2 <i style="color: rgb(255, 255, 255);">_</i>Pos</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="boldRight 9" align="center"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">Test<i style="color: rgb(255, 255, 255);">_</i>1&amp;2<i style="color: rgb(255, 255, 255);">_</i>disc.</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="10" align="center"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -75px;">New<i style="color: rgb(255, 255, 255);">_</i>Negative</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="10" align="center"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -85px;">New<i style="color: rgb(255, 255, 255);">_</i>Positive</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="10" align="center"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -67px;">New<i style="color: rgb(255, 255, 255);">_</i>Exp.<i style="color: rgb(255, 255, 255);">_</i>Infant</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="10" align="center"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -67px;">New<i style="color: rgb(255, 255, 255);">_</i>Inconclusive</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="10" align="center"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -80px;">Conf.<i style="color: rgb(255, 255, 255);">_</i>Positive</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="boldRight 10" align="center"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -90px;">Inconclusive</div></div></td><td style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="11"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">No Partner</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="11"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">HIV Unknown</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="11"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">Partner Neg.</div></div></td><td style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="boldRight 11"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">Partner Pos.</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="12"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">Low<i style="color: rgb(255, 255, 255);">_</i>Risk</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="12"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">On - going<i style="color: rgb(255, 255, 255);">_</i>Risk</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="12"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -56px;">High<i style="color: rgb(255, 255, 255);">_</i>Risk<i style="color: rgb(255, 255, 255);">_</i>Event<i style="color: rgb(255, 255, 255);">_</i>in<br>last<i style="color: rgb(255, 255, 255);">_</i>3<i style="color: rgb(255, 255, 255);">_</i>months</div></div></td><td style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="boldRight 12"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -57px;">Risk<i style="color: rgb(255, 255, 255);">_</i>assessment<br>Not<i style="color: rgb(255, 255, 255);">_</i>Done</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="13"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -55px;">No Re - Test needed</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="13"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">Re - Test</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="13"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -40px;">Confirmatory Test at HIV Clinic</div></div></td><td style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); font-size: 12px; vertical-align: bottom;" rowspan="2" class="boldRight 13">Appointment<br>Date Given</td><td style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); vertical-align: bottom; font-size: 12px;" rowspan="2" class="boldRight 14" align="center"><i>1 Slip for each<br>partner + each<br>U5 child with<br>unk.status</i></td><td style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="14"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -65px;">Male</div></div></td><td style="border-bottom: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51);" rowspan="2" class="boldRight 14"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -65px;">Female</div></div></td><td style="border-right: 3px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 12px; text-align: center;" rowspan="2" class="15"><i>Follow - up outcome for<br>clients referred, etc.</i></td>
+    <td colspan="4" class="td"  style="font-size: 12px; text-align: center; vertical-align: bottom;" class="8">First Pass
+    </td>
+    <td colspan="4" class="td"  style="border-right: 1px solid rgb(51, 51, 51); font-size: 12px; text-align: center; vertical-align: bottom;" class="boldRight 8">Immediate Repeat
+    </td>
+    <td class="td"  style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="9" align="center">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -89px;">Single<i style="color: rgb(255, 255, 255);">_</i>Neg</div></div>
+    </td>
+    <td class="td"  style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="9" align="center">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -95px;">Single<i style="color: rgb(255, 255, 255);">_</i>Pos</div></div>
+    </td>
+    <td  class="td"  style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="9" align="center">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">Test<i style="color: rgb(255, 255, 255);">_</i>1&amp;2 <i style="color: rgb(255, 255, 255);">_</i>Neg</div></div>
+    </td>
+    <td class="td"  style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="9" align="center">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">Test <i style="color: rgb(255, 255, 255);">_</i>1&amp;2 <i style="color: rgb(255, 255, 255);">_</i>Pos</div></div>
+    </td>
+    <td class="td" style="border-bottom: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="boldRight 9" align="center">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">Test<i style="color: rgb(255, 255, 255);">_</i>1&amp;2<i style="color: rgb(255, 255, 255);">_</i>disc.</div></div>
+    </td>
+    <td class="td" style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="10" align="center">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -75px;">New<i style="color: rgb(255, 255, 255);">_</i>Negative</div></div>
+    </td>
+    <td class="td"  style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="10" align="center">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -85px;">New<i style="color: rgb(255, 255, 255);">_</i>Positive</div></div>
+    </td>
+    <td class="td"  style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="10" align="center">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -67px;">New<i style="color: rgb(255, 255, 255);">_</i>Exp.<i style="color: rgb(255, 255, 255);">_</i>Infant</div></div>
+    </td>
+    <td class="td"  style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="10" align="center">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -67px;">New<i style="color: rgb(255, 255, 255);">_</i>Inconclusive</div></div>
+    </td>
+    <td class="td"  style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="10" align="center">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -80px;">Conf.<i style="color: rgb(255, 255, 255);">_</i>Positive</div></div>
+    </td>
+    <td class="td" style="border-bottom: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" rowspan="2" class="boldRight 10" align="center">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -90px;">Inconclusive</div></div>
+    </td><td style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="11">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">No Partner</div></div>
+    </td>
+    <td class="td"  style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="11">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">HIV Unknown</div></div>
+    </td>
+    <td class="td"  style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="11">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">Partner Neg.</div></div>
+    </td>
+    <td class="td"  style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="boldRight 11">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+              <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">Partner Pos.</div></div>
+    </td>
+    <td class="td"  style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="12">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">Low<i style="color: rgb(255, 255, 255);">_</i>Risk</div></div>
+    </td>
+    <td class="td"  style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="12">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">On - going<i style="color: rgb(255, 255, 255);">_</i>Risk</div></div>
+    </td>
+    <td class="td"  style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="12">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -56px;">High<i style="color: rgb(255, 255, 255);">_</i>Risk<i style="color: rgb(255, 255, 255);">_</i>Event<i style="color: rgb(255, 255, 255);">_</i>in<br>last<i style="color: rgb(255, 255, 255);">_</i>3<i style="color: rgb(255, 255, 255);">_</i>months</div></div>
+    </td>
+    <td class="td" style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="boldRight 12">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -57px;">Risk<i style="color: rgb(255, 255, 255);">_</i>assessment<br>Not<i style="color: rgb(255, 255, 255);">_</i>Done</div></div>
+    </td>
+    <td class="td"  style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="13"><div style="height: 120px; font-size: 12px; width: 30px;"><div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -55px;">No Re - Test needed</div></div>
+    </td>
+    <td style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="13">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -70px;">Re - Test</div></div>
+    </td>
+    <td class="td"  style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="13">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -40px;">Confirmatory Test at HIV Clinic</div></div>
+    </td>
+    <td class="td" style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); font-size: 12px; vertical-align: bottom;" rowspan="2" class="boldRight 13">Appointment<br>Date Given
+    </td>
+    <td class="td"  style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); vertical-align: bottom; font-size: 12px;" rowspan="2" class="boldRight 14" align="center"><i>1 Slip for each<br>partner + each<br>U5 child with<br>unk.status</i>
+    </td>
+    <td class="td"  style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="14">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -65px;">Male</div></div>
+    </td>
+    <td  class="td" style="border-bottom: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51);" rowspan="2" class="boldRight 14">
+        <div style="height: 120px; font-size: 12px; width: 30px;">
+            <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -65px;">Female</div></div>
+    </td>
+    <td  class="td"  style="border-right: 3px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(51, 51, 51); vertical-align: top; font-size: 12px; text-align: center;" rowspan="2" class="15"><i>Follow - up outcome for<br>clients referred, etc.</i></td>
 </tr>
 <tr>
-        <td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" colspan="2" class="8" align="center">Test 1</td><td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" colspan="2" class="8" align="center">Test 2</td><td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" colspan="2" class="8" align="center">Test 1</td><td style="border-bottom: 1px solid rgb(51, 51, 51); border-right: 3px solid rgb(0, 0, 0); font-style: italic; font-size: 12px;" colspan="2" class="8" align="center">Test 2</td>
+       <td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" colspan="2" class="8" align="center">Test 1</td>
+       <td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" colspan="2" class="8" align="center">Test 2</td>
+       <td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" colspan="2" class="8" align="center">Test 1</td>
+       <td style="border-bottom: 1px solid rgb(51, 51, 51); border-right: 3px solid rgb(0, 0, 0); font-style: italic; font-size: 12px;" colspan="2" class="8" align="center">Test 2</td>
 </tr>
 <tr>
-    <td class="bdcell boldRight" style="width: 150px; color: rgb(197, 0, 0); font-size: 16px; text-align: center;"><span>&nbsp;</span></td><td id="cell0_0" class="bdcell boldRight "><div id="circle0_0" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center; width: 120px;"></div></td><td id="cell0_1" class="bdcell boldRight 1"><div id="circle0_1" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div></td><td id="cell0_2" class="bdcell 2"><div id="circle0_2" class="normal">M</div></td><td id="cell0_3" class="bdcell 2"><div id="circle0_3" class="normal">FNP</div></td><td id="cell0_4" class="bdcell boldRight 2"><div id="circle0_4" class="normal">FP</div></td><td id="cell0_5" class="bdcell boldRight 3"><div id="circle0_5" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div></td><td id="cell0_6" class="bdcell 4"><div id="circle0_6" class="normal">A</div></td><td id="cell0_7" class="bdcell 4"><div id="circle0_7" class="normal">B</div></td><td id="cell0_8" class="bdcell 4"><div id="circle0_8" class="normal">C</div></td><td id="cell0_9" class="bdcell boldRight 4"><div id="circle0_9" class="normal">D</div></td><td id="cell0_10" class="bdcell 5"><div id="circle0_10" class="normal">PITC</div></td><td id="cell0_11" class="bdcell 5"><div id="circle0_11" class="normal">FRS</div></td><td id="cell0_12" class="bdcell boldRight 5"><div id="circle0_12" class="normal">Oth</div></td><td id="cell0_13" class="bdcell 6"><div id="circle0_13" class="normal">LNev</div></td><td id="cell0_14" class="bdcell 6"><div id="circle0_14" class="normal">L-</div></td><td id="cell0_15" class="bdcell 6"><div id="circle0_15" class="normal">L+</div></td><td id="cell0_16" class="bdcell 6"><div id="circle0_16" class="normal">LEx</div></td><td id="cell0_17" class="bdcell boldRight 6"><div id="circle0_17" class="normal">LIn</div></td><td id="cell0_18" class="bdcell boldRight 6"><div id="circle0_18" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div></td><td id="cell0_19" class="bdcell 7"><div id="circle0_19" class="normal">N</div></td><td id="cell0_20" class="bdcell boldRight 7"><div id="circle0_20" class="normal">Y</div></td><td id="cell0_21" class="bdcell 8"><div id="circle0_21" class="normal">-</div></td><td id="cell0_22" class="bdcell boldRight 8"><div id="circle0_22" class="normal">+</div></td><td id="cell0_23" class="bdcell 8"><div id="circle0_23" class="normal">-</div></td><td id="cell0_24" class="bdcell boldRight 8"><div id="circle0_24" class="normal">+</div></td><td id="cell0_25" class="bdcell 8"><div id="circle0_25" class="normal">-</div></td><td id="cell0_26" class="bdcell boldRight 8"><div id="circle0_26" class="normal">+</div></td><td id="cell0_27" class="bdcell 8"><div id="circle0_27" class="normal">-</div></td><td id="cell0_28" class="bdcell boldRight 8"><div id="circle0_28" class="normal">+</div></td><td id="cell0_29" class="bdcell 9"><div id="circle0_29" class="normal">-</div></td><td id="cell0_30" class="bdcell 9"><div id="circle0_30" class="normal">+</div></td><td id="cell0_31" class="bdcell 9"><div id="circle0_31" class="normal">--</div></td><td id="cell0_32" class="bdcell 9"><div id="circle0_32" class="normal">++</div></td><td id="cell0_33" class="bdcell boldRight 9"><div id="circle0_33" class="normal">Disc</div></td><td id="cell0_34" class="bdcell 10"><div id="circle0_34" class="normal">N-</div></td><td id="cell0_35" class="bdcell 10"><div id="circle0_35" class="normal">N+</div></td><td id="cell0_36" class="bdcell 10"><div id="circle0_36" class="normal">NEx</div></td><td id="cell0_37" class="bdcell 10"><div id="circle0_37" class="normal">NIn</div></td><td id="cell0_38" class="bdcell 10"><div id="circle0_38" class="normal">C+</div></td><td id="cell0_39" class="bdcell boldRight 10"><div id="circle0_39" class="normal">CIn</div></td><td id="cell0_40" class="bdcell 11"><div id="circle0_40" class="normal">NoP</div></td><td id="cell0_41" class="bdcell 11"><div id="circle0_41" class="normal">P?</div></td><td id="cell0_42" class="bdcell 11"><div id="circle0_42" class="normal">P-</div></td><td id="cell0_43" class="bdcell boldRight 11"><div id="circle0_43" class="normal">P+</div></td><td id="cell0_44" class="bdcell 12"><div id="circle0_44" class="normal">Low</div></td><td id="cell0_45" class="bdcell 12"><div id="circle0_45" class="normal">Ong</div></td><td id="cell0_46" class="bdcell 12"><div id="circle0_46" class="normal">Hi</div></td><td id="cell0_47" class="bdcell boldRight 12"><div id="circle0_47" class="normal">ND</div></td><td id="cell0_48" class="bdcell 13"><div id="circle0_48" class="normal">NoT</div></td><td id="cell0_49" class="bdcell 13"><div id="circle0_49" class="normal">ReT</div></td><td id="cell0_50" class="bdcell boldRight 13"><div id="circle0_50" class="normal">CT</div></td><td id="cell0_51" class="bdcell boldRight 13"><div id="circle0_51" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center; width: 120px;"></div></td><td id="cell0_52" class="bdcell boldRight 14"><div id="circle0_52" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div></td><td id="cell0_53" class="bdcell 14"><div id="circle0_53" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div></td><td id="cell0_54" class="bdcell boldRight 14"><div id="circle0_54" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div></td><td id="cell0_55" class="bdcell boldRight 15"><div id="circle0_55" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div></td>
+    <td class="bdcell boldRight td" style="width: 150px; color: rgb(197, 0, 0); font-size: 16px; text-align: center;"><span>&nbsp;</span></td>
+    <td id="cell0_0" class="bdcell boldRight ">
+        <div id="circle0_0" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center; width: 120px;"></div>
+    </td>
+    <td id="cell0_1" class="bdcell boldRight 1">
+        <div id="circle0_1" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div>
+    </td>
+    <td id="cell0_2" class="bdcell 2">
+        <div id="circle0_2" class="normal">M</div>
+    </td><td id="cell0_3" class="bdcell 2">
+        <div id="circle0_3" class="normal">FNP</div>
+    </td>
+    <td id="cell0_4" class="bdcell boldRight 2">
+        <div id="circle0_4" class="normal">FP</div>
+    </td>
+    <td id="cell0_5" class="bdcell boldRight 3">
+        <div id="circle0_5" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div>
+    </td>
+    <td id="cell0_6" class="bdcell 4">
+        <div id="circle0_6" class="normal">A</div>
+    </td>
+    <td id="cell0_7" class="bdcell 4">
+        <div id="circle0_7" class="normal">B</div>
+    </td>
+    <td id="cell0_8" class="bdcell 4">
+        <div id="circle0_8" class="normal">C</div>
+    </td>
+    <td id="cell0_9" class="bdcell boldRight 4">
+        <div id="circle0_9" class="normal">D</div>
+    </td>
+    <td id="cell0_10" class="bdcell 5">
+        <div id="circle0_10" class="normal">PITC</div>
+    </td>
+    <td id="cell0_11" class="bdcell 5">
+        <div id="circle0_11" class="normal">FRS</div>
+    </td>
+    <td id="cell0_12" class="bdcell boldRight 5">
+        <div id="circle0_12" class="normal">Oth</div>
+    </td>
+    <td id="cell0_13" class="bdcell 6">
+        <div id="circle0_13" class="normal">LNev</div>
+    </td>
+    <td id="cell0_14" class="bdcell 6">
+        <div id="circle0_14" class="normal">L-</div>
+    </td>
+    <td id="cell0_15" class="bdcell 6">
+        <div id="circle0_15" class="normal">L+</div>
+    </td>
+    <td id="cell0_16" class="bdcell 6">
+        <div id="circle0_16" class="normal">LEx</div>
+    </td>
+    <td id="cell0_17" class="bdcell boldRight 6">
+        <div id="circle0_17" class="normal">LIn</div>
+    </td>
+    <td id="cell0_18" class="bdcell boldRight 6">
+        <div id="circle0_18" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div>
+    </td>
+    <td id="cell0_19" class="bdcell 7">
+        <div id="circle0_19" class="normal">N</div>
+    </td>
+    <td id="cell0_20" class="bdcell boldRight 7">
+        <div id="circle0_20" class="normal">Y</div>
+    </td>
+    <td id="cell0_21" class="bdcell 8">
+        <div id="circle0_21" class="normal">-</div>
+    </td>
+    <td id="cell0_22" class="bdcell boldRight 8">
+        <div id="circle0_22" class="normal">+</div>
+    </td>
+    <td id="cell0_23" class="bdcell 8">
+        <div id="circle0_23" class="normal">-</div>
+    </td>
+    <td id="cell0_24" class="bdcell boldRight 8">
+        <div id="circle0_24" class="normal">+</div>
+    </td>
+    <td id="cell0_25" class="bdcell 8">
+        <div id="circle0_25" class="normal">-</div>
+    </td>
+    <td id="cell0_26" class="bdcell boldRight 8">
+        <div id="circle0_26" class="normal">+</div>
+    </td>
+    <td id="cell0_27" class="bdcell 8">
+        <div id="circle0_27" class="normal">-</div>
+    </td>
+    <td id="cell0_28" class="bdcell boldRight 8">
+        <div id="circle0_28" class="normal">+</div>
+    </td>
+    <td id="cell0_29" class="bdcell 9">
+        <div id="circle0_29" class="normal">-</div>
+    </td>
+    <td id="cell0_30" class="bdcell 9">
+        <div id="circle0_30" class="normal">+</div>
+    </td>
+    <td id="cell0_31" class="bdcell 9">
+        <div id="circle0_31" class="normal">--</div>
+    </td>
+    <td id="cell0_32" class="bdcell 9">
+        <div id="circle0_32" class="normal">++</div>
+    </td>
+    <td id="cell0_33" class="bdcell boldRight 9">
+        <div id="circle0_33" class="normal">Disc</div>
+    </td>
+    <td id="cell0_34" class="bdcell 10">
+        <div id="circle0_34" class="normal">N-</div>
+    </td>
+    <td id="cell0_35" class="bdcell 10">
+        <div id="circle0_35" class="normal">N+</div>
+    </td>
+    <td id="cell0_36" class="bdcell 10">
+        <div id="circle0_36" class="normal">NEx</div>
+    </td>
+    <td id="cell0_37" class="bdcell 10">
+        <div id="circle0_37" class="normal">NIn</div>
+    </td>
+    <td id="cell0_38" class="bdcell 10">
+        <div id="circle0_38" class="normal">C+</div>
+    </td>
+    <td id="cell0_39" class="bdcell boldRight 10">
+        <div id="circle0_39" class="normal">CIn</div>
+    </td>
+    <td id="cell0_40" class="bdcell 11">
+        <div id="circle0_40" class="normal">NoP</div>
+    </td>
+    <td id="cell0_41" class="bdcell 11">
+        <div id="circle0_41" class="normal">P?</div>
+    </td>
+    <td id="cell0_42" class="bdcell 11">
+        <div id="circle0_42" class="normal">P-</div>
+    </td>
+    <td id="cell0_43" class="bdcell boldRight 11">
+        <div id="circle0_43" class="normal">P+</div>
+    </td>
+    <td id="cell0_44" class="bdcell 12">
+        <div id="circle0_44" class="normal">Low</div>
+    </td>
+    <td id="cell0_45" class="bdcell 12">
+        <div id="circle0_45" class="normal">Ong</div>
+    </td>
+    <td id="cell0_46" class="bdcell 12">
+        <div id="circle0_46" class="normal">Hi</div>
+    </td>
+    <td id="cell0_47" class="bdcell boldRight 12">
+        <div id="circle0_47" class="normal">ND</div>
+    </td>
+    <td id="cell0_48" class="bdcell 13">
+        <div id="circle0_48" class="normal">NoT</div>
+    </td>
+    <td id="cell0_49" class="bdcell 13">
+        <div id="circle0_49" class="normal">ReT</div>
+    </td>
+    <td id="cell0_50" class="bdcell boldRight 13">
+        <div id="circle0_50" class="normal">CT</div>
+    </td>
+    <td id="cell0_51" class="bdcell boldRight 13">
+        <div id="circle0_51" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center; width: 120px;"></div>
+    </td>
+    <td id="cell0_52" class="bdcell boldRight 14">
+        <div id="circle0_52" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div>
+    </td>
+    <td id="cell0_53" class="bdcell 14">
+        <div id="circle0_53" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div>
+    </td>
+    <td id="cell0_54" class="bdcell boldRight 14">
+        <div id="circle0_54" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div>
+    </td>
+    <td id="cell0_55" class="bdcell boldRight 15">
+        <div id="circle0_55" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div>
+    </td>
 </tr>
 </table>
-</td>
-<td style="position:fixed;">
 
-</td>
-</tr>
-</tbody>
-</table>
 </div>
 
 </div>
+<div class="popup-overlay">
+    <!--Creates the popup content-->
+     <div class="popup-content">
+            </div>
+  </div>
 <footer class="footer">
         <div class="container-footer">
           <button id="btnNext" class="green right" onclick="location='/';">
@@ -154,14 +567,132 @@ div.dataTables_wrapper {
       </footer>
 </body>
 </html>
-<script src="../../../../assets/js/jquery.min.js"></script>
 <script src="../../../../assets/js/bootstrap/bootstrap.min.js"></script>
+<script src="../../../../assets/js/datatables/jquery.dataTables.min.js"></script>
 <script src="../../../../assets/js/datatables/dataTables.fixedHeader.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
     $('#backdata').DataTable( {
         "scrollX": true
     } );
-} );
+ 
+
+</script>
+<script>
+
+    function timeOperations(id){
+        switch(id){
+            case 'hour_plus':
+                var value = parseInt(__$("hour").value);
+                var v = value + 1;
+                if(v<10){
+                    __$("hour").value = "0"+v;
+                }else{
+                    __$("hour").value = value + 1;
+                }
+                _
+                break;
+            case 'hour_minus':
+                var value = parseInt(__$("hour").value);
+                var v = value - 1;
+                if(v < 10){
+                    __$("hour").value = "0"+v;}
+                else{
+                    __$("hour").value = value - 1;
+                }
+                break;
+            case 'minute_plus':
+                var value = parseInt(__$("minutes").value);
+                var v = value + 1;
+                if(v < 10){
+                    __$("minutes").value = "0"+v;
+                }else{
+                    __$("minutes").value = value +1;
+                }
+                break;
+            case 'minute_minus':
+                var value = parseInt(__$("minutes").value);
+                var v = value - 1;
+                if(v <10){
+                    __$("minutes").value = "0"+v;
+                }else{
+                    __$("minutes").value = value - 1;
+                }
+            case 'seconds_plus':
+                var value = parseInt(__$("seconds").value);
+                var v = value + 1;
+                if(v < 10){
+                    __$("seconds").value = "0"+v;
+                }else{
+                    __$("seconds").value = value + 1;
+                }
+                break;
+            case 'seconds_minus':
+                var value = parseInt(__$("seconds").value);
+                var v = value - 1;
+                if(v < 10){
+                    __$("seconds").value = "0"+v;
+                }else{
+                    __$("seconds").value = value - 1;
+                }
+            default:
+                break;
+        }
+    }
+    function incrementDay(){
+        var value = parseInt(__$("dateselector_day").value);
+        var v = value + 1;
+        if(v<10){
+            __$("dateselector_day").value = "0"+v;
+        }else{
+            __$("dateselector_day").value = value + 1;
+        }
+    }
+    function decrementDay(){
+        var value = parseInt(__$("dateselector_day").value);
+        var v = value - 1;
+        if(v<10){
+            __$("dateselector_day").value = "0"+v;
+        }else{
+            __$("dateselector_day").value = value - 1;
+        }
+    }
+    function incrementYear(){
+        var value = parseInt(__$("dateselector_year").value);
+        __$("dateselector_year").value = value + 0001;
+
+    }
+    var dob_months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    function decrementYear(){
+        var value = parseInt(__$("dateselector_year").value);
+        __$("dateselector_year").value = value - 0001;
+
+    }
+
+    function incrementMonth(){
+        var value = $("dateselector_month").value;
+        var value = $("dateselector_month").value;
+        var value_index = dob_months.indexOf(value);
+        __$("dateselector_month").value = dob_months[(value_index+1) % dob_months.length];
+    }
+
+    function decrementMonth(){
+        var value = $("dateselector_month").value;
+        var value_index = dob_months.indexOf(value);
+        if ((value_index-1) < 0){
+            __$("dateselector_month").value = dob_months[(dob_months.length-1) % dob_months.length];
+        }else{
+            __$("dateselector_month").value = dob_months[(value_index-1) % dob_months.length];
+        }
+
+
+    }
+    function saveApgar(apgarScore,minute){
+        if(minute == 'one'){
+            apgar_first_minute = apgarScore;
+        }else{
+            apgar_fifth_minute = apgarScore;
+        }
+    }
 
 </script>

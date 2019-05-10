@@ -20,7 +20,7 @@
     }
   },
   "activities": {
-    "url": "/apps/MATERNITY/views/activities.html",
+    "url": "/apps/HTS/views/activities.html",
     "tasks": [
       ["HIV Testing","hiv testing"],
       ["ART Referral","art referral"],
