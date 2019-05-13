@@ -63,50 +63,48 @@ function addRow(){
     new_row.appendChild(td_provider);
 
     //Sex/Pregnancy
-    //Male
-    var td_male = document.createElement("td");
-    td_male.className = "bdcell 2";
-    td_male.id = "cell1_2";
-   // td_male.style.backgroundColor = "rgba(200, 200, 200, 0.3)";
     
-    var div_male = document.createElement("div");
-    div_male.className = "normal";
-    div_male.id = "circle1_2";
-    var node_male = document.createTextNode("M");
-    div_male.appendChild(node_male);
-    td_male.appendChild(div_male);
+    var sex = ["M","FNP","FP"];
+    var k =0;
+    for (var i = 0; i < sex.length; i++) {
+    k++;
+    var name = sex[i];
+    var td1_sex = document.createElement("td");
 
-    new_row.appendChild(td_male);
+    td1_sex.className = "bdcell";
+    td1_sex.id = "cell_6";
+    if(sex[i] == "FP"){
+        td1_sex.className = "bdcell boldRight";
+    }
+    var div_sex = document.createElement("div");
+    div_sex.className = "normal";
+    div_sex.id = "sex"+k;
+    var node_test_two = document.createTextNode(name);
+    div_sex.appendChild(node_test_two);
+    td1_sex.appendChild(div_sex);
+    
+    new_row.appendChild(td1_sex);
 
-    //Female Non Preg
-    var td_fnpreg = document.createElement("td");
-    td_fnpreg.className = "bdcell 2";
-    td_fnpreg.id = "cell1_2";
-  //  td_fnpreg.style.backgroundColor = "rgba(200, 200, 200, 0.3)";
-
-    var div_fnpreg = document.createElement("div");
-    div_fnpreg.className = "normal";
-    div_fnpreg.id = "circle1_3";
-    var node_fnpreg = document.createTextNode("FNP");
-    div_fnpreg.appendChild(node_fnpreg);
-
-    td_fnpreg.appendChild(div_fnpreg);
-    new_row.appendChild(td_fnpreg);
-
-    //Female preg
-    var td_preg = document.createElement("td");
-    td_preg.className = "bdcell boldRight 2";
-    td_preg.id = "cell1_3";
-    //td_preg.style.backgroundColor = "rgba(200, 200, 200, 0.3)";
-
-    var div_fpreg = document.createElement("div");
-    div_fpreg.className = "normal";
-    div_fpreg.id ="circle1_3";
-    var node_fpreg = document.createTextNode("FP");
-    div_fpreg.appendChild(node_fpreg);
-
-    td_preg.appendChild(div_fpreg);
-    new_row.appendChild(td_preg);
+    div_sex.onclick = function () {  
+        switch(this.id) {
+            case "sex1":
+             $j('#sex1').addClass("circled");
+             $j('#sex2').removeClass("circled");
+             $j('#sex3').removeClass("circled");
+              break;
+            case "sex2":
+            $j('#sex2').addClass("circled");
+            $j('#sex1').removeClass("circled");
+            $j('#sex3').removeClass("circled");
+              break;
+            case "sex3":
+            $j('#sex3').addClass("circled");
+            $j('#sex1').removeClass("circled");
+            $j('#sex2').removeClass("circled");
+                break;
+            default:
+          } 
+    };  }  
 
     //Age
     var td_age = document.createElement("td");
@@ -126,98 +124,99 @@ function addRow(){
     new_row.appendChild(td_age);
 
     //Age group
-    //Option A
-    var td_age_a = document.createElement("td");
-    td_age_a.className = "bdcell";
-    td_age_a.id = "cell_6";
+    var age_group = ["A","B","C","D"];
+    var k =0;
+    for (var i = 0; i < age_group.length; i++) {
+    k++;
+    var name = age_group[i];
+    var td1_age_group = document.createElement("td");
 
-    var div_age_a = document.createElement("div");
-    div_age_a.className = "normal";
-    div_age_a.id = "circle1_6";
-    var node_age_a = document.createTextNode("A");
-    div_age_a.appendChild(node_age_a);
-    td_age_a.appendChild(div_age_a);
-    new_row.appendChild(td_age_a);
+    td1_age_group.className = "bdcell";
+    td1_age_group.id = "cell_6";
+    if(age_group[i] == "D"){
+        td1_age_group.className = "bdcell boldRight";
+    }
+    var div_age_group = document.createElement("div");
+    div_age_group.className = "normal";
+    div_age_group.id = "agegroup"+k;
+    var node_test_two = document.createTextNode(name);
+    div_age_group.appendChild(node_test_two);
+    td1_age_group.appendChild(div_age_group);
+    
+    new_row.appendChild(td1_age_group);
 
-    //Option B
-    var td_age_b = document.createElement("td");
-    td_age_b.className = "bdcell";
-    td_age_b.id = "cell_6";
-
-    var div_age_b = document.createElement("div");
-    div_age_b.className = "normal";
-    div_age_b.id = "circle1_6";
-    var node_age_b = document.createTextNode("B");
-    div_age_b.appendChild(node_age_b);
-    td_age_b.appendChild(div_age_b);
-    new_row.appendChild(td_age_b);
-
-    //Option C
-    var td_age_c = document.createElement("td");
-    td_age_c.className = "bdcell";
-    td_age_c.id = "cell_6";
-
-    var div_age_c = document.createElement("div");
-    div_age_c.className = "normal";
-    div_age_c.id = "circle1_6";
-    var node_age_c = document.createTextNode("C");
-    div_age_c.appendChild(node_age_c);
-    td_age_c.appendChild(div_age_c);
-    new_row.appendChild(td_age_c);
-
-     //Option D
-     var td_age_d = document.createElement("td");
-     td_age_d.className = "bdcell boldRight";
-     td_age_d.id = "cell_6";
- 
-     var div_age_d = document.createElement("div");
-     div_age_d.className = "normal";
-     div_age_d.id = "circle1_6";
-     var node_age_d = document.createTextNode("D");
-     div_age_d.appendChild(node_age_d);
-     td_age_d.appendChild(div_age_d);
-     new_row.appendChild(td_age_d);
+    div_age_group.onclick = function () {  
+        switch(this.id) {
+            case "agegroup1":
+             $j('#agegroup1').addClass("circled");
+             $j('#agegroup2').removeClass("circled");
+             $j('#agegroup3').removeClass("circled");
+             $j('#agegroup4').removeClass("circled");
+              break;
+            case "agegroup2":
+            $j('#agegroup2').addClass("circled");
+             $j('#agegroup1').removeClass("circled");
+             $j('#agegroup3').removeClass("circled");
+             $j('#agegroup4').removeClass("circled");
+              break;
+            case "agegroup3":
+            $j('#agegroup3').addClass("circled");
+            $j('#agegroup1').removeClass("circled");
+            $j('#agegroup2').removeClass("circled");
+            $j('#agegroup4').removeClass("circled");
+                break;
+            case "agegroup4":
+            $j('#agegroup4').addClass("circled");
+            $j('#agegroup1').removeClass("circled");
+            $j('#agegroup3').removeClass("circled");
+            $j('#agegroup2').removeClass("circled");
+                break;
+            default:
+          } 
+    };  }  
 
      //HTS ACCESS TYPE
-
-     //PITC
-     var td_pitc = document.createElement("td");
-     td_pitc.className = "bdcell";
-     td_pitc.id = "cell_6";
+     var hts_type = ["PITC","FRS","Oth"];
+     var k =0;
+     for (var i = 0; i < hts_type.length; i++) {
+     k++;
+     var name = hts_type[i];
+     var td1_hts_type = document.createElement("td");
  
-     var div_pitc = document.createElement("div");
-     div_pitc.className = "normal";
-     div_pitc.id = "circle1_6";
-     var node_pitc = document.createTextNode("PITC");
-     div_pitc.appendChild(node_pitc);
-     td_pitc.appendChild(div_pitc);
-     new_row.appendChild(td_pitc);
-
-     //FRS
-     var td_frs = document.createElement("td");
-     td_frs.className = "bdcell";
-     td_frs.id = "cell_6";
+     td1_hts_type.className = "bdcell";
+     td1_hts_type.id = "cell_6";
+     if(hts_type[i] == "Oth"){
+         td1_hts_type.className = "bdcell boldRight";
+     }
+     var div_hts_type = document.createElement("div");
+     div_hts_type.className = "normal";
+     div_hts_type.id = "htstype"+k;
+     var node_test_two = document.createTextNode(name);
+     div_hts_type.appendChild(node_test_two);
+     td1_hts_type.appendChild(div_hts_type);
+     
+     new_row.appendChild(td1_hts_type);
  
-     var div_frs = document.createElement("div");
-     div_frs.className = "normal";
-     div_frs.id = "circle1_6";
-     var node_frs = document.createTextNode("FRS");
-     div_frs.appendChild(node_frs);
-     td_frs.appendChild(div_frs);
-     new_row.appendChild(td_frs);
-
-     //Oth
-     var td_oth = document.createElement("td");
-     td_oth.className = "bdcell boldRight";
-     td_oth.id = "cell_6";
- 
-     var div_oth = document.createElement("div");
-     div_oth.className = "normal";
-     div_oth.id = "circle1_6";
-     var node_oth = document.createTextNode("Oth");
-     div_oth.appendChild(node_oth);
-     td_oth.appendChild(div_oth);
-     new_row.appendChild(td_oth);
+     div_hts_type.onclick = function () {  
+         switch(this.id) {
+             case "htstype1":
+              $j('#htstype1').addClass("circled");
+              $j('#htstype2').removeClass("circled");
+              $j('#htstype3').removeClass("circled");
+               break;
+             case "htstype2":
+             $j('#htstype2').addClass("circled");
+             $j('#htstype1').removeClass("circled");
+             $j('#htstype3').removeClass("circled");
+               break;
+             case "htstype3":
+             $j('#htstype3').addClass("circled");
+             $j('#htstype1').removeClass("circled");
+             $j('#htstype2').removeClass("circled");
+                 break;
+             default:
+           } 
+     };  } 
     
      // LAst HIV Test
      var ltest = ["LNev","L-", "L+", "LEx","LIn"];
@@ -240,13 +239,47 @@ function addRow(){
         td1_ltest.appendChild(div_ltest);
         
         new_row.appendChild(td1_ltest);
-        console.log(div_ltest.id);
         
         div_ltest.onclick = function () {  
-            console.log(div_ltest.id); 
-            var ele = document.getElementById(div_ltest.id);
-            $j(ele).className = "circled";
-            
+            switch(this.id) {
+                case "ltest1":
+                 $j('#ltest1').addClass("circled");
+                 $j('#ltest2').removeClass("circled");
+                 $j('#ltest3').removeClass("circled");
+                 $j('#ltest4').removeClass("circled");
+                 $j('#ltest5').removeClass("circled");
+                  break;
+                case "ltest2":
+                $j('#ltest2').addClass("circled");
+                $j('#ltest1').removeClass("circled");
+                $j('#ltest3').removeClass("circled");
+                $j('#ltest4').removeClass("circled");
+                $j('#ltest5').removeClass("circled");
+                  break;
+                case "ltest3":
+                $j('#ltest3').addClass("circled");
+                $j('#ltest1').removeClass("circled");
+                $j('#ltest2').removeClass("circled");
+                $j('#ltest4').removeClass("circled");
+                $j('#ltest5').removeClass("circled");
+                  break;
+                case "ltest4":
+                $j('#ltest4').addClass("circled");
+                $j('#ltest1').removeClass("circled");
+                $j('#ltest2').removeClass("circled");
+                $j('#ltest3').removeClass("circled");
+                $j('#ltest5').removeClass("circled");
+                break;
+                case "ltest5":
+                $j('#ltest5').addClass("circled");
+                $j('#ltest1').removeClass("circled");
+                $j('#ltest2').removeClass("circled");
+                $j('#ltest4').removeClass("circled");
+                $j('#ltest3').removeClass("circled");
+                    break;
+                default:
+              } 
+
         };    }  
 
       //Time since last test
@@ -287,12 +320,19 @@ function addRow(){
     td1_partner.appendChild(div_partner);
     
     new_row.appendChild(td1_partner);
-    
     div_partner.onclick = function () {  
-        var ele = document.getElementById(div_partner.id);
-        $j(ele).className = "circled";
-        
-    };    }  
+        switch(this.id) {
+            case "partner1":
+             $j('#partner1').addClass("circled");
+             $j('#partner2').removeClass("circled");
+              break;
+            case "partner2":
+            $j('#partner2').addClass("circled");
+            $j('#partner1').removeClass("circled");
+              break;
+            default:
+          } 
+    };     }  
 
     // Test 1
     var test = ["-","+"];
@@ -317,9 +357,17 @@ function addRow(){
     new_row.appendChild(td1_test);
 
     div_test.onclick = function () {  
-        // var ele = document.getElementById(div_test.id);
-        // $j(ele).className = "circled";
-        
+        switch(this.id) {
+            case "test1":
+             $j('#test1').addClass("circled");
+             $j('#test2').removeClass("circled");
+              break;
+            case "test2":
+            $j('#test2').addClass("circled");
+            $j('#test1').removeClass("circled");
+              break;
+            default:
+          } 
     };    }  
 
     // Test 2
@@ -337,7 +385,7 @@ function addRow(){
     }
     var div_test_two = document.createElement("div");
     div_test_two.className = "normal";
-    div_test_two.id = "test"+k;
+    div_test_two.id = "testtwo"+k;
     var node_test_two = document.createTextNode(name);
     div_test_two.appendChild(node_test_two);
     td1_test_two.appendChild(div_test_two);
@@ -345,135 +393,377 @@ function addRow(){
     new_row.appendChild(td1_test_two);
 
     div_test_two.onclick = function () {  
-        // var ele = document.getElementById(div_test.id);
-        // $j(ele).className = "circled";
-        
+        switch(this.id) {
+            case "testtwo1":
+             $j('#testtwo1').addClass("circled");
+             $j('#testtwo2').removeClass("circled");
+              break;
+            case "testtwo2":
+            $j('#testtwo2').addClass("circled");
+            $j('#testtwo1').removeClass("circled");
+              break;
+            default:
+          } 
+    };  }  
+
+    // Test 3
+    var test_three = ["-","+"];
+    var k =0;
+    for (var i = 0; i < test_three.length; i++) {
+    k++;
+    var name = test_three[i];
+    var td1_test_three = document.createElement("td");
+
+    td1_test_three.className = "bdcell";
+    td1_test_three.id = "cell_6";
+    if(test_three[i] == "+"){
+        td1_test_three.className = "bdcell boldRight";
+    }
+    var div_test_three = document.createElement("div");
+    div_test_three.className = "normal";
+    div_test_three.id = "testthree"+k;
+    var node_test_three = document.createTextNode(name);
+    div_test_three.appendChild(node_test_three);
+    td1_test_three.appendChild(div_test_three);
+    
+    new_row.appendChild(td1_test_three);
+    div_test_three.onclick = function () {  
+        switch(this.id) {
+            case "testthree1":
+            $j('#testthree1').addClass("circled");
+            $j('#testthree2').removeClass("circled");
+            break;
+            case "testthree2":
+            $j('#testthree2').addClass("circled");
+            $j('#testthree1').removeClass("circled");
+            break;
+            default:
+        } 
     };    }  
 
- // Test 3
- var test_three = ["-","+"];
- var k =0;
- for (var i = 0; i < test_three.length; i++) {
- k++;
- var name = test_three[i];
- var td1_test_t = document.createElement("td");
+    // Test 4
+    k=0;
+    for (var i = 0; i < test_three.length; i++) {
+    k++;
+    var name = test_three[i];
+    var td1_test_four = document.createElement("td");
 
- td1_test_two.className = "bdcell";
- td1_test_two.id = "cell_6";
- if(test_three[i] == "+"){
-     td1_test_two.className = "bdcell boldRight";
- }
- var div_test_two = document.createElement("div");
- div_test_two.className = "normal";
- div_test_two.id = "test"+k;
- var node_test_two = document.createTextNode(name);
- div_test_two.appendChild(node_test_two);
- td1_test_two.appendChild(div_test_two);
+    td1_test_four.className = "bdcell";
+    td1_test_four.id = "cell_6";
+    if(test_three[i] == "+"){
+        td1_test_four.className = "bdcell boldRight";
+    }
+    var div_test_four = document.createElement("div");
+    div_test_four.className = "normal";
+    div_test_four.id = "testfour"+k;
+    var node_test_four = document.createTextNode(name);
+    div_test_four.appendChild(node_test_four);
+    td1_test_four.appendChild(div_test_four);
+    
+    new_row.appendChild(td1_test_four);
+
+    div_test_four.onclick = function () {  
+        switch(this.id) {
+            case "testfour1":
+            $j('#testfour1').addClass("circled");
+            $j('#testfour2').removeClass("circled");
+            break;
+            case "testfour2":
+            $j('#testfour2').addClass("circled");
+            $j('#testfour1').removeClass("circled");
+            break;
+            default:
+        } 
+    };    }  
+
+    // Outcome Summary
+    k=0;
+    var outcome = ["+","-", "--", "++","Disc"];
+    for (var i = 0; i < outcome.length; i++) {
+        k++;
+        var name = outcome[i];
+        var td1_outcome = document.createElement("td");
+
+        td1_outcome.className = "bdcell";
+        td1_outcome.id = "cell_6";
+        if(outcome[i] == "Disc"){
+            td1_outcome.className = "bdcell boldRight";
+        }
+        var div_outcome = document.createElement("div");
+        div_outcome.className = "normal";
+        div_outcome.id = "outcome"+k;
+        var node_ltest = document.createTextNode(name);
+        div_outcome.appendChild(node_ltest);
+        td1_outcome.appendChild(div_outcome);
+        
+        new_row.appendChild(td1_outcome);
+        
+        div_outcome.onclick = function () {  
+            switch(this.id) {
+                case "outcome1":
+                $j('#outcome1').addClass("circled");
+                $j('#outcome2').removeClass("circled");
+                $j('#outcome3').removeClass("circled");
+                $j('#outcome4').removeClass("circled");
+                $j('#outcome5').removeClass("circled");
+                break;
+                case "outcome2":
+                $j('#outcome2').addClass("circled");
+                $j('#outcome1').removeClass("circled");
+                $j('#outcome3').removeClass("circled");
+                $j('#outcome4').removeClass("circled");
+                $j('#outcome5').removeClass("circled");
+                break;
+                case "outcome3":
+                $j('#outcome3').addClass("circled");
+                $j('#outcome1').removeClass("circled");
+                $j('#outcome2').removeClass("circled");
+                $j('#outcome4').removeClass("circled");
+                $j('#outcome5').removeClass("circled");
+                    break;
+                case "outcome4":
+                $j('#outcome4').addClass("circled");
+                $j('#outcome1').removeClass("circled");
+                $j('#outcome3').removeClass("circled");
+                $j('#outcome2').removeClass("circled");
+                $j('#outcome5').removeClass("circled");
+                break;
+                case "outcome5":
+                $j('#outcome5').addClass("circled");
+                $j('#outcome1').removeClass("circled");
+                $j('#outcome3').removeClass("circled");
+                $j('#outcome4').removeClass("circled");
+                $j('#outcome2').removeClass("circled");
+                    break;
+                default:
+            } 
+        };    }  
+ // Results
+    k=0;
+    var result = ["N-","N+", "NEx", "NIN","C+", "CIn"];
+    for (var i = 0; i < result.length; i++) {
+        k++;
+        var name = result[i];
+        var td1_result = document.createElement("td");
+
+        td1_result.className = "bdcell";
+        td1_result.id = "cell_6";
+        if(result[i] == "CIn"){
+            td1_result.className = "bdcell boldRight";
+        }
+        var div_result = document.createElement("div");
+        div_result.className = "normal";
+        div_result.id = "result"+k;
+        var node_result = document.createTextNode(name);
+        div_result.appendChild(node_result);
+        td1_result.appendChild(div_result);
+        
+        new_row.appendChild(td1_result);
+        
+        div_result.onclick = function () {  
+            switch(this.id) {
+                case "result1":
+                $j('#result1').addClass("circled");
+                $j('#result2').removeClass("circled");
+                $j('#result3').removeClass("circled");
+                $j('#result4').removeClass("circled");
+                $j('#result5').removeClass("circled");
+                $j('#result6').removeClass("circled");
+                break;
+                case "result2":
+                $j('#result2').addClass("circled");
+                $j('#result1').removeClass("circled");
+                $j('#result3').removeClass("circled");
+                $j('#result4').removeClass("circled");
+                $j('#result5').removeClass("circled");
+                $j('#result6').removeClass("circled");
+                break;
+                case "result3":
+                $j('#result3').addClass("circled");
+                $j('#result1').removeClass("circled");
+                $j('#result2').removeClass("circled");
+                $j('#result4').removeClass("circled");
+                $j('#result5').removeClass("circled");
+                $j('#result6').removeClass("circled");
+                    break;
+                case "result4":
+                $j('#result4').addClass("circled");
+                $j('#result1').removeClass("circled");
+                $j('#result3').removeClass("circled");
+                $j('#result2').removeClass("circled");
+                $j('#result5').removeClass("circled");
+                $j('#result6').removeClass("circled");
+                break;
+                case "result5":
+                $j('#result5').addClass("circled");
+                $j('#result1').removeClass("circled");
+                $j('#result3').removeClass("circled");
+                $j('#result4').removeClass("circled");
+                $j('#result2').removeClass("circled");
+                $j('#result6').removeClass("circled");
+                break;
+                case "result6":
+                $j('#result6').addClass("circled");
+                $j('#result1').removeClass("circled");
+                $j('#result3').removeClass("circled");
+                $j('#result4').removeClass("circled");
+                $j('#result5').removeClass("circled");
+                $j('#result2').removeClass("circled");
+                break;
+                default:
+            } 
+        };    } 
+
  
- new_row.appendChild(td1_test_two);
+    //Partner hiv status
+    var partner_status = ["NoP","P?","P-","P+"];
+    var k =0;
+    for (var i = 0; i < partner_status.length; i++) {
+    k++;
+    var name = partner_status[i];
+    var td1_partner_status = document.createElement("td");
 
- div_test_two.onclick = function () {  
-     // var ele = document.getElementById(div_test.id);
-     // $j(ele).className = "circled";
-     
- };    }  
+    td1_partner_status.className = "bdcell";
+    td1_partner_status.id = "cell_6";
+    if(partner_status[i] == "P+"){
+        td1_partner_status.className = "bdcell boldRight";
+    }
+    var div_partner_status = document.createElement("div");
+    div_partner_status.className = "normal";
+    div_partner_status.id = "partnerstatus"+k;
+    var node_test_two = document.createTextNode(name);
+    div_partner_status.appendChild(node_test_two);
+    td1_partner_status.appendChild(div_partner_status);
+    
+    new_row.appendChild(td1_partner_status);
 
+    div_partner_status.onclick = function () {  
+        switch(this.id) {
+            case "partnerstatus1":
+             $j('#partnerstatus1').addClass("circled");
+             $j('#partnerstatus2').removeClass("circled");
+             $j('#partnerstatus3').removeClass("circled");
+             $j('#partnerstatus4').removeClass("circled");
+              break;
+            case "partnerstatus2":
+            $j('#partnerstatus2').addClass("circled");
+             $j('#partnerstatus1').removeClass("circled");
+             $j('#partnerstatus3').removeClass("circled");
+             $j('#partnerstatus4').removeClass("circled");
+              break;
+            case "partnerstatus3":
+            $j('#partnerstatus3').addClass("circled");
+            $j('#partnerstatus1').removeClass("circled");
+            $j('#partnerstatus2').removeClass("circled");
+            $j('#partnerstatus4').removeClass("circled");
+                break;
+            case "partnerstatus4":
+            $j('#partnerstatus4').addClass("circled");
+            $j('#partnerstatus1').removeClass("circled");
+            $j('#partnerstatus2').removeClass("circled");
+            $j('#partnerstatus3').removeClass("circled");
+                break;
+            default:
+          } 
+    };  }  
 
+    //Client risk
+      var client_risk = ["Low","Ong?","HI","ND"];
+      var k =0;
+      for (var i = 0; i < client_risk.length; i++) {
+      k++;
+      var name = client_risk[i];
+      var td1_client_risk = document.createElement("td");
+  
+      td1_client_risk.className = "bdcell";
+      td1_client_risk.id = "cell_6";
+      if(client_risk[i] == "ND"){
+        td1_client_risk.className = "bdcell boldRight";
+      }
+      var div_client_risk = document.createElement("div");
+      div_client_risk.className = "normal";
+      div_client_risk.id = "clientrisk"+k;
+      var node_test_two = document.createTextNode(name);
+      div_client_risk.appendChild(node_test_two);
+      td1_client_risk.appendChild(div_client_risk);
+      
+      new_row.appendChild(td1_client_risk);
+  
+      div_client_risk.onclick = function () {  
+          switch(this.id) {
+              case "clientrisk1":
+               $j('#clientrisk1').addClass("circled");
+               $j('#clientrisk2').removeClass("circled");
+               $j('#clientrisk3').removeClass("circled");
+               $j('#clientrisk4').removeClass("circled");
+                break;
+              case "clientrisk2":
+              $j('#clientrisk2').addClass("circled");
+               $j('#clientrisk1').removeClass("circled");
+               $j('#clientrisk3').removeClass("circled");
+               $j('#clientrisk4').removeClass("circled");
+                break;
+              case "clientrisk3":
+              $j('#clientrisk3').addClass("circled");
+              $j('#clientrisk1').removeClass("circled");
+              $j('#clientrisk2').removeClass("circled");
+              $j('#clientrisk4').removeClass("circled");
+                  break;
+              case "clientrisk4":
+              $j('#clientrisk4').addClass("circled");
+              $j('#clientrisk1').removeClass("circled");
+              $j('#clientrisk2').removeClass("circled");
+              $j('#clientrisk3').removeClass("circled");
+                  break;
+              default:
+            } 
+      };  }  
 
+      //Referral for retesting
+      var referral = ["NoT","ReT","CT"];
+      var k =0;
+      for (var i = 0; i < referral.length; i++) {
+      k++;
+      var name = referral[i];
+      var td1_refferal = document.createElement("td");
+  
+      td1_refferal.className = "bdcell";
+      td1_refferal.id = "cell_6";
+      if(referral[i] == "CT"){
+        td1_refferal.className = "bdcell boldRight";
+      }
+      var div_refferal = document.createElement("div");
+      div_refferal.className = "normal";
+      div_refferal.id = "refferal"+k;
+      var node_test_two = document.createTextNode(name);
+      div_refferal.appendChild(node_test_two);
+      td1_refferal.appendChild(div_refferal);
+      
+      new_row.appendChild(td1_refferal);
+  
+      div_refferal.onclick = function () {  
+          switch(this.id) {
+              case "refferal1":
+               $j('#refferal1').addClass("circled");
+               $j('#refferal2').removeClass("circled");
+               $j('#refferal3').removeClass("circled");
+                break;
+              case "refferal2":
+              $j('#refferal2').addClass("circled");
+               $j('#refferal1').removeClass("circled");
+               $j('#refferal3').removeClass("circled");
+                break;
+              case "refferal3":
+              $j('#refferal3').addClass("circled");
+              $j('#refferal1').removeClass("circled");
+              $j('#refferal2').removeClass("circled");
+                  break;
+              default:
+            } 
+      };  }  
     table.appendChild(new_row);
     loadPopup(new_row);
 
-    //onclick functions
-    div_date.onclick = function () {        
-      div_date.className = "active";
-         $j("#popup").html("");
-      showDate("popup");
-  };
-
-  div_provider.onclick = function () {        
-    div_provider.className = "active";
-          $j("#popup").html("");
-
-        displayKeyboard("popup");
-    };
-
-    div_male.onclick = function () {        
-        div_male.className = "circled";
-              $j("#popup").html("");
-              div_fnpreg.className = "normal";
-              div_fpreg.className = "normal";
-
-        };
-    div_fnpreg.onclick = function () {        
-        div_fnpreg.className = "circled";
-                $j("#popup").html("");
-                div_male.className = "normal";
-                div_fpreg.className = "normal";
-        };
-    div_fpreg.onclick = function () {        
-        div_fpreg.className = "circled";
-                div_fnpreg.className = "normal";
-                div_male.className = "normal";
-        };
-    div_age.onclick = function () {        
-        div_age.className = "active";
-        age = 1;
-                $j("#popup").html("");
-                showAge("popup");
-        };
-    div_age_a.onclick = function () {        
-        div_age_a.className = "circled";
-                $j("#popup").html("");
-                div_age_b.className = "normal";
-                div_age_c.className = "normal";
-                div_age_d.className = "normal";
-        };
-    div_age_b.onclick = function () {        
-        div_age_b.className = "circled";
-                $j("#popup").html("");
-                div_age_a.className = "normal";
-                div_age_c.className = "normal";
-                div_age_d.className = "normal";
-        };
-    div_age_c.onclick = function () {        
-        div_age_c.className = "circled";
-                $j("#popup").html("");
-                div_age_a.className = "normal";
-                div_age_b.className = "normal";
-                div_age_d.className = "normal";
-        };
-    div_age_d.onclick = function () {        
-        div_age_d.className = "circled";
-                $j("#popup").html("");
-                div_age_a.className = "normal";
-                div_age_b.className = "normal";
-                div_age_c.className = "normal";
-        };
-
-    div_pitc.onclick = function () {        
-        div_pitc.className = "circled";
-                $j("#popup").html("");
-                div_frs.className = "normal";
-                div_oth.className = "normal";
-        };
-    div_frs.onclick = function () {        
-        div_frs.className = "circled";
-                $j("#popup").html("");
-                div_pitc.className = "normal";
-                div_oth.className = "normal";
-        };
-    div_oth.onclick = function () {        
-        div_oth.className = "circled";
-                $j("#popup").html("");
-                div_pitc.className = "normal";
-                div_frs.className = "normal";
-        };
-    div_time.onclick = function () {  
-        time =1;      
-        div_time.className = "active";
-                $j("#popup").html("");
-                showAge("popup");
-            };
     }
 
 function showDate(id){
@@ -1281,6 +1571,7 @@ function showAge(id){
                             var str = "Y";
                             node_age.nodeValue = v + str;
                             }
+                            age = 0;
                         }else if(time == 1){
                             if(str == "Clear"){
                                 node_time.nodeValue = " ";
@@ -1305,6 +1596,7 @@ function showAge(id){
                                 var str = "Y";
                                 node_time.nodeValue = v + str;
                                 }
+                            time =0;
                         }
                     }
                     
