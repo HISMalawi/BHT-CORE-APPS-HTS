@@ -6,8 +6,10 @@
  var node_date;
  var node_provider;
  var node_age;
+ var node_appointment;
  var node_time;
- var age,time;
+ var node_female_condom, node_male_condom, node_family_slip;
+ var age,time,hts_date,appointment, provider,comment,family_slip,male,female;
 function addRow(){
     var table = document.getElementById("backdata");
    
@@ -761,8 +763,148 @@ function addRow(){
               default:
             } 
       };  }  
+
+      //Appointment given
+      var td_appointment = document.createElement("td");
+      td_appointment.className = "bdcell boldRight";
+      td_appointment.id = "cell_1";
+  
+      var div_appointment = document.createElement("div");
+      div_appointment.id = "circle_1";
+      div_appointment.className ="inactive";
+      div_appointment.style.color = "rgb(197, 0, 0)";
+      div_appointment.style.fontSize = "16px";
+      div_appointment.style.textAlign = "center";
+      div_appointment.style.width = "100px";
+      node_appointment = document.createTextNode(" ");
+      div_appointment.appendChild(node_appointment);
+      td_appointment.appendChild(div_appointment
+        );
+      new_row.appendChild(td_appointment);
+  
+
+      //family slips
+      var td_family_slip = document.createElement("td");
+      td_family_slip.className = "bdcell boldRight";
+     /// td_family_slip.id = "cell_1";
+  
+      var div_family_slip = document.createElement("div");
+      div_family_slip.id = "circle_1";
+      div_family_slip.className ="inactive";
+      div_family_slip.style.color = "rgb(197, 0, 0)";
+      div_family_slip.style.fontSize = "16px";
+      div_family_slip.style.textAlign = "center";
+      node_family_slip = document.createTextNode(" ");
+      div_family_slip.appendChild(node_family_slip);
+      td_family_slip.appendChild(div_family_slip
+        );
+      new_row.appendChild(td_family_slip);
+        
+      //Male condoms
+      var td_male_condom = document.createElement("td");
+      td_male_condom.className = "bdcell";
+      //td_male_condoms.id = "cell_";
+  
+      var div_male_condom = document.createElement("div");
+      div_male_condom.id = "circle_1";
+      div_male_condom.className ="inactive";
+      div_male_condom.style.color = "rgb(197, 0, 0)";
+      div_male_condom.style.fontSize = "16px";
+      div_male_condom.style.textAlign = "center";
+      node_male_condom = document.createTextNode(" ");
+      div_male_condom.appendChild(node_male_condom);
+      td_male_condom.appendChild(div_male_condom
+        );
+     new_row.appendChild(td_male_condom);
+
+       //Female condoms
+       var td_female_condom = document.createElement("td");
+       td_female_condom.className = "bdcell boldRight";
+       //td_male_condoms.id = "cell_";
+   
+       var div_female_condom = document.createElement("div");
+       div_female_condom.id = "circle_1";
+       div_female_condom.className ="inactive";
+       div_female_condom.style.color = "rgb(197, 0, 0)";
+       div_female_condom.style.fontSize = "16px";
+       div_female_condom.style.textAlign = "center";
+       node_female_condom = document.createTextNode(" ");
+       div_female_condom.appendChild(node_female_condom);
+       td_female_condom.appendChild(div_female_condom
+         );
+      new_row.appendChild(td_female_condom);
+
+       //Comments
+       var td_comment = document.createElement("td");
+       td_comment.className = "bdcell boldRight";
+       //td_male_condoms.id = "cell_";
+   
+       var div_comment = document.createElement("div");
+       div_comment.id = "circle_1";
+       div_comment.className ="inactive";
+       div_comment.style.color = "rgb(197, 0, 0)";
+       div_comment.style.fontSize = "16px";
+       div_comment.style.textAlign = "center";
+       node_comment = document.createTextNode(" ");
+       div_comment.appendChild(node_comment);
+       td_comment.appendChild(div_comment
+         );
+      new_row.appendChild(td_comment);
+ 
+
     table.appendChild(new_row);
     loadPopup(new_row);
+
+    //onclick
+    div_date.onclick = function () { 
+        hts_date = 1; 
+        $j("#popup").html("");
+        showDate("popup");
+    };
+
+    div_provider.onclick = function () {
+        provider = 1;  
+        $j("#popup").html("");
+        displayKeyboard("popup");
+    };
+
+    div_age.onclick = function () {  
+        age =1;
+        $j("#popup").html("");
+        showAge("popup");
+    };
+
+    div_appointment.onclick = function () {
+        appointment = 1;
+        $j("#popup").html("");
+        showDate("popup");
+    };
+    div_time.onclick = function () {
+        time = 1;
+        $j("#popup").html("");
+        showAge("popup");
+    };
+    div_comment.onclick = function () {
+        comment =1;
+        $j("#popup").html("");
+        displayKeyboard("popup");
+    };
+    div_family_slip.onclick = function () {
+        family_slip =1;
+        $j("#popup").html("");
+        showNumber("popup");
+    };
+    div_female_condom.onclick = function () {
+        female =1;
+        $j("#popup").html("");
+        showNumber("popup");
+    };
+    div_male_condom.onclick = function () {
+        male =1;
+        $j("#popup").html("");
+        showNumber("popup");
+    };
+
 
     }
 
@@ -789,6 +931,23 @@ function showDate(id){
       "border": "hidden"
 
   });
+  var footer = document.createElement("div");
+        
+  footer.innerHTML = "<table style='width: 100%;'><tr><td id = 'left' style='width: 35%; float: left;'></td><td id='right' style='width: 100%;' rowspan='2'></td></tr>" +
+      "<tr><td id = ''></td></tr><tr><td id='btns' colspan='2' style='padding-top: 8px; padding-bottom: 3px;border-top:1px solid black; background-color: black;'>" +
+      "</td></tr></table>"
+
+  $j(footer).css({
+
+      "width": "100%",
+
+      "border": "hidden"
+
+  });
+
+  var day = node_date.nodeValue.split(" ")[0];
+  var mon = node_date.nodeValue.split(" ")[1];
+  var year = node_date.nodeValue.split(" ")[2];
 
 
   var table = document.createElement("table");
@@ -877,30 +1036,52 @@ function showDate(id){
   // tr3.appendChild(cl);
   table.appendChild(tr3);
   ok.onclick = function () {
+    var dob_day  =  __$("dateselector_day").value;
+    var dob_month = __$("dateselector_month").value;
+    var dob_year = __$("dateselector_year").value;
+    var month = moment().month(dob_month).format("M");
 
-          var dob_day  =  __$("dateselector_day").value;
-          var dob_month = __$("dateselector_month").value;
-          var dob_year = __$("dateselector_year").value;
-          var month = moment().month(dob_month).format("M");
+    if(month < 10){
+        d_date = dob_day + " " + dob_month + " " +dob_year;
+    }else{
+        d_date = dob_day + " " +dob_month + " " +dob_year;
+    }
 
-          if(month < 10){
-              d_date = dob_day + " " + dob_month + " " +dob_year;
-          }else{
-              d_date = dob_day + " " +dob_month + " " +dob_year;
-          }
+    if(hts_date == 1){
+        
+        var new_date = __$("dateselector_day").value + " " + __$("dateselector_month").value + " " +__$("dateselector_year").value;
+        node_date.nodeValue= new_date;
+        $j('#backButton, #nextButton').attr("disabled", false);
 
-          var new_date = __$("dateselector_day").value + " " + __$("dateselector_month").value + " " +__$("dateselector_year").value;
-          node_date.nodeValue= new_date;
-          $j('#backButton, #nextButton').attr("disabled", false);
+        $j("#shield, #popup").css("display", "none");
+    }else if(appointment == 1){
+        var new_date = __$("dateselector_day").value + " " + __$("dateselector_month").value + " " +__$("dateselector_year").value;
+        node_appointment.nodeValue= new_date;
+      //  $j('#backButton, #nextButton').attr("disabled", false);
 
-          $j("#shield, #popup").css("display", "none");
-
+        $j("#shield, #popup").css("display", "none");
+    }
 
   };
+  $j("#popup").css({
 
-  $j("#popup").append(holder);
-  $j("#popup").append(cl);
-  $j("#popup").append(ok);
+    "width": "auto",
+
+    "min-width": "616px"
+
+});
+
+     $j("#popup").append(holder);
+     $j("#popup").append(footer);
+  __$("btns").appendChild(cl);
+    
+  __$("btns").appendChild(ok);
+
+  __$("dateselector_day").value = day;
+
+  __$("dateselector_month").value = mon;
+
+  __$("dateselector_year").value = year;
 }
 
 function loadPopup(row) {
@@ -1022,7 +1203,8 @@ function displayKeyboard(id){
 
     var row3 = ["L", "M", "N","P", "R","T", "V", "W", "X", "Y"];
 
-    var row4 = ["Del", "Clear"];
+    var row4 = ["Del", "Clear", "Space"];
+
 
     var cl = document.createElement("div");
 
@@ -1045,10 +1227,9 @@ function displayKeyboard(id){
 
         "margin-top": "0px",
 
-        "margin-left": "10px"
+        "margin-left": "200px"
 
     });
-
     var ok = document.createElement('div');
 
     ok.className = "button_green ok";
@@ -1057,7 +1238,7 @@ function displayKeyboard(id){
 
     $j(ok).css({
 
-        'margin-left': '360px',
+       // 'margin-left': '360px',
 
         'margin-right': '2px'
 
@@ -1085,7 +1266,15 @@ function displayKeyboard(id){
 
     });
 
-    var tbl = document.createElement("table");
+ 
+        $j("#popup").css({
+
+            "width": "auto",
+
+            "min-width": "616px"
+
+        });
+       var tbl = document.createElement("table");
 
     tbl.className = "keyBoardTable";
 
@@ -1131,9 +1320,13 @@ function displayKeyboard(id){
 
         btn.onmousedown = function () {
          var v = this.innerHTML;
+         if(provider ==1){
         var str = node_provider.nodeValue;
           node_provider.nodeValue = str + v;
-            
+         }else if(comment ==1){
+            var str = node_comment.nodeValue;
+            node_comment.nodeValue = str + v;
+         }
 
         }
 
@@ -1167,9 +1360,13 @@ function displayKeyboard(id){
 
         btn.onmousedown = function () {
             var v = this.innerHTML;
-            var str = node_provider.nodeValue;
-            node_provider.nodeValue = str + v;
-
+            if(provider ==1){
+                var str = node_provider.nodeValue;
+                node_provider.nodeValue = str + v;
+            }else if (comment ==1){
+                var str = node_comment.nodeValue;
+                node_comment.nodeValue = str + v;
+            }
         }
 
         td2.appendChild(btn);
@@ -1202,8 +1399,13 @@ function displayKeyboard(id){
 
         btn.onmousedown = function () {
             var v = this.innerHTML;
+            if(provider == 1){
             var str = node_provider.nodeValue;
             node_provider.nodeValue = str + v;
+            }else if(comment ==1){
+                var str = node_comment.nodeValue;
+                node_comment.nodeValue = str + v;
+            }
         }
 
         td3.appendChild(btn);
@@ -1241,19 +1443,39 @@ function displayKeyboard(id){
     
             btn.onmousedown = function () {
                 var str = this.innerHTML;
+                if(provider ==1){
                 if(str == "Clear"){
                     node_provider.nodeValue = " ";
-                }else{
+                }else if(str == "Del"){
                     var v =  node_provider.nodeValue;
                    
                     node_provider.nodeValue = v.slice(0, -1);
+                } else {
+                    var v =  node_comment.nodeValue;
+                    node_comment.nodeValue = v + " ";
+                }
+            }else if(comment == 1){
+                if(str == "Clear"){
+                    node_comment.nodeValue = " ";
+                }else if(str == "Del"){
+                    var v =  node_comment.nodeValue;
+                   
+                    node_comment.nodeValue = v.slice(0, -1);
+                }
+                else {
+                    var v =  node_comment.nodeValue;
+                    node_comment.nodeValue = v + " ";
                 }
             }
+            }
     
-            td4.appendChild(btn);
+        td4.appendChild(btn);
     
     
         tbl.appendChild(tr4);
+
+    
+        } 
     
         var input = document.createElement("div");
     
@@ -1275,16 +1497,12 @@ function displayKeyboard(id){
     
             "padding-left": "2%"
     
-        })
-    
-    
-    
-    
-    
+        });
+
           __$(id).appendChild(holder);
     
     
-        __$("right").appendChild(tbl);
+       __$("right").appendChild(tbl);
     
         __$("btns").appendChild(cl);
     
@@ -1294,7 +1512,7 @@ function displayKeyboard(id){
     
          $j("#shield, #popup").css("display", "block");
     
-        } }
+    }
 
     
 function showAge(id){
@@ -1329,7 +1547,7 @@ function showAge(id){
         
                 "margin-top": "0px",
         
-                "margin-left": "10px"
+                "margin-left": "120px"
         
             });
         
@@ -1461,7 +1679,6 @@ function showAge(id){
                     var v = this.innerHTML;
                     var str = node_age.nodeValue;
                     node_age.nodeValue = str + v;
-                    age =0;
                     }else if (time == 1){
                         var v = this.innerHTML;
                         var str = node_time.nodeValue;
@@ -1548,55 +1765,67 @@ function showAge(id){
                     btn.onmousedown = function () {
                         var str = this.innerHTML;
                         if(age == 1){
-                        if(str == "Clear"){
-                            node_age.nodeValue = " ";
-                        }else if(str == "Del"){
-                            var v =  node_age.nodeValue;
-                           
-                            node_age.nodeValue = v.slice(0, -1);
-                        } else if (str == "day"){
-                        var v = node_age.nodeValue;
-                        var str = "D";
-                        node_age.nodeValue = v + str;
-                        } else if (str == "week"){
-                            var v = node_age.nodeValue;
-                            var str = "W";
-                            node_age.nodeValue = v + str;
-                         } else if (str == "month"){
-                            var v = node_age.nodeValue;
-                            var str = "M";
-                            node_age.nodeValue = v + str;
-                        } else if (str == "year"){
-                            var v = node_age.nodeValue;
-                            var str = "Y";
-                            node_age.nodeValue = v + str;
-                            }
-                            age = 0;
+                            switch(str) {
+                                case "Clear":
+                                node_age.nodeValue = " ";
+                                  break;
+                                case "Del":
+                                var v =  node_age.nodeValue;
+                                node_age.nodeValue = v.slice(0, -1);
+                                  break;
+                                case "day":
+                                var v = node_age.nodeValue;
+                                var str = "D";
+                                node_age.nodeValue = v + str;
+                                    break;
+                                case "week":
+                                var v = node_age.nodeValue;
+                                var str = "W";
+                                node_age.nodeValue = v + str;
+                                break;
+                                case "month":
+                                var v = node_age.nodeValue;
+                                var str = "M";
+                                node_age.nodeValue = v + str;
+                                break;
+                                case "year":
+                                var v = node_age.nodeValue;
+                                var str = "Y";
+                                node_age.nodeValue = v + str;
+                                break;
+                                default:
+                              } 
                         }else if(time == 1){
-                            if(str == "Clear"){
+                            switch(str) {
+                                case "Clear":
                                 node_time.nodeValue = " ";
-                            }else if(str == "Del"){
+                                  break;
+                                case "Del":
                                 var v =  node_time.nodeValue;
-                               
                                 node_time.nodeValue = v.slice(0, -1);
-                            } else if (str == "day"){
-                            var v = node_time.nodeValue;
-                            var str = "D";
-                            node_time.nodeValue = v + str;
-                            } else if (str == "week"){
+                                  break;
+                                case "day":
+                                var v = node_time.nodeValue;
+                                var str = "D";
+                                node_time.nodeValue = v + str;
+                                    break;
+                                case "week":
                                 var v = node_time.nodeValue;
                                 var str = "W";
                                 node_time.nodeValue = v + str;
-                             } else if (str == "month"){
+                                break;
+                                case "month":
                                 var v = node_time.nodeValue;
                                 var str = "M";
                                 node_time.nodeValue = v + str;
-                            } else if (str == "year"){
+                                break;
+                                case "year":
                                 var v = node_time.nodeValue;
                                 var str = "Y";
                                 node_time.nodeValue = v + str;
-                                }
-                            time =0;
+                                break;
+                                default:
+                              } 
                         }
                     }
                     
@@ -1629,7 +1858,6 @@ function showAge(id){
             
                 })
             
-            
                  
             $j("#popup").css({
         
@@ -1655,3 +1883,352 @@ function showAge(id){
             
                 } 
             }
+
+function showNumber(id){
+    $j('#backButton, #nextButton').attr("disabled", true);
+
+    var row1 = ["1", "2", "3"];
+
+    var row2 = ["4", "5", "6"];
+
+    var row3 = ["7", "8", "9"];
+
+    var row4 = ["Del", "Clear"];
+
+
+    var cl = document.createElement("div");
+
+    cl.className = "button_red cancel";
+
+    cl.innerHTML = "Cancel";
+
+    cl.onclick = function () {
+
+        $j('#backButton, #nextButton').attr("disabled", false);
+
+        $j("#shield, #popup").css("display", "none");
+        $j("#popup").html("");
+        family_slip =0;
+        male = 0;
+        female = 0;
+
+    };
+
+    $j(cl).css({
+
+        "float": "left",
+
+        "margin-top": "0px",
+
+        "margin-left": "10px"
+
+    });
+
+    var ok = document.createElement('div');
+
+    ok.className = "button_green ok";
+
+    ok.innerHTML = "Ok";
+
+    $j(ok).css({
+
+        //'margin-left': '360px',
+
+        'margin-right': '2px'
+
+    });
+
+    ok.onclick = function () {
+
+        $j('#backButton, #nextButton').attr("disabled", false);
+
+        $j("#shield, #popup").css("display", "none");
+        $j("#popup").html("");
+        family_slip =0;
+        male = 0;
+        female = 0;
+
+
+    }
+    var holder = document.createElement("div");
+
+    holder.innerHTML = "<table style='width: 100%;'><tr><td id = 'left' style='width: 35%; float: left;'></td><td id='right' style='width: 100%;' rowspan='2'></td></tr>" +
+        "<tr><td id = ''></td></tr><tr><td id='btns' colspan='2' style='padding-top: 8px; padding-bottom: 3px;border-top:1px solid black; background-color: black;'>" +
+        "</td></tr></table>"
+
+    $j(holder).css({
+
+        "width": "100%",
+
+        "border": "hidden"
+
+    });
+
+    var tbl = document.createElement("table");
+
+    tbl.className = "keyBoardTable";
+
+    tbl.cellSpacing = 0;
+
+    tbl.cellPadding = 3;
+
+    tbl.id = "tblKeyboard";
+
+    tbl.style.minWidth = 0.20 * screen.width + "px";
+
+    $j(tbl).css({
+
+        "border-left": "1.5px dotted black"
+
+    });
+
+    tbl.style.margin = "auto";
+
+    var tr1 = document.createElement("tr");
+
+    for (var i = 0; i < row1.length; i++) {
+
+        var td1 = document.createElement("td");
+
+        td1.align = "center";
+
+        td1.vAlign = "middle";
+
+        td1.style.cursor = "pointer";
+
+        td1.bgColor = "#ffffff";
+
+        td1.width = "10px";
+
+        tr1.appendChild(td1);
+
+        var btn = document.createElement("div");
+
+        btn.className = "button_blue keyboard_button";
+
+        btn.innerHTML = row1[i];        
+        btn.onmousedown = function () {
+         var v = this.innerHTML;
+         if(family_slip ==1){
+           var str = node_family_slip.nodeValue;
+          node_family_slip.nodeValue = str + v;
+         }else if(male ==1){
+            var str = node_male_condom.nodeValue;
+            node_male_condom.nodeValue = str + v;
+         }else if(female ==1){
+            var str = node_female_condom.nodeValue;
+            node_female_condom.nodeValue = str + v;
+         }
+
+        }
+
+        td1.appendChild(btn);
+
+    }
+    tbl.appendChild(tr1);
+    var tr2 = document.createElement("tr");
+
+    for (var i = 0; i < row2.length; i++) {
+
+        var td2 = document.createElement("td");
+
+        td2.align = "center";
+
+        td2.vAlign = "middle";
+
+        td2.style.cursor = "pointer";
+
+        td2.bgColor = "#ffffff";
+
+        td2.width = "10px";
+
+        tr2.appendChild(td2);
+
+        var btn = document.createElement("div");
+
+        btn.className = "button_blue keyboard_button";
+
+        btn.innerHTML = row2[i];
+
+        btn.onmousedown = function () {
+            var v = this.innerHTML;
+            if(family_slip ==1){
+                var str = node_family_slip.nodeValue;
+                  node_family_slip.nodeValue = str + v;
+            }else if(male ==1){
+            var str = node_male_condom.nodeValue;
+            node_male_condom.nodeValue = str + v;
+            }else if(female ==1){
+            var str = node_female_condom.nodeValue;
+            node_female_condom.nodeValue = str + v;
+            }
+        
+        }
+
+        td2.appendChild(btn);
+
+    }
+    tbl.appendChild(tr2);
+
+    var tr3 = document.createElement("tr");
+    for (var i = 0; i < row3.length; i++) {
+
+        var td3 = document.createElement("td");
+
+        td3.align = "center";
+
+        td3.vAlign = "middle";
+
+        td3.style.cursor = "pointer";
+
+        td3.bgColor = "#ffffff";
+
+        td3.width = "10px";
+
+        tr3.appendChild(td3);
+
+        var btn = document.createElement("div");
+
+        btn.className = "button_blue keyboard_button";
+
+        btn.innerHTML = row3[i];
+
+        btn.onmousedown = function () {
+            var v = this.innerHTML;
+            if(family_slip ==1){
+                var str = node_family_slip.nodeValue;
+                  node_family_slip.nodeValue = str + v;
+                 }else if(male ==1){
+                    var str = node_male_condom.nodeValue;
+                    node_male_condom.nodeValue = str + v;
+                 }else if(female ==1){
+                    var str = node_female_condom.nodeValue;
+                    node_female_condom.nodeValue = str + v;
+                 }
+        
+        }
+
+        td3.appendChild(btn);
+
+    }
+
+        td3.appendChild(btn);
+
+   
+        tbl.appendChild(tr3);
+
+        var tr4 = document.createElement("tr");
+    
+        for (var i = 0; i < row4.length; i++) {
+    
+            var td4 = document.createElement("td");
+    
+            td4.align = "center";
+    
+            td4.vAlign = "middle";
+    
+            td4.style.cursor = "pointer";
+    
+            td4.bgColor = "#ffffff";
+    
+            td4.width = "10px";
+    
+            tr4.appendChild(td4);
+    
+            var btn = document.createElement("div");
+    
+            btn.innerHTML = row4[i];
+    
+            btn.className = "button_blue keyboard_button";
+    
+            btn.onmousedown = function () {
+                var str = this.innerHTML;
+                if(family_slip ==1){
+                    if(str == "Clear"){
+                        node_family_slip.nodeValue = " ";
+                    }else{
+                        var v =  node_family_slip.nodeValue;
+                       
+                        node_family_slip.nodeValue = v.slice(0, -1);
+                    }
+                     }else if(male ==1){
+                        if(str == "Clear"){
+                            node_male_condom.nodeValue = " ";
+                        }else{
+                            var v =  node_male_condom.nodeValue;
+                           
+                            node_male_condom.nodeValue = v.slice(0, -1);
+                        }
+                     }else if(female ==1){
+                        if(str == "Clear"){
+                            node_female_condom.nodeValue = " ";
+                        }else{
+                            var v =  node_female_condom.nodeValue;
+                           
+                            node_female_condom.nodeValue = v.slice(0, -1);
+                        }
+                     }
+            
+            }
+    
+            td4.appendChild(btn);
+    
+    
+        tbl.appendChild(tr4);
+    
+        var input = document.createElement("div");
+    
+        input.id = "input";
+    
+        input.innerHTML = "";
+    
+        $j(input).css({
+    
+            "font-size": "28px",
+    
+            "font-style": "italic",
+    
+            "float": "left",
+    
+            "height": "50px",
+    
+            "padding-top": "13%",
+    
+            "padding-left": "2%"
+    
+        })
+    
+        $j("#tblKeyboard").css({
+        
+            "width": "240px",
+    
+            "min-width": "240px"
+    
+        });
+        
+        $j("#popup").css({
+
+            "width": "245px",
+
+            "min-width": "245px"
+
+        });
+    
+    
+    
+          __$(id).appendChild(holder);
+    
+    
+        __$("right").appendChild(tbl);
+    
+        __$("btns").appendChild(cl);
+    
+        __$("btns").appendChild(ok);
+    
+        // __$("popup-header").innerHTML = current_popup;
+    
+         $j("#shield, #popup").css("display", "block");
+    
+        } 
+
+}

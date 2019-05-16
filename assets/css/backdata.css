@@ -387,8 +387,8 @@
     margin-left: 22px;
 }
 .cancel{
-    float: right;
-    margin-right: 22px;
+    /* float: right;
+    margin-right: 22px; */
 }
 .display-space{
     width: 100%;

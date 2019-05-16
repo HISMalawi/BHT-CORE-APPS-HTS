@@ -82,14 +82,15 @@ td:last-of-type, th:last-of-type {
             tt_onLoad="showCategory2('Backdata Entry');"
            />
 
-            <select id="register_number" name="register_number" tt_onLoad="changeNextButton();" helpText="Register Number (from cover)" tt_onLoad="showCategory2('Backdata Entry');">
+            <select id="register_number" name="register_number" tt_onLoad="changeNextButton();" helpText="Register Number (from cover)" tt_onLoad="showCategory2('Backdata Entry');"
+            tt_onUnLoad="loadBackdata();">
                 <option>1-VCT/Other (Health Facility)</option>
                 <option>3-VCT/Other (Health Facility)</option>
                 <option>4-VCT/Other (Health Facility)</option>
             </select>
 
-            <input type="text" name="summary" id="referral_slips"
-            tt_onLoad="__$('keyboard').style.display = 'none';showCategory2('Backdata entry');buildBackdataTable();"
+            <input type="text" style ="display: none;" name="summary" id="referral_slips"
+            tt_onLoad="__$('keyboard').style.display = 'none';"
             tt_pageStyleClass= "NoControls" helpText="HTS Family Referral Slips" optional="true"
             />
         </form>
@@ -117,6 +118,10 @@ td:last-of-type, th:last-of-type {
         } else if (consent == "Yes") {
            gotoNextPage();
         }
+    }
+
+    function loadBackdata(){
+        window.location.href = "/apps/HTS/views/encounters/backdata2.html";
     }
 
 </script>    
