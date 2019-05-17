@@ -1193,9 +1193,9 @@ function displayKeyboard(id){
 
     var row2 = ["A", "B", "C", "D", "E", "F","G","H","J","K"];
 
-    var row3 = ["L", "M", "N","P", "R","T", "V", "W", "X", "Y"];
+    var row3 = ["L", "M", "N","O", "P","Q", "R", "S", "T", "U"];
 
-    var row4 = ["Del", "Clear", "Space"];
+    var row4 = ["V","X","Y","Z","Del", "Clear", "Space"];
 
 
     var cl = document.createElement("div");
@@ -1435,28 +1435,40 @@ function displayKeyboard(id){
             btn.onmousedown = function () {
                 var str = this.innerHTML;
                 if(provider ==1){
-                if(str == "Clear"){
+                    switch(str){
+                    case "Clear":
                     node_provider.nodeValue = " ";
-                }else if(str == "Del"){
-                    var v =  node_provider.nodeValue;
-                   
+                      break;
+                    case "Del":
+                    var v =  node_age.nodeValue;
                     node_provider.nodeValue = v.slice(0, -1);
-                } else {
-                    var v =  node_comment.nodeValue;
-                    node_comment.nodeValue = v + " ";
-                }
+                      break;
+                    case "space":
+                    var v =  node_provider.nodeValue;
+                    node_provider.nodeValue = v + " ";
+                    break;
+                    default:
+                    var str2 = node_provider.nodeValue;
+                    node_provider.nodeValue = str2 + str;
+                    }
             }else if(comment == 1){
-                if(str == "Clear"){
+                switch(str){
+                    case "Clear":
                     node_comment.nodeValue = " ";
-                }else if(str == "Del"){
+                      break;
+                    case "Del":
                     var v =  node_comment.nodeValue;
                    
                     node_comment.nodeValue = v.slice(0, -1);
-                }
-                else {
+                      break;
+                    case "space":
                     var v =  node_comment.nodeValue;
                     node_comment.nodeValue = v + " ";
-                }
+                    break;
+                    default:
+                    var str2 = node_comment.nodeValue;
+                    node_comment.nodeValue = str2 + str;
+                    }
             }
             }
     
@@ -2138,28 +2150,37 @@ function showNumber(id){
             btn.onmousedown = function () {
                 var str = this.innerHTML;
                 if(family_slip ==1){
-                    if(str == "Clear"){
+                    switch(str){
+                        case "Clear":
                         node_family_slip.nodeValue = " ";
-                    }else{
-                        var v =  node_family_slip.nodeValue;
-                       
-                        node_family_slip.nodeValue = v.slice(0, -1);
+                         break;
+                         case "Del":
+                         var v =  node_family_slip.nodeValue;
+                           
+                         node_family_slip.nodeValue = v.slice(0, -1);
+                         break;
                     }
                      }else if(male ==1){
-                        if(str == "Clear"){
+                        switch(str){
+                            case "Clear":
                             node_male_condom.nodeValue = " ";
-                        }else{
-                            var v =  node_male_condom.nodeValue;
-                           
-                            node_male_condom.nodeValue = v.slice(0, -1);
+                             break;
+                             case "Del":
+                             var v =  node_male_condom.nodeValue;
+                               
+                             node_male_condom.nodeValue = v.slice(0, -1);
+                             break;
                         }
                      }else if(female ==1){
-                        if(str == "Clear"){
+                        switch(str){
+                            case "Clear":
                             node_female_condom.nodeValue = " ";
-                        }else{
-                            var v =  node_female_condom.nodeValue;
-                           
-                            node_female_condom.nodeValue = v.slice(0, -1);
+                             break;
+                             case "Del":
+                             var v =  node_female_condom.nodeValue;
+                               
+                             node_female_condom.nodeValue = v.slice(0, -1);
+                             break;
                         }
                      }
             
@@ -2218,9 +2239,7 @@ function showNumber(id){
         __$("btns").appendChild(cl);
     
         __$("btns").appendChild(ok);
-    
-        // __$("popup-header").innerHTML = current_popup;
-    
+        
          $j("#shield, #popup").css("display", "block");
     
         } 
