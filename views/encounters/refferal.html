@@ -1,0 +1,60 @@
+
+<script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
+<!--script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/standard.js" defer="true"></script-->
+<script type="text/javascript" src="/assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/js/moment.js"></script>
+<script type="text/javascript" src="/assets/js/yes_no_ctrls.js"></script>
+<link rel="stylesheet" href="/assets/css/yes_no_ctrls.css" type="text/css">
+<script type="text/javascript" src="/assets/js/post_parameters.js"></script>
+<script type="text/javascript" src="/assets/js/generic_ajaxrequest.js"></script>
+<script type="text/javascript" src="/assets/js/alertifyjs/alertify.js"></script>
+<script type="text/javascript" src="/assets/js/does_connection_exist.js"></script>
+
+<link rel="stylesheet" href="/assets/css/alertifyjs/css/alertify.css" type="text/css">
+
+<style>
+
+.inputFrameClass {
+  width: 96% !important;
+}
+
+#clearButton {
+  display: none;
+}
+
+</style>
+<script>
+
+var patientID = sessionStorage.getItem("patientID");
+var programID = sessionStorage.getItem("programID");
+var tt_cancel_destination = "/";
+var apiProtocol = sessionStorage.apiProtocol;
+var apiURL = sessionStorage.apiURL;
+var apiPort = sessionStorage.apiPort;
+var patient_id = sessionStorage.patientID;
+var previousActivities = null;
+var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
+
+</script>
+
+<body id="mateme">
+  <div id="container">
+    <div id="content">
+
+    <form action="art_refferal.html">
+      <input type="text" name="start_date" id="start_date" 
+        helpText="Start Date" field_type="date" 
+        tt_pageStyleClass="date" />
+
+
+          <input type="text" name="end_date" id="end_date" 
+            helpText="End Date" field_type="date" 
+            tt_pageStyleClass="date" />
+
+
+           </form>
+
+   </div>
+ </div>
+</body>
+

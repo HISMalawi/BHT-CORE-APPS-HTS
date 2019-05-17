@@ -5,14 +5,13 @@
 
 <script type="text/javascript" src="/assets/js/yes_no_ctrls.js"></script>
 <link rel="stylesheet" href="/assets/css/yes_no_ctrls.css" type="text/css">
-<link rel="stylesheet" href="/apps/HTS/assets/css/backdata.css" type="text/css">
 <script type="text/javascript" src="/assets/js/post_parameters.js"></script>
 <script type="text/javascript" src="/assets/js/generic_ajaxrequest.js"></script>
 <script type="text/javascript" src="/assets/js/alertifyjs/alertify.js"></script>
 <script type="text/javascript" src="/assets/js/does_connection_exist.js"></script>
 <script type="text/javascript" src="/assets/js/moment.js"></script>
 <script type="text/javascript" src="/apps/HTS/assets/js/common.js"></script>
-<script type="text/javascript" src="/apps/HTS/assets/js/backdata.js"></script>
+<!-- <script type="text/javascript" src="/apps/HTS/assets/js/backdata.js"></script> -->
 <link rel="stylesheet" href="/assets/css/alertifyjs/css/alertify.css" type="text/css">
 <link rel="stylesheet" href="/assets/css/maindashboard/footer.css">
 
@@ -22,51 +21,7 @@
         width: 96% !important;
     }
 
-    .active{
-        background-color: #ffc579 !important;
-    }
-    .btn-yellow {
-    min-height: 40px;
-    margin: 0px;
-        margin-bottom: 0px;
-    margin-bottom: 5px;
-    font-size: 1.2em;
-    background-color: #ffc579;
-    color: #FFF;
-    font-weight: normal;
-    border: 5px outset #000;
-    padding: 9px;
-    cursor: pointer;
-    background: url(/assets/images/btn_yellow.png) right repeat;
-    -moz-user-select: none;
-    -moz-user-focus: disabled;
-    border-radius: 12px;
-    pointer-events: none;
-}
-
-
-table {
- margin: auto;
-  border-collapse: collapse;
-  overflow-x: auto;
-  display: block;
-  width: fit-content;
-  max-width: 100%;
-}
-
-
-
-td:first-of-type, th:first-of-type {
-  border-left: none;
-}
-
-td:last-of-type, th:last-of-type {
-  border-right: none;
-}
-.inputFrameClass {
-    width: 2000% !important;
-    overflow-x: scroll;
-}
+  
 </style>
 <body id="mateme">
 <div id="container">
@@ -121,7 +76,8 @@ td:last-of-type, th:last-of-type {
     }
 
     function loadBackdata(){
-        window.location.href = "/apps/HTS/views/encounters/backdata2.html";
+        var testing_date = document.getElementById('testing_date').value;
+        window.location.href = "/apps/HTS/views/encounters/backdata2.html?testing_date="+testing_date;
     }
 
 </script>    

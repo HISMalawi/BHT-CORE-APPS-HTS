@@ -42,7 +42,7 @@ function addRow(){
     div_date.style.textAlign = "center"
     div_date.style.backgroundColor = "#fff";
     div_date.style.width = "130px";
-     node_date = document.createTextNode("8 Mar 2019");   
+     node_date = document.createTextNode(new_date);   
     div_date.appendChild(node_date);
     td_date.appendChild(div_date);
 
@@ -971,11 +971,6 @@ function showDate(id){
   td.appendChild(input);
 
   //Adding options to select
-  // var x = document.getElementById("days");
-  // var option = document.createElement("option");
-  // option.text = "Kiwi";
-  // x.add(option);
-
 
   var td = document.createElement("td");
   tr.appendChild(td);
@@ -1007,7 +1002,8 @@ function showDate(id){
 
       $j('#backButton, #nextButton').attr("disabled", false);
       $j("#shield, #popup").css("display", "none");
-
+      appointment = 0;
+      hts_date =0;
   };
 
   $j(cl).css({
@@ -1062,12 +1058,15 @@ function showDate(id){
         $j("#shield, #popup").css("display", "none");
     }
 
+    appointment = 0;
+    hts_date =0;
+
   };
   $j("#popup").css({
 
-    "width": "auto",
+    "width": "600px",
 
-    "min-width": "616px"
+    "min-width": "600px"
 
 });
 
@@ -1100,9 +1099,9 @@ function loadPopup(row) {
 
       "min-width": 0.35 * screen.width + "px",
 
-      "min-height": 0.25 * screen.height + "px",
+      //"min-height": 0.25 * screen.height + "px",
 
-      width: "auto",
+      width: "40%",
 
       height: "auto",
 
@@ -1182,13 +1181,6 @@ popup.appendChild(popupHeader);
  frame.appendChild(popup);
 }
 function displayToday(){
-
-    var dateObj = new Date();
-    locale = "en-us";
-    var month = dateObj.toLocaleString(locale, { month: "short" });
-    var day = dateObj.getUTCDate();
-    var year = dateObj.getUTCFullYear();
-    
     __$("dateselector_year").value = year;
     __$("dateselector_day").value = day;
     __$("dateselector_month").value = month;
@@ -1266,14 +1258,13 @@ function displayKeyboard(id){
 
     });
 
- 
-        $j("#popup").css({
+    $j("#popup").css({
+        
+        "width": "700px",
 
-            "width": "auto",
+        "min-width": "700px"
 
-            "min-width": "616px"
-
-        });
+    });
        var tbl = document.createElement("table");
 
     tbl.className = "keyBoardTable";
@@ -1538,7 +1529,8 @@ function showAge(id){
         
                 $j("#shield, #popup").css("display", "none");
                 $j("#popup").html("");
-        
+                time = 0;
+                age = 0;
             };
         
             $j(cl).css({
@@ -1571,6 +1563,8 @@ function showAge(id){
         
                 $j("#shield, #popup").css("display", "none");
                 $j("#popup").html("");
+                time = 0;
+                age = 0;
         
             }
             var holder = document.createElement("div");
