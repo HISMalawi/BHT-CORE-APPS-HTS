@@ -1195,7 +1195,7 @@ function displayKeyboard(id){
 
     var row3 = ["L", "M", "N","O", "P","Q", "R", "S", "T", "U"];
 
-    var row4 = ["V","X","Y","Z","Del", "Clear", "Space"];
+    var row4 = ["V","W","X","Y","Z","Del", "Clear", "Space"];
 
 
     var cl = document.createElement("div");
@@ -1210,6 +1210,8 @@ function displayKeyboard(id){
 
         $j("#shield, #popup").css("display", "none");
         $j("#popup").html("");
+        provider = 0;
+        comment = 0;
 
     };
 
@@ -1242,7 +1244,8 @@ function displayKeyboard(id){
 
         $j("#shield, #popup").css("display", "none");
         $j("#popup").html("");
-
+        comment = 0;
+        provider = 0;
     }
     var holder = document.createElement("div");
 
@@ -1443,7 +1446,7 @@ function displayKeyboard(id){
                     var v =  node_age.nodeValue;
                     node_provider.nodeValue = v.slice(0, -1);
                       break;
-                    case "space":
+                    case "Space":
                     var v =  node_provider.nodeValue;
                     node_provider.nodeValue = v + " ";
                     break;
@@ -1461,7 +1464,7 @@ function displayKeyboard(id){
                    
                     node_comment.nodeValue = v.slice(0, -1);
                       break;
-                    case "space":
+                    case "Space":
                     var v =  node_comment.nodeValue;
                     node_comment.nodeValue = v + " ";
                     break;
