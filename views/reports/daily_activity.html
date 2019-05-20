@@ -1,0 +1,375 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
+    <script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
+
+    <link rel="stylesheet" href="../../../../assets/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../../assets/css/datatables/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../../assets/css/datatables/fixedHeader.dataTables.min.css">
+    <style type="text/css">
+    body{
+        font-size: 20px;
+    }
+    .regularCell {
+        border: 1px solid #333333;
+        min-width: 30px;
+        font-style: italic;
+    }
+
+    .boldCell {
+        border: 2px solid #333333;
+        min-width: 30px;
+        font-style: italic;
+    }
+
+    .header {
+        vertical-align: bottom;
+    }
+      
+    </style>
+  </head>
+  <body id="mateme">
+    <div id="container">
+      <div class="panel panel-default" style="border-color:#fff;">
+        <div class="panel-heading" style="margin-left: 0.9%;margin-right: 0.9%; background-color: #fff;"><h2 style="color:#000000;text-align: center; font-weight: 800;">DAILY ACTIVITY REGISTER<br></h2>
+        </div>
+    <div>
+    <div class="panel-body">
+        <div id="root" style="margin:0;padding:0">
+            <div>
+        <div id="progressShield" style="position: absolute; left: 0px; top: 0px; width: 100vw; height: 100vh; background-color: rgba(128, 128, 128, 0.1); z-index: 1001; display: none;">
+        </div>
+        <div style="position: absolute; left: calc(50vw - 20px); top: calc(50vh - 20px);">
+        </div>
+        <div class="shield" style="display: none;">
+        <div class="popup">
+            <table>
+                <tbody>
+                    <tr>
+                        <th id="alertTitle" style="padding: 5px; color: white; background-color: rgb(197, 0, 0); border: 2px outset rgb(197, 0, 0); border-top-left-radius: 8px; border-top-right-radius: 8px; font-size: 18px;">Title</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="alertContent" id="alertContent"><span><br></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <button id="btnAlertOK" style="width: 100px;">OK</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="dialogShield" style="display: none;">
+        <div class="dialogPopup">
+            <table>
+                <tbody>
+                    <tr>
+                        <th style="padding: 5px; color: white; background-color: rgb(52, 92, 180); border: 2px outset rgb(52, 92, 180); border-top-left-radius: 8px; border-top-right-radius: 8px; font-size: 18px;">Title</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="dialogContent">
+                                <table style="margin: auto;">
+                                    <tbody>
+                                        <tr>
+                                            <th>Reporting Month</th>
+                                            <td>
+                                                
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <table width="100%" style="margin: auto;">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Month</th>
+                                                            <th>Year</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="center" style="padding: 10px;">
+                                                                <div class="arrow-up">
+
+                                                                </div>
+                                                            </td>
+                                                            <td align="center" style="padding: 10px;">
+                                                                <div class="arrow-up">
+
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <input class="dialogText" readonly="" type="text" value="May">
+                                                            </td>
+                                                            <td>
+                                                                <input class="dialogText" readonly="" type="text" value="2019">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="center" style="padding: 10px;">
+                                                                <div class="arrow-down">
+
+                                                                </div>
+                                                            </td>
+                                                            <td align="center" style="padding: 10px;">
+                                                                <div class="arrow-down">
+
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td style="">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" colspan="1">
+                                                <table width="100%" style="margin: auto;">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Location</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="center" style="padding: 10px;">
+                                                                <div class="arrow-up">
+
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <input class="dialogText" readonly="" type="text" value="">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="center" style="padding: 10px;">
+                                                                <div class="arrow-down">
+
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <table width="100%" style="margin: auto;">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Test</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="center" style="padding: 10px;">
+                                                                <div class="arrow-up">
+
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <input class="dialogText" readonly="" type="text" value="Determine HIV 1/2">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="center" style="padding: 10px;">
+                                                                <div class="arrow-down">
+
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding: 5px;">
+                            <button class="red" style="width: 100px;">Cancel</button>
+                            <button style="width: 100px;">Set</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+      <div id="reportScroller" style="overflow: auto; padding: 20px; height: calc(100vh - 122px);">
+        <div style="overflow: auto; width: calc(100% - 10px); height: calc(-122px + 100vh);">
+            <table cellpadding="10" style="border-collapse: collapse; border-color: rgb(204, 204, 204); margin: auto;">
+                <tbody>
+                    <tr>
+                        <th colspan="9" style="font-size: 24px; padding: 20px;">Daily Activity Register</th>
+                    </tr>
+                    <tr>
+                        <td>Year</td>
+                        <td class="regularCell"></td>
+                        <td style="padding-left:20px;">Site Name</td>
+                        <td class="regularCell" colspan="3">Kamuzu Central Hospital</td>
+                        <td colspan="3">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>Month</td>
+                        <td class="regularCell"></td>
+                        <td style="padding-left:20px;">HTS Locat.</td>
+                        <td class="regularCell" colspan="3"></td>
+                        <td style="padding-left:20px;">Kit Name</td>
+                        <td class="regularCell" colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="9">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <th class="header" rowspan="2">Date</th>
+                        <th style="padding-bottom:20px; padding-right: 10px;">Opening Stock</th>
+                        <th style="padding-bottom:20px; padding-right: 10px;">Receipts</th>
+                        <th style="padding-bottom:20px; padding-right: 10px;" colspan="2">Number of Tests User for</th>
+                        <th style="padding-bottom:20px; padding-right: 10px;">Losses</th>
+                        <th style="padding-bottom:20px; padding-right: 10px;">Closing Stock</th>
+                        <th style="padding-bottom:20px; padding-right: 10px;">Remarks</th>
+                        <th style="padding-bottom:20px;">Staff</th>
+                    </tr>
+                    <tr>
+                        <td align="center">Phys. count</td>
+                        <td>&nbsp;</td>
+                        <td align="center">Clients</td>
+                        <td>Oth. Purpos.</td>
+                        <td>&nbsp;</td>
+                        <td align="center">Phys. count</td>
+                        <td>&nbsp;</td><td align="center">Name</td>
+                    </tr>
+                    <tr>
+                        <td class="regularCell">&nbsp;</td>
+                        <td class="regularCell">&nbsp;</td>
+                        <td class="regularCell">&nbsp;</td>
+                        <td class="regularCell">&nbsp;</td>
+                        <td class="regularCell">&nbsp;</td>
+                        <td class="regularCell">&nbsp;</td>
+                        <td class="regularCell">&nbsp;</td>
+                        <td class="regularCell">&nbsp;</td>
+                        <td class="regularCell">&nbsp;</td>
+                    </tr>
+                    <tr style="font-size: 13px;">
+                        <th>&nbsp;</th>
+                        <td align="center" >Opening Stock</td>
+                        <td align="center">Sum Rec.</td>
+                        <td align="center" colspan="2">Sum of Tests Used for</td>
+                        <td align="center">Sum Loss</td>
+                        <td align="center">Closing Stock</td>
+                        <td>&nbsp;</td><td align="center">Staff</td>
+                    </tr>
+                    <tr>
+                        <th>Summary</th>
+                        <th class="boldCell"></th>
+                        <th class="boldCell"></th>
+                        <th class="boldCell">0</th>
+                        <th class="boldCell"></th>
+                        <th class="boldCell"></th>
+                        <th class="boldCell"></th>
+                        <th class="boldCell"></th>
+                        <th class="boldCell"></th>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td style="font-size: 12px;">From first day of month</td>
+                        <td>&nbsp;</td>
+                        <td style="font-size: 12px;">Testing Clients</td>
+                        <td style="font-size: 12px;">Other Purposes</td>
+                        <td>&nbsp;</td>
+                        <td style="font-size: 12px;">From last day of month</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="position: absolute; bottom: 90px; text-align: center; width: calc(100% - 10px); left: 5px;"><div>
+
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+     </div>
+        <div id="footer">
+        </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+<script type="text/javascript">
+
+function goBack(){
+  window.location = "http://127.0.0.1:8080/";
+
+}
+
+
+  function changeNextButton(){
+    __$("nextButton").removeAttribute("onmousedown")
+    __$("nextButton").onmousedown = function(){
+
+  value = $('touchscreenInput' + tstCurrentPage).value;
+ if (value.length  > 0) {
+
+           submitSearchResults();
+ }else {
+   showMessage("You must enter a value to continue");
+ }
+
+    }
+  }
+
+  var patientID = ''
+  jQuery(document).ready(function(){
+
+    var checkExist = setInterval(function() {
+      if (jQuery('#cancelButton').length) {
+        jQuery('#cancelButton').click(function () {
+          yesButton = jQuery("#messageBar button")[0];
+          yesButton.onmousedown = function(){
+            hideMessage();
+            if (patientID.length > 0){
+              window.top.location.href = "/patients/show/" + patientID;
+            } else {
+              window.top.location.href = "/";
+            }
+            
+          }
+        });
+        clearInterval(checkExist);
+      }
+    }, 100); // check every 100ms
+  });
+
+</script>
+<script src="../../../../assets/js/jquery.min.js"></script>
+<script src="../../../../assets/js/bootstrap/bootstrap.min.js"></script>
+<script src="../../../../assets/js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../../../assets/js/datatables/dataTables.fixedHeader.min.js"></script>
+<script type="text/javascript">
+  $('#shiftTable').DataTable( {
+        fixedHeader: true,
+        searching: false,
+        ordering: false,
+        paging: false,
+       "bInfo" : false,
+
+} );
+</script>
+
