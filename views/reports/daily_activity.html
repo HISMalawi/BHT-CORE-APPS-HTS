@@ -5,6 +5,8 @@
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
     <script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
+    <link rel="stylesheet" href="/assets/css/maindashboard/footer.css">
+    <!-- <link rel="stylesheet" href="/apps/MATERNITY/assets/css/custom.css"> -->
 
     <link rel="stylesheet" href="../../../../assets/css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../../../../assets/css/datatables/jquery.dataTables.min.css">
@@ -28,9 +30,11 @@
     .header {
         vertical-align: bottom;
     }
-      
+    #save {
+    min-width: 140px;
+  }
     </style>
-  </head>
+      </head>
   <body id="mateme">
     <div id="container">
       <div class="panel panel-default" style="border-color:#fff;">
@@ -58,7 +62,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="center">
+                        <td style="text-align:center;" >
                             <button id="btnAlertOK" style="width: 100px;">OK</button>
                         </td>
                     </tr>
@@ -93,12 +97,12 @@
                                                             <th>Year</th>
                                                         </tr>
                                                         <tr>
-                                                            <td align="center" style="padding: 10px;">
+                                                            <td style="padding: 10px; text-align: center;">
                                                                 <div class="arrow-up">
 
                                                                 </div>
                                                             </td>
-                                                            <td align="center" style="padding: 10px;">
+                                                            <td style="padding: 10px; text-align: center;">
                                                                 <div class="arrow-up">
 
                                                                 </div>
@@ -113,12 +117,12 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="center" style="padding: 10px;">
+                                                            <td style="padding: 10px; text-align: center;">
                                                                 <div class="arrow-down">
 
                                                                 </div>
                                                             </td>
-                                                            <td align="center" style="padding: 10px;">
+                                                            <td  style="padding: 10px; text-align: center">
                                                                 <div class="arrow-down">
 
                                                                 </div>
@@ -127,18 +131,18 @@
                                                     </tbody>
                                                 </table>
                                             </td>
-                                            <td style="">
+                                            <td>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td align="center" colspan="1">
+                                            <td style="text-align:center;" colspan="1">
                                                 <table width="100%" style="margin: auto;">
                                                     <tbody>
                                                         <tr>
                                                             <th>Location</th>
                                                         </tr>
                                                         <tr>
-                                                            <td align="center" style="padding: 10px;">
+                                                            <td style="padding: 10px; text-align: center;">
                                                                 <div class="arrow-up">
 
                                                                 </div>
@@ -150,7 +154,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="center" style="padding: 10px;">
+                                                            <td style="padding: 10px; text-align: center;">
                                                                 <div class="arrow-down">
 
                                                                 </div>
@@ -161,14 +165,14 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td align="center">
+                                            <td style="text-align:center;">
                                                 <table width="100%" style="margin: auto;">
                                                     <tbody>
                                                         <tr>
                                                             <th>Test</th>
                                                         </tr>
                                                         <tr>
-                                                            <td align="center" style="padding: 10px;">
+                                                            <td style="padding: 10px; text-align: center; ">
                                                                 <div class="arrow-up">
 
                                                                 </div>
@@ -180,7 +184,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="center" style="padding: 10px;">
+                                                            <td style="padding: 10px; text-align: center;">
                                                                 <div class="arrow-down">
 
                                                                 </div>
@@ -196,7 +200,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="center" style="padding: 5px;">
+                        <td style="padding: 5px; text-align: center;">
                             <button class="red" style="width: 100px;">Cancel</button>
                             <button style="width: 100px;">Set</button>
                         </td>
@@ -205,13 +209,10 @@
             </table>
         </div>
     </div>
-      <div id="reportScroller" style="overflow: auto; padding: 20px; height: calc(100vh - 122px);">
+      <div id="reportScroller" style="padding: 20px; height: calc(100vh - 122px);">
         <div style="overflow: auto; width: calc(100% - 10px); height: calc(-122px + 100vh);">
             <table cellpadding="10" style="border-collapse: collapse; border-color: rgb(204, 204, 204); margin: auto;">
                 <tbody>
-                    <tr>
-                        <th colspan="9" style="font-size: 24px; padding: 20px;">Daily Activity Register</th>
-                    </tr>
                     <tr>
                         <td>Year</td>
                         <td class="regularCell"></td>
@@ -231,7 +232,7 @@
                         <td colspan="9">&nbsp;</td>
                     </tr>
                     <tr>
-                        <th class="header" rowspan="2">Date</th>
+                        <th class="header" rowspan="2" style="padding-bottom:10px;">Date</th>
                         <th style="padding-bottom:20px; padding-right: 10px;">Opening Stock</th>
                         <th style="padding-bottom:20px; padding-right: 10px;">Receipts</th>
                         <th style="padding-bottom:20px; padding-right: 10px;" colspan="2">Number of Tests User for</th>
@@ -241,13 +242,14 @@
                         <th style="padding-bottom:20px;">Staff</th>
                     </tr>
                     <tr>
-                        <td align="center">Phys. count</td>
+                        <td style="text-align:center;  padding-bottom: 10px;" >Phys. count</td>
                         <td>&nbsp;</td>
-                        <td align="center">Clients</td>
-                        <td>Oth. Purpos.</td>
+                        <td style="text-align:center;  padding-bottom: 10px;" >Clients</td>
+                        <td style="text-align:center;  padding-bottom: 10px;">Oth. Purpos.</td>
                         <td>&nbsp;</td>
-                        <td align="center">Phys. count</td>
-                        <td>&nbsp;</td><td align="center">Name</td>
+                        <td style="text-align:center;  padding-bottom: 10px;" >Phys. count</td>
+                        <td>&nbsp;</td>
+                        <td style="text-align:center;  padding-bottom: 10px;" >Name</td>
                     </tr>
                     <tr>
                         <td class="regularCell">&nbsp;</td>
@@ -262,18 +264,19 @@
                     </tr>
                     <tr style="font-size: 13px;">
                         <th>&nbsp;</th>
-                        <td align="center" >Opening Stock</td>
-                        <td align="center">Sum Rec.</td>
-                        <td align="center" colspan="2">Sum of Tests Used for</td>
-                        <td align="center">Sum Loss</td>
-                        <td align="center">Closing Stock</td>
-                        <td>&nbsp;</td><td align="center">Staff</td>
+                        <td style="text-align:center; padding:10px;" >Opening Stock</td>
+                        <td style="text-align:center; padding:10px;" >Sum Rec.</td>
+                        <td style="text-align:center; padding:10px;"  colspan="2">Sum of Tests Used for</td>
+                        <td style="text-align:center; padding:10px;" >Sum Loss</td>
+                        <td style="text-align:center; padding:10px;" >Closing Stock</td>
+                        <td>&nbsp;</td>
+                        <td style="text-align:center; padding:10px;" >Staff</td>
                     </tr>
                     <tr>
-                        <th>Summary</th>
+                        <th style="padding-right:5px;">Summary</th>
                         <th class="boldCell"></th>
                         <th class="boldCell"></th>
-                        <th class="boldCell">0</th>
+                        <th class="boldCell" style="text-align:center;">0</th>
                         <th class="boldCell"></th>
                         <th class="boldCell"></th>
                         <th class="boldCell"></th>
@@ -282,12 +285,12 @@
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
-                        <td style="font-size: 12px;">From first day of month</td>
+                        <td style="font-size: 12px; padding:10px;">From first day of month</td>
                         <td>&nbsp;</td>
-                        <td style="font-size: 12px;">Testing Clients</td>
-                        <td style="font-size: 12px;">Other Purposes</td>
+                        <td style="font-size: 12px; padding: 10px;">Testing Clients</td>
+                        <td style="font-size: 12px; padding: 10px;">Other Purposes</td>
                         <td>&nbsp;</td>
-                        <td style="font-size: 12px;">From last day of month</td>
+                        <td style="font-size: 12px; padding:10px;">From last day of month</td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
@@ -304,10 +307,23 @@
 </div>
      </div>
         <div id="footer">
+ 
         </div>
         </div>
       </div>
     </div>
+    <footer class="footer">
+            <div class="container-footer">
+                <button id="btnNext" class="green right" style="margin: 5px 0px 0px; padding: 0px; float: right;" onclick="location='/';">
+                    <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Finish &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;</span>
+                </button>
+                <button id="save" class="blue right" onclick="location='/';" style="margin-right: 30px;">
+                    <span>Download CSV</span>
+                  </button>
+            </div>
+        </foote
+        ￼
+        r>
   </body>
 </html>
 

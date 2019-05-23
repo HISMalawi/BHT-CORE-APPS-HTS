@@ -1,0 +1,499 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
+    <script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
+    <link rel="stylesheet" href="/assets/css/maindashboard/footer.css">
+    <!-- <link rel="stylesheet" href="/apps/MATERNITY/assets/css/custom.css"> -->
+
+    <link rel="stylesheet" href="../../../../assets/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../../assets/css/datatables/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../../assets/css/datatables/fixedHeader.dataTables.min.css">
+    <style type="text/css">
+    body{
+        font-size: 27px;
+    }
+    .regularCell {
+        border: 1px solid #333333;
+        min-width: 30px;
+        font-style: italic;
+    }
+
+    .boldCell {
+        border: 2px solid #333333;
+        min-width: 30px;
+        font-style: italic;
+    }
+
+    .header {
+        vertical-align: bottom;
+    }
+    .bold {
+    font-weight: bold;
+    color: #000;
+}
+
+    #save {
+    min-width: 140px;
+  }
+    </style>
+      </head>
+
+<body id="mateme" >
+    <div id="container">
+         <div class="panel panel-default" style="border-color:#fff;">
+                <div class="panel-heading" style="margin-left: 0.9%;margin-right: 0.9%; background-color: #fff;"><h2 style="color:#000000;text-align: center; font-weight: 800;">MONTHLY REPORT<br></h2>
+                </div>
+            <div>
+        <div class="panel-body">
+  
+            <div id="root" style="margin:0;padding:0">
+                <div>
+                    <div id="progressShield" style="position: absolute; left: 0px; top: 0px; width: 100vw; height: 100vh; background-color: rgba(128, 128, 128, 0.1); z-index: 1001; display: none;">
+                        
+                    </div>
+                    <div style="position: absolute; left: calc(50vw - 20px); top: calc(50vh - 20px);">
+
+                    </div>
+                    <div class="shield" style="display: none;">
+                        <div class="popup">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th id="alertTitle" style="padding: 5px; color: white; background-color: rgb(197, 0, 0); border: 2px outset rgb(197, 0, 0); border-top-left-radius: 8px; border-top-right-radius: 8px; font-size: 18px;">Title</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="alertContent" id="alertContent">
+                                                <span><br></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center">
+                                            <button id="btnAlertOK" style="width: 100px;">OK</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="dialogShield" style="display: none;">
+                        <div class="dialogPopup">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th style="padding: 5px; color: white; background-color: rgb(52, 92, 180); border: 2px outset rgb(52, 92, 180); border-top-left-radius: 8px; border-top-right-radius: 8px; font-size: 18px;">Title</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="dialogContent"><table style="margin: auto;">
+                                                <tbody>
+                                                    <tr>
+                                                        <th>Start Month</th>
+                                                        <th>End Month</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <table width="100%" style="margin: auto;">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <th>Month</th>
+                                                                        <th>Year</th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="center" style="padding: 10px;">
+                                                                            <div class="arrow-up"></div>
+                                                                        </td>
+                                                                        <td align="center" style="padding: 10px;"/>
+                                                                            <div class="arrow-up">
+
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <input class="dialogText" readonly="" type="text" value="May">
+                                                                        </td>
+                                                                        <td>
+                                                                            <input class="dialogText" readonly="" type="text" value="2019">
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="center" style="padding: 10px;"><div class="arrow-down">
+
+                                                                        </div>
+                                                                    </td>
+                                                                    <td align="center" style="padding: 10px;">
+                                                                        <div class="arrow-down"></div>
+                                                                    </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                        <td style="border-left: 2px outset rgb(204, 204, 204);">
+                                                            <table width="100%" style="margin: auto;">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <th>Month</th>
+                                                                        <th>Year</th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="center" style="padding: 10px;">
+                                                                            <div class="arrow-up">
+
+                                                                            </div>
+                                                                        </td>
+                                                                        <td align="center" style="padding: 10px;">
+                                                                            <div class="arrow-up">
+
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <input class="dialogText" readonly="" type="text" value="May">
+                                                                        </td>
+                                                                        <td>
+                                                                            <input class="dialogText" readonly="" type="text" value="2019">
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="center" style="padding: 10px;">
+                                                                            <div class="arrow-down">
+
+                                                                            </div>
+                                                                        </td>
+                                                                        <td align="center" style="padding: 10px;">
+                                                                            <div class="arrow-down">
+
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center" colspan="2">
+                                                            <table width="100%" style="margin: auto;">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <th>Location</th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="center" style="padding: 10px;">
+                                                                            <div class="arrow-up">
+
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <input class="dialogText" readonly="" type="text" value="">
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="center" style="padding: 10px;">
+                                                                            <div class="arrow-down">
+
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" style="padding: 5px;">
+                                        <button class="red" style="width: 100px;">Cancel</button>
+                                        <button style="width: 100px;">Set</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>  
+                <div id="reportScroller" style="overflow: auto; padding: 20px; height: calc(100vh - 122px);">
+                    <table cellpadding="8" style="border-collapse: collapse; margin: auto;">
+                        <tbody>
+                            <tr>
+                                <th colspan="2" class="bold" style="font-size: 14px; width: 100px; text-align: left;">M
+                                    <span style="font-size: 12px;">ALAWI&nbsp;</span>HTS R<span style="font-size: 11px;">EGISTER&nbsp;</span>
+                                    <br>V
+                                    <span style="font-size: 10px;">ERSION&nbsp;</span>3
+                                </th>
+                                <th colspan="3" class="bold" style="font-size: 20px;">HIV T<span style="font-size: 18px;">ESTING&nbsp;AND&nbsp;</span>C
+                                    <span style="font-size: 18px;">OUNSELLING&nbsp;</span>- M<span style="font-size: 18px;">ONTHLY&nbsp;</span>S
+                                    <span style="font-size: 18px;">ITE&nbsp;</span>R
+                                    <span style="font-size: 18px;">EPORT</span></th><th style="font-size: 13px; font-weight: normal; margin-top: -1px; font-style: italic;">F<span style="font-size: 11px;">ILL&nbsp;</span>S
+                                    <span style="font-size: 11px;">EPARATE&nbsp;</span>R<span style="font-size: 11px;">EPORT&nbsp;</span>F
+                                    <span style="font-size: 11px;">OR&nbsp;</span>E<span style="font-size: 11px;">ACH&nbsp;</span>D
+                                    <span style="font-size: 11px;">IFFERENT&nbsp;</span>HTS L<span style="font-size: 11px;">OCATION AT THIS&nbsp;</span>S
+                                    <span style="font-size: 11px;">ITE</span>
+                                </th>
+                                <th style="font-size: 13px; width: 180px; text-align: right; font-weight: normal; font-style: italic;"><br>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td style="border-left: 1px solid rgb(51, 51, 51); border-top: 1px solid rgb(51, 51, 51); width: 150px;">Facility/Site</td>
+                                <td colspan="5" style="border-left: 1px solid rgb(51, 51, 51); border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51);">Kamuzu Central Hospital&nbsp;
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td><td style="border-left: 1px solid rgb(51, 51, 51);">Reporting Year
+
+                                </td>
+                                <td style="border: 1px solid rgb(51, 51, 51);">&nbsp;
+
+                                </td>
+                                <td style="border-top: 1px solid rgb(51, 51, 51); width: 120px; text-align: center;">Month</td><td style="border: 1px solid rgb(51, 51, 51);">&nbsp;
+
+                                </td>
+                                <td style="border-top: 1px solid rgb(51, 51, 51); width: 120px; text-align: center;">HTS Location<sup>1</sup></td><td style="border: 1px solid rgb(51, 51, 51); min-width: 120px; text-align: center;">&nbsp;
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td colspan="5" style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51);">Was any client served at this site/location during this month?<span style="font-size: 11px;">If no, still submit report</span></td><td style="border: 1px solid rgb(51, 51, 51);">&nbsp;
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7">
+                                    <table width="100%" cellpadding="8" style="border-collapse: collapse;">
+                                        <tbody>
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                                <th colspan="3" class="bold">Sex/Pregnancy</th>
+                                                <th colspan="3" class="bold">Last HIV Test</th>
+                                                <th colspan="2" class="bold" style="min-width: 300px;">Outcome Summary (HIV Test)</th>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 30px; text-align: right;">1</td>
+                                                <td style="border-top: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51);">Male</td>
+                                                <td id="M" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                <td style="text-align: right;">11</td><td style="border-top: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51);">Never Tested</td>
+                                                <td id="LNEV" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;
+
+                                                </td>
+                                                <td style="text-align: right;">17</td>
+                                                <td style="border-top: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51);">Single Negative</td>
+                                                <td id="N" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td></tr><tr><td style="width: 30px; text-align: right;">2</td>
+                                                <td style="border-left: 1px solid rgb(51, 51, 51);">Female Non-Pregnant</td>
+                                                <td id="FNP" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                <td style="text-align: right;">12</td>
+                                                <td style="border-left: 1px solid rgb(51, 51, 51);">Prev Negative</td>
+                                                <td id="LN" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                <td style="text-align: right;">18</td>
+                                                <td style="border-left: 1px solid rgb(51, 51, 51);">Single Positive</td>
+                                                <td id="P" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 30px; text-align: right;">3</td>
+                                                <td style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51);">Female Pregnant</td>
+                                                <td id="FP" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                <td style="text-align: right;">13</td>
+                                                <td style="border-left: 1px solid rgb(51, 51, 51);">Prev Positive</td>
+                                                <td id="LP" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                <td style="text-align: right;">19</td>
+                                                <td style="border-left: 1px solid rgb(51, 51, 51);">Test 1&amp;2 negative</td>
+                                                <td id="T12N" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 30px; text-align: right;">&nbsp;</td>
+                                                <td style="text-align: right; font-style: italic;">Tot. clients (check)</td>
+                                                <td id="sex_pregnancy" style="border: 2px solid rgb(51, 51, 51); width: 80px; text-align: right;">0&nbsp;</td>
+                                                <td style="text-align: right;">14</td><td style="border-left: 1px solid rgb(51, 51, 51);">Prev Exposed infant</td>
+                                                <td id="LEX" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                <td style="text-align: right;">20</td>
+                                                <td style="border-left: 1px solid rgb(51, 51, 51);">Test 1&amp;2 positive</td>
+                                                <td id="T12P" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td></tr>
+                                                <tr>
+                                                    <td style="width: 30px; text-align: right;">&nbsp;</td>
+                                                    <td style="text-align: left; font-weight: bold;">Age Groups</td><td>&nbsp;</td>
+                                                    <td style="text-align: right;">15</td><td style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51);">Prev Inconclusive</td>
+                                                    <td id="LIN" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                    <td style="text-align: right;">21</td>
+                                                    <td style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51);">Test 1&amp;2 discordant</td>
+                                                    <td id="T12D" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 30px; text-align: right;">4</td>
+                                                    <td style="border-top: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51);">A: 0-11 months</td>
+                                                    <td id="0_11M" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td style="font-style: italic; text-align: right;">Tot. clients (check)</td>
+                                                    <td id="last_hiv_test" style="border: 2px solid rgb(51, 51, 51); width: 80px; text-align: right;">0&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td style="font-style: italic; text-align: right; min-width: 200px;">Tot. clients (check)</td>
+                                                    <td id="outcome_summary" style="border: 2px solid rgb(51, 51, 51); width: 80px; text-align: right;">0&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 30px; text-align: right;">5</td><td style="border-left: 1px solid rgb(51, 51, 51);">B: 1-14 years</td>
+                                                    <td id="1_14Y" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td><td>&nbsp;</td>
+                                                    <td style="font-weight: bold;">Partner Present</td><td>&nbsp;</td><td>&nbsp;</td>
+                                                    <td colspan="3" style="font-weight: bold;">Result Given to Client</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 30px; text-align: right;">6</td>
+                                                    <td style="border-left: 1px solid rgb(51, 51, 51);">C: 15-24 years</td>
+                                                    <td id="15_24Y" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                    <td style="text-align: right;">16</td>
+                                                    <td style="border-left: 1px solid rgb(51, 51, 51); border-top: 1px solid rgb(51, 51, 51);">Partner Present</td>
+                                                    <td id="PPY" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                    <td style="text-align: right;">22</td>
+                                                    <td style="border-left: 1px solid rgb(51, 51, 51); border-top: 1px solid rgb(51, 51, 51); width: 80px;">New negative</td>
+                                                    <td id="RGTCNN" style="width: 80px; border: 1px solid rgb(51, 51, 51); text-align: right;">&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 30px; text-align: right;">7</td>
+                                                    <td style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51);">D: 25+ years</td>
+                                                    <td id="25P" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td><td>&nbsp;</td>
+                                                    <td style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51);">Partner not present</td>
+                                                    <td id="PPN" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                    <td style="text-align: right;">23</td>
+                                                    <td style="border-left: 1px solid rgb(51, 51, 51); width: 80px;">New positive</td>
+                                                    <td id="RGTCNP" style="width: 80px; border: 1px solid rgb(51, 51, 51); text-align: right;">&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 30px; text-align: right;">&nbsp;</td>
+                                                    <td style="text-align: right; font-style: italic;">Tot. clients (check)</td>
+                                                    <td id="age_group" style="border: 2px solid rgb(51, 51, 51); width: 80px; text-align: right;">0&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td style="text-align: right; font-style: italic;">Tot. clients (check)</td>
+                                                    <td id="partner_present" style="border: 2px solid rgb(51, 51, 51); width: 80px; text-align: right;">0&nbsp;</td>
+                                                    <td style="text-align: right;">24</td>
+                                                    <td style="border-left: 1px solid rgb(51, 51, 51); width: 80px;">New exposed infant</td>
+                                                    <td id="RGTCNEX" style="width: 80px; border: 1px solid rgb(51, 51, 51); text-align: right;">&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 30px; text-align: right;">&nbsp;</td>
+                                                    <td style="text-align: right; font-weight: bold;">HTS Access Type</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td style="text-align: right;">25</td>
+                                                    <td style="border-left: 1px solid rgb(51, 51, 51);">New inconclusive</td>
+                                                    <td id="RGTCNI" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 30px; text-align: right;">8</td>
+                                                    <td style="border-top: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51);">PITC</td>
+                                                    <td id="PITC" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td style="text-align: right;">26</td>
+                                                    <td style="border-left: 1px solid rgb(51, 51, 51);">Confirmatory positive</td>
+                                                    <td id="RGTCCP" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 30px; text-align: right;">9</td>
+                                                    <td style="border-left: 1px solid rgb(51, 51, 51);">FRS</td>
+                                                    <td id="FRS" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td style="text-align: right;">27</td>
+                                                    <td style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51);">Confirmatory Inconclusive</td>
+                                                    <td id="RGTCIN" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 30px; text-align: right;">10</td>
+                                                    <td style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51);">Other (VCT, etc.)</td>
+                                                    <td id="VCT" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td style="text-align: right; font-style: italic;">Tot. clients (check)</td>
+                                                    <td id="result_given_to_client" style="border: 2px solid rgb(51, 51, 51); width: 80px; text-align: right;">0&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                    <td style="text-align: right; font-style: italic;">Tot. clients (check)</td>
+                                                    <td id="htc_access_type" style="border: 2px solid rgb(51, 51, 51); width: 80px; text-align: right;">0&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td colspan="2" style="font-weight: bold;">Partner HTS Slips Given</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 30px; text-align: right;">&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td style="text-align:right;">&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td style="text-align:right;">28</td>
+                                                    <td style="border: 1px solid rgb(51, 51, 51);">Sum of all slips</td>
+                                                    <td id="PHSG" style="border: 1px solid rgb(51, 51, 51); width: 80px; text-align: right;">&nbsp;</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                  <tr><td colspan="7"><table cellpadding="8" style="width: 100%; border-collapse: collapse;"><tbody><tr><td style="width: 30px;">&nbsp;</td><th colspan="2" class="bold">Test Kit Use Summary</th><td style="width: 10px;"></td><th class="bold" style="width: 150px;">Test 1</th><td style="width: 10px;"></td><th class="bold" style="width: 150px;">Test 2</th><td style="width: 150px;">&nbsp;</td></tr><tr><td style="width: 30px;">&nbsp;</td><td style="border-left: 1px solid rgb(51, 51, 51); border-top: 1px solid rgb(51, 51, 51);">Add from<i>DAILY ACTIVITY REGISTER</i>, separate for each</td><td style="border-top: 1px solid rgb(51, 51, 51);">Kit Name</td><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;"></td><th id="test_1_kit_name" style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; font-weight: normal;">&nbsp;</th><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;"></td><th id="test_2_kit_name" style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; font-weight: normal;">&nbsp;</th><td style="width: 150px; border: 1px solid rgb(51, 51, 51);">&nbsp;</td></tr><tr><td style="width: 30px;">&nbsp;</td><td style="border-left: 1px solid rgb(51, 51, 51);">Total tests in testing rooms at start of 1<sup>st</sup>day of reporting month</td><td>Opening</td><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;"></td><th id="test_1_opening" style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;"></td><th id="test_2_opening" style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 150px; border: 1px solid rgb(51, 51, 51);">&nbsp;</td></tr><tr><td style="width: 30px;">&nbsp;</td><td style="border-left: 1px solid rgb(51, 51, 51);">Total tests received at this location during this month</td><td>Receipts</td><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;"></td><th id="test_1_receipts" style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;"></td><th id="test_2_receipts" style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 150px; border: 1px solid rgb(51, 51, 51);">&nbsp;</td></tr><tr><td style="width: 30px;">&nbsp;</td><td style="border-left: 1px solid rgb(51, 51, 51);">Total tests used for testing clients</td><td>Used for Clients</td><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;"></td><th id="test_1_used_for_clients" style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;"></td><th id="test_2_used_for_clients" style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 150px; border: 1px solid rgb(51, 51, 51);">&nbsp;</td></tr><tr><td style="width: 30px;">&nbsp;</td><td style="border-left: 1px solid rgb(51, 51, 51);">Total tests used for other purposes (QC, PT, training)</td><td>Used for Other</td><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;">-</td><th id="test_1_for_other" style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;">-</td><th id="test_2_for_other" style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 150px; border: 1px solid rgb(51, 51, 51);">&nbsp;</td></tr><tr><td style="width: 30px;">&nbsp;</td><td style="border-left: 1px solid rgb(51, 51, 51);">Total tests expired / disposed, etc.</td><td>Losses</td><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;">-</td><th id="test_1_disposals" style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;">-</td><th id="test_2_disposals" style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 150px; border: 1px solid rgb(51, 51, 51);">&nbsp;</td></tr><tr><td style="width: 30px;">&nbsp;</td><td style="border-left: 1px solid rgb(51, 51, 51);">Expected Remaining Balance</td><td>Balance</td><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;">=</td><th id="test_1_balance" style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;">=</td><th id="test_2_balance" style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 150px; border: 1px solid rgb(51, 51, 51);">&nbsp;</td></tr><tr><td style="width: 30px;">&nbsp;</td><td style="border-left: 1px solid rgb(51, 51, 51);">Physical tests in testing rooms at end of last day of month</td><td>Closing</td><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;">=</td><th id="test_1_in_rooms" style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;">-</td><th id="test_2_in_rooms" style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 150px; border: 1px solid rgb(51, 51, 51);">&nbsp;</td></tr><tr><td style="width: 30px;">&nbsp;</td><td style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51);">Excess tests / tests unaccounted for (write + or -)</td><td style="border-bottom: 1px solid rgb(51, 51, 51);">Difference</td><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;">=</td><th id="test_1_difference" style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;">=</td><th id="test_2_difference" style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 150px; border: 1px solid rgb(51, 51, 51);">&nbsp;</td></tr><tr><td colspan="6"></td></tr><tr><td style="width: 30px;">&nbsp;</td><td style="border-left: 1px solid rgb(51, 51, 51); border-top: 1px solid rgb(51, 51, 51);">From<i>STOCK CARD</i>in pharmacy / drug store</td><td style="border-top: 1px solid rgb(51, 51, 51);">Opening</td><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;"></td><th style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;"></td><th style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 150px; border: 1px solid rgb(51, 51, 51);">&nbsp;</td></tr><tr><td style="width: 30px;">&nbsp;</td><td style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51);">&nbsp;</td><td style="border-bottom: 1px solid rgb(51, 51, 51);">Closing</td><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;"></td><th style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 10px; border-top: 1px solid rgb(51, 51, 51); border-right: none; border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;"></td><th style="width: 150px; border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: none; border-image: initial; padding-right: 15px; text-align: right;">&nbsp;</th><td style="width: 150px; border: 1px solid rgb(51, 51, 51);">&nbsp;</td></tr></tbody></table></td></tr>
+                  <tr><td colspan="7"><table width="100%" cellpadding="8" style="border-collapse: collapse;"><tbody><tr><td style="width: 30px;">&nbsp;</td><th style="width: 40px;">&nbsp;</th><td>Date</td><td>Name</td><td colspan="2">Phone</td><td colspan="2">Notes</td></tr><tr><td style="width: 30px;">&nbsp;</td><th style="width: 40px;">Filled</th><td style="border: 1px solid rgb(51, 51, 51);">&nbsp;</td><td style="border: 1px solid rgb(51, 51, 51);">&nbsp;</td><td colspan="2" style="border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: none; border-left: 1px solid rgb(51, 51, 51); border-image: initial;">&nbsp;</td><td colspan="2" style="border-top: 1px solid rgb(51, 51, 51); border-right: 1px solid rgb(51, 51, 51); border-bottom: none; border-left: 1px solid rgb(51, 51, 51); border-image: initial;">&nbsp;</td></tr><tr><td style="width: 30px;">&nbsp;</td><th style="width: 40px;">Recvd</th><td style="border: 1px solid rgb(51, 51, 51);">&nbsp;</td><td style="border: 1px solid rgb(51, 51, 51);">&nbsp;</td><td colspan="2" style="border-top: none; border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;">&nbsp;</td><td colspan="2" style="border-top: none; border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); border-left: 1px solid rgb(51, 51, 51); border-image: initial;">&nbsp;</td></tr></tbody></table></td></tr>          
+                  <tr>
+                                    <td colspan="8">&nbsp;</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="position: absolute; bottom: 90px; text-align: center; width: calc(100% - 10px); left: 5px;">
+                            <div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nav">
+                        <button id="btnCancel" class="red nav-buttons" style="float: left; margin-top: 15px; margin-left: 15px;">Cancel</button>
+                        <button id="btnPeriod" class="blue nav-buttons" style="float: right; margin-top: 15px; margin-right: 15px;">Set Reporting Period</button>
+                        <div style="color: rgb(238, 238, 238); font-size: 22px; position: absolute; left: 125px; bottom: 25px; font-style: italic;">v3.0.17</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+<script src="../../../../assets/js/jquery.min.js"></script>
+<script src="../../../../assets/js/bootstrap/bootstrap.min.js"></script>
+<script src="../../../../assets/js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../../../assets/js/datatables/dataTables.fixedHeader.min.js"></script>
+<script type="text/javascript">
+  $('#shiftTable').DataTable( {
+        fixedHeader: true,
+        searching: false,
+        ordering: false,
+        paging: false,
+       "bInfo" : false,
+
+} );
+</script>
+
+
+</tr>
+<tr>
