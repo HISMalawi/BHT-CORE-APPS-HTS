@@ -201,7 +201,7 @@ function addRow(){
  
      div_hts_type.onclick = function () {  
          switch(this.id) {
-             case "htstype1":
+             case "htstype1":  
               $j('#htstype1').addClass("circled");
               $j('#htstype2').removeClass("circled");
               $j('#htstype3').removeClass("circled");
@@ -239,7 +239,7 @@ function addRow(){
         var node_ltest = document.createTextNode(name);
         div_ltest.appendChild(node_ltest);
         td1_ltest.appendChild(div_ltest);
-        
+    
         new_row.appendChild(td1_ltest);
         
         div_ltest.onclick = function () {  
