@@ -670,7 +670,7 @@ function addRow(){
     };  }  
 
     //Client risk
-      var client_risk = ["Low","Ong?","HI","ND"];
+      var client_risk = ["Low","Ong","HI","ND"];
       var k =0;
       for (var i = 0; i < client_risk.length; i++) {
       k++;
