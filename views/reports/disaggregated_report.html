@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
+    <script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
+    <link rel="stylesheet" href="/assets/css/maindashboard/footer.css">
+    <!-- <link rel="stylesheet" href="/apps/MATERNITY/assets/css/custom.css"> -->
+
+    <link rel="stylesheet" href="../../../../assets/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../../assets/css/datatables/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../../assets/css/datatables/fixedHeader.dataTables.min.css">
+    <style type="text/css">
+    body{
+        font-size: 19px;
+    }
+    .regularCell {
+        border: 1px solid #333333;
+        min-width: 30px;
+        font-style: italic;
+    }
+
+    .boldCell {
+        border: 2px solid #333333;
+        min-width: 30px;
+        font-style: italic;
+    }
+    .header {
+        vertical-align: bottom;
+    }
+    .bold {
+    font-weight: bold;
+    color: #000;
+}
+
+    #save {
+    min-width: 140px;
+  }
+    </style>
+      </head>
+
+<body id="mateme" >
+    <div id="container">
+         <div class="panel panel-default" style="border-color:#fff;">
+                <div class="panel-heading" style="margin-left: 0.9%;margin-right: 0.9%; background-color: #fff;"><h2 style="color:#000000;text-align: center; font-weight: 800;">DISSAGREGATED REPORT DATA<br></h2>
+                </div>
+            <div>
+        <div class="panel-body">
+  
+            <div id="root" style="margin:0;padding:0">
+                <div>
+                    <div id="progressShield" style="position: absolute; left: 0px; top: 0px; width: 100vw; height: 100vh; background-color: rgba(128, 128, 128, 0.1); z-index: 1001; display: none;">
+                        
+                    </div>
+                    <div id="reportScroller" style="overflow: auto; padding: 20px; height: calc(100vh - 122px);">
+                        <table cellpadding="10" style="border:1px; border-collapse: collapse; border-color: rgb(204, 204, 204); width: calc(100vw - 40px);">
+                            <tbody>
+                                <tr>
+                                    <th colspan="13" style="font-size: 22px;"></th>
+                                </tr>
+                                <tr style="background-color: rgb(204, 204, 204); color: rgb(51, 51, 51); border-color: rgb(238, 238, 238);">
+                                    <th>#</th>
+                                    <th>District</th>
+                                    <th>Site</th>
+                                    <th>Month</th>
+                                    <th>Year</th>
+                                    <th>HTS Setting</th>
+                                    <th>HTS Modality</th>
+                                    <th>HTS Access Type</th>
+                                    <th>Age Group</th>
+                                    <th>Sex</th>
+                                    <th>Result Given</th>
+                                    <th>Count</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="position: absolute; bottom: 90px; text-align: center; width: calc(100% - 10px); left: 5px;">
+                            <div>
+
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+
+                </div>
+            </div>
+        </div>
+        </div>
+
+</body>
+</div>
+<footer class="footer">
+        <div class="container-footer">
+                <button id="btnNext" class="green right" style="margin: 5px 0px 0px; padding: 0px; float: right;" onclick="location='/';">
+                    <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Finish &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;</span>
+                </button>
+                <button id="save" class="blue right" onclick="location='/';" style="margin-right: 30px;">
+                    <span>Download CSV</span>
+                  </button>
+            </div>
+</footer>
+</html>
+
+
+
+<script src="../../../../assets/js/jquery.min.js"></script>
+<script src="../../../../assets/js/bootstrap/bootstrap.min.js"></script>
+<script src="../../../../assets/js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../../../assets/js/datatables/dataTables.fixedHeader.min.js"></script>
+<script type="text/javascript">
+  $('#shiftTable').DataTable( {
+        fixedHeader: true,
+        searching: false,
+        ordering: false,
+        paging: false,
+       "bInfo" : false,
+
+} );
+</script>
+
+
+</tr>
+<tr>
