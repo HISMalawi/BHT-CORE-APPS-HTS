@@ -4,6 +4,7 @@ var tr_other;
 var td_child;
 var testResultOne;
 var testResultTwo;
+var refferedSpouse;
 var script = document.createElement('script');
 script.src = '/assets/js/jquery.min.js';
 script.type = 'text/javascript';
@@ -265,6 +266,7 @@ function buildReferralSlips(){
             var span_id = "unticked"+k;
             var td_id = "tdunticked"+k;
             var rm_span_spouse = document.getElementById(span_id);
+            refferedSpouse = "Spouse";
             if(rm_span_spouse != null){
           
              rm_span_spouse.style.display = 'none'; 

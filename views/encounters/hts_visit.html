@@ -371,31 +371,49 @@
             encounter_id: encounter["encounter_id"],
             observations: [
                 { concept_id: 9428, value_coded: hivAccessAnswer },
-                { concept_id: 9656, value_coded: hivTestAnswer },
-               // { concept_id: 9431, value_text: testDateValue },
-                //{ concept_id: 9427, value_coded: clientRiskAnswer },
-                // { concept_id: 6131, value_coded: pregnantAnswer },
-                // { concept_id: 9420, value_coded: clientConscentAnswer },
-             //   { concept_id: 9467, value_text: testResultOne },
-              //  { concept_id: 9468, value_text: testResultTwo },
-                // { concept_id: 5096, value_text: appointmentDate },
-                // { concept_id: 3082, value_coded: partnerStatusAnswer },
-                // { concept_id: 7858, value_text: maleCondoms },
-                // { concept_id: 7859, value_text: femaleCondoms },
-               // { concept_id: 9430, value_text: refferalSlips },
-                { concept_id: 6357, value_text: comment }
-            ]
+                { concept_id: 9431, value_text: testDateValue },
+                { concept_id: 9427, value_coded: clientRiskAnswer },
+                { concept_id: 6131, value_coded: pregnantAnswer },
+                { concept_id: 9420, value_coded: clientConscentAnswer },
+                { concept_id: 3082, value_coded: partnerStatusAnswer }
+               // { concept_id: 9430, value_text: refferalSlips },   
+                    ]
         };
         if(refferedSlip !== '') {
-            obs.observations.push({ concept_id: 9752, value_coded: refferedSlipAnswer }); // pmtct on arvs
+            obs.observations.push({ concept_id: 9752, value_coded: refferedSlipAnswer });
         }
-        console.log(obs);
+        if( lastHivTest !== '') {
+            obs.observations.push({ concept_id: 9656, value_coded: hivTestAnswer });
+        }
+        if( testResultOne !== '') {
+            obs.observations.push({ concept_id: 9467, value_text: testResultOne });
+        }
+        if( testResultTwo !== '') {
+            obs.observations.push({ concept_id: 9468, value_coded: testResultTwo });
+        }
+        if( appointmentDate !== '') {
+            obs.observations.push({ concept_id: 5096, value_text: appointmentDateValue });
+        }
+        if( partnerStatus !== '') {
+            obs.observations.push({ concept_id: 3082, value_coded: partnerStatusAnswer });
+        }
+        if( maleCondoms !== '') {
+            obs.observations.push({ concept_id: 7858, value_text: maleCondoms });
+        }
+        if( femaleCondoms !== '') {
+            obs.observations.push({ concept_id: 7859, value_text: femaleCondoms });
+        }
+        if( comment !== '') {
+            obs.observations.push({ concept_id: 6357, value_text: comment });
+        }
+   
         submitParameters(obs, "/observations", "nextPage")
     }
 
     function nextPage(){
-        console.log("NExt pageeeeeeee");
+
         nextEncounter(sessionStorage.patientID, sessionStorage.programID);
+    
     }
 
 </script>    
