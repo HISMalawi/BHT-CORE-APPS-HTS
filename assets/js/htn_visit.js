@@ -5,6 +5,8 @@ var td_child;
 var testResultOne;
 var testResultTwo;
 var refferedSpouse;
+var referredChild;
+var referredOther;
 var script = document.createElement('script');
 script.src = '/assets/js/jquery.min.js';
 script.type = 'text/javascript';
@@ -53,6 +55,7 @@ function buildTest(){
         btn.className = "btn-yellow";
         btn2.className = "btn";
         testResultOne = "Non reactive";
+        console.log("Test 1 " + testResultOne);
     };
 
     btn2.onclick = function () {        
@@ -259,14 +262,15 @@ function buildReferralSlips(){
             spouse_td.id = "tdticked"+i;
             spouse_span.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>";
             spouse_td.textContent = "Spouse "+i;
-            addSpouse(i);
+            refferedSpouse = "Spouse"+i;
+            addSpouse(i);       
         }
         else if(spouse_span.id == "ticked"+i){
             var k = i+ 1;
             var span_id = "unticked"+k;
             var td_id = "tdunticked"+k;
             var rm_span_spouse = document.getElementById(span_id);
-            refferedSpouse = "Spouse";
+            refferedSpouse = " ";
             if(rm_span_spouse != null){
           
              rm_span_spouse.style.display = 'none'; 
@@ -313,6 +317,7 @@ function buildReferralSlips(){
             child_td.id = "tdticked"+i;
             child_span.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>";
             child_td.textContent = "Child "+i;
+            referredChild = "Child"+i;
             addChild(i);
         }
         else if(child_span.id == "ticked"+i){
@@ -320,6 +325,7 @@ function buildReferralSlips(){
             var span_id = "unticked"+k;
             var td_id = "tdunticked"+k;
             var rm_span_child = document.getElementById(span_id);
+            referredChild = " ";
             if(rm_span_child != null){
           
             rm_span_child.style.display = 'none'; 
@@ -346,10 +352,6 @@ function buildReferralSlips(){
     }
 
 
-
-
-
-
     tr_other = document.createElement("tr");
     tr_other.id = "other";
     var td_other = document.createElement("td");
@@ -373,6 +375,7 @@ function buildReferralSlips(){
             td_other.id = "tdticked"+i;
             span_other.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>";
             td_other.textContent = "Other "+i;
+            referredOther = "Other"+i;
             addOther(i);
         }
         else if(span_other.id == "ticked"+i){
@@ -380,6 +383,7 @@ function buildReferralSlips(){
             var span_id = "unticked"+k;
             var td_id = "tdunticked"+k;
             var rm_span = document.getElementById(span_id);
+            referredOther = " ";
             if(rm_span != null){
           
             rm_span.style.display = 'none'; 

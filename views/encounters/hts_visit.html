@@ -389,31 +389,53 @@
             obs.observations.push({ concept_id: 9467, value_text: testResultOne });
         }
         if( testResultTwo !== '') {
-            obs.observations.push({ concept_id: 9468, value_coded: testResultTwo });
-        }
+            obs.observations.push({ concept_id: 9468, value_text: testResultTwo });
+       }
+
         if( appointmentDate !== '') {
             obs.observations.push({ concept_id: 5096, value_text: appointmentDateValue });
         }
+
         if( partnerStatus !== '') {
             obs.observations.push({ concept_id: 3082, value_coded: partnerStatusAnswer });
         }
+
         if( maleCondoms !== '') {
             obs.observations.push({ concept_id: 7858, value_text: maleCondoms });
         }
+        
         if( femaleCondoms !== '') {
             obs.observations.push({ concept_id: 7859, value_text: femaleCondoms });
         }
+
         if( comment !== '') {
             obs.observations.push({ concept_id: 6357, value_text: comment });
         }
-   
+        
+        if( refferedSpouse !== '') {
+            obs.observations.push({ concept_id: 9430, value_text: refferedSpouse });
+
+        }
+        if( referredChild !== '') {
+
+            console.log("CHilsssssss "+referredChild);
+            obs.observations.push({ concept_id: 9430, value_text: referredChild });
+
+        }
+
+        if( referredOther !== '') {
+
+            obs.observations.push({ concept_id: 9430, value_text: referredOther });
+
+        }
+
         submitParameters(obs, "/observations", "nextPage")
     }
 
     function nextPage(){
 
-        nextEncounter(sessionStorage.patientID, sessionStorage.programID);
-    
+       nextEncounter(sessionStorage.patientID, sessionStorage.programID);
+
     }
 
 </script>    
