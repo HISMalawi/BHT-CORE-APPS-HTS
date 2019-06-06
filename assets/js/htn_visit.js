@@ -2,8 +2,8 @@ var tr_spouse;
 var tr_child;
 var tr_other;
 var td_child;
-var testResultOne;
-var testResultTwo;
+var testResultOne ="";
+var testResultTwo = "";
 var refferedSpouse;
 var referredChild;
 var referredOther;
@@ -55,7 +55,6 @@ function buildTest(){
         btn.className = "btn-yellow";
         btn2.className = "btn";
         testResultOne = "Non reactive";
-        console.log("Test 1 " + testResultOne);
     };
 
     btn2.onclick = function () {        

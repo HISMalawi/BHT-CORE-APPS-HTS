@@ -353,16 +353,16 @@
         }
         switch (partnerStatus.toUpperCase()) {
             case 'NO PARTNER':
-                hivTestAnswer = conceptAnswers[5].noPartner;
+                partnerStatusAnswer = conceptAnswers[5].noPartner;
                 break;
             case 'HIV UNKNOWN':
-                hivTestAnswer = conceptAnswers[5].hivUnknown;
+                partnerStatusAnswer = conceptAnswers[5].hivUnknown;
                 break;
             case 'PARTNER NEGATIVE':
-                hivTestAnswer = conceptAnswers[5].partnerNegative;
+                partnerStatusAnswer = conceptAnswers[5].partnerNegative;
                 break;
             case 'PARTNER POSITIVE':
-                hivTestAnswer = conceptAnswers[2].partnerPositive;
+                partnerStatusAnswer = conceptAnswers[5].partnerPositive;
                 break;
             default:
                 break;
@@ -374,31 +374,36 @@
                 { concept_id: 9431, value_text: testDateValue },
                 { concept_id: 9427, value_coded: clientRiskAnswer },
                 { concept_id: 6131, value_coded: pregnantAnswer },
-                { concept_id: 9420, value_coded: clientConscentAnswer },
-                { concept_id: 3082, value_coded: partnerStatusAnswer }
-               // { concept_id: 9430, value_text: refferalSlips },   
+                { concept_id: 9420, value_coded: clientConscentAnswer }
                     ]
         };
+
         if(refferedSlip !== '') {
-            obs.observations.push({ concept_id: 9752, value_coded: refferedSlipAnswer });
+            //9752
+            obs.observations.push({ concept_id: 9430, value_coded: refferedSlipAnswer });
         }
         if( lastHivTest !== '') {
+
             obs.observations.push({ concept_id: 9656, value_coded: hivTestAnswer });
         }
+     
         if( testResultOne !== '') {
             obs.observations.push({ concept_id: 9467, value_text: testResultOne });
         }
         if( testResultTwo !== '') {
             obs.observations.push({ concept_id: 9468, value_text: testResultTwo });
-       }
+        }
 
         if( appointmentDate !== '') {
+
             obs.observations.push({ concept_id: 5096, value_text: appointmentDateValue });
+       
         }
 
-        if( partnerStatus !== '') {
+        if(partnerStatus !== '') {
+
             obs.observations.push({ concept_id: 3082, value_coded: partnerStatusAnswer });
-        }
+            }
 
         if( maleCondoms !== '') {
             obs.observations.push({ concept_id: 7858, value_text: maleCondoms });
@@ -417,8 +422,6 @@
 
         }
         if( referredChild !== '') {
-
-            console.log("CHilsssssss "+referredChild);
             obs.observations.push({ concept_id: 9430, value_text: referredChild });
 
         }
