@@ -400,10 +400,10 @@
        
         }
 
-        if(partnerStatus !== '') {
+        // if(partnerStatus !== '') {
 
-            obs.observations.push({ concept_id: 3082, value_coded: partnerStatusAnswer });
-            }
+        //     obs.observations.push({ concept_id: 3082, value_coded: partnerStatusAnswer });
+        //     }
 
         if( maleCondoms !== '') {
             obs.observations.push({ concept_id: 7858, value_text: maleCondoms });
@@ -417,20 +417,21 @@
             obs.observations.push({ concept_id: 6357, value_text: comment });
         }
         
-        if( refferedSpouse !== '') {
-            obs.observations.push({ concept_id: 9430, value_text: refferedSpouse });
-
+        if( refferedSpouse.length <= 1){
+            refferedSpouse.forEach(element => {
+                obs.observations.push({ concept_id: 9430, value_text: element });
+            });
         }
-        if( referredChild !== '') {
-            obs.observations.push({ concept_id: 9430, value_text: referredChild });
+        // if( referredChild !== '') {
+        //     obs.observations.push({ concept_id: 9430, value_text: referredChild });
 
-        }
+        // }
 
-        if( referredOther !== '') {
+        // if( referredOther !== '') {
 
-            obs.observations.push({ concept_id: 9430, value_text: referredOther });
+        //     obs.observations.push({ concept_id: 9430, value_text: referredOther });
 
-        }
+        // }
 
         submitParameters(obs, "/observations", "nextPage")
     }

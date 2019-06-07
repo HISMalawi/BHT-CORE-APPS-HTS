@@ -487,6 +487,7 @@ div.dataTables_wrapper {
                 </div>
             </td>
             <td class="td" style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); font-size: 12px; vertical-align: bottom;" rowspan="2" class="boldRight 13">Appointment<br>Date Given
+            
             </td>
             <td class="td"  style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); vertical-align: bottom; font-size: 12px;" rowspan="2" class="boldRight 14" align="center"><i>1 Slip for each<br>partner + each<br>U5 child with<br>unk.status</i>
             </td>
@@ -528,7 +529,7 @@ div.dataTables_wrapper {
           <button id="btnNext" class="green right" onclick="location='/';">
             <span>Finish</span>
           </button>
-          <button id="save" class="blue right" onclick="location='/';">
+          <button id="save" class="blue right" onmousedown="postHtsVisit();">
             <span>Save</span>
           </button>
         </div>
@@ -589,7 +590,6 @@ var url_string = window.location;
         }
     }
     var dob_months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
     function decrementYear(){
         var value = parseInt(__$("dateselector_year").value);
         __$("dateselector_year").value = value - 0001;
@@ -621,12 +621,38 @@ var url_string = window.location;
 
 
     }
-    function saveApgar(apgarScore,minute){
-        if(minute == 'one'){
-            apgar_first_minute = apgarScore;
-        }else{
-            apgar_fifth_minute = apgarScore;
-        }
+
+
+    function postHtsVisit() {
+        var currentTime = moment().format(' HH:mm:ss');
+        var encounter_datetime = moment(sessionStorage.sessionDate).format('YYYY-MM-DD');
+        encounter_datetime += currentTime;
+
+        var encounter = {
+            encounter_type_name: 'HIV Testing',
+            encounter_type_id:  146,
+            patient_id: sessionStorage.patientID,
+            encounter_datetime: encounter_datetime
+        };
+
+        submitParameters(encounter, "/encounters", "postHtsVisitObs");
+    }
+    
+    function postHtsVisitObs(encounter){
+        var obs = {
+            encounter_id: encounter["encounter_id"],
+            observations: [
+                
+                    ]
+        };
+        submitParameters(obs, "/observations", "nextPage")
+
+    }
+    
+    function nextPage(){
+
+    nextEncounter(sessionStorage.patientID, sessionStorage.programID);
+
     }
 
 </script>

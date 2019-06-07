@@ -4,9 +4,9 @@ var tr_other;
 var td_child;
 var testResultOne ="";
 var testResultTwo = "";
-var refferedSpouse;
-var referredChild;
-var referredOther;
+var refferedSpouse = [];
+var referredChild = [];
+var referredOther = [];
 var script = document.createElement('script');
 script.src = '/assets/js/jquery.min.js';
 script.type = 'text/javascript';
@@ -261,7 +261,7 @@ function buildReferralSlips(){
             spouse_td.id = "tdticked"+i;
             spouse_span.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>";
             spouse_td.textContent = "Spouse "+i;
-            refferedSpouse = "Spouse"+i;
+            refferedSpouse.push("Spouse");
             addSpouse(i);       
         }
         else if(spouse_span.id == "ticked"+i){
@@ -269,7 +269,7 @@ function buildReferralSlips(){
             var span_id = "unticked"+k;
             var td_id = "tdunticked"+k;
             var rm_span_spouse = document.getElementById(span_id);
-            refferedSpouse = " ";
+            refferedSpouse.pop();
             if(rm_span_spouse != null){
           
              rm_span_spouse.style.display = 'none'; 
@@ -316,7 +316,7 @@ function buildReferralSlips(){
             child_td.id = "tdticked"+i;
             child_span.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>";
             child_td.textContent = "Child "+i;
-            referredChild = "Child"+i;
+            referredChild.push("Child");
             addChild(i);
         }
         else if(child_span.id == "ticked"+i){
@@ -324,7 +324,7 @@ function buildReferralSlips(){
             var span_id = "unticked"+k;
             var td_id = "tdunticked"+k;
             var rm_span_child = document.getElementById(span_id);
-            referredChild = " ";
+            referredChild.pop();
             if(rm_span_child != null){
           
             rm_span_child.style.display = 'none'; 
@@ -374,7 +374,7 @@ function buildReferralSlips(){
             td_other.id = "tdticked"+i;
             span_other.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>";
             td_other.textContent = "Other "+i;
-            referredOther = "Other"+i;
+            referredOther.push("Other");
             addOther(i);
         }
         else if(span_other.id == "ticked"+i){
@@ -382,7 +382,7 @@ function buildReferralSlips(){
             var span_id = "unticked"+k;
             var td_id = "tdunticked"+k;
             var rm_span = document.getElementById(span_id);
-            referredOther = " ";
+            referredOther.pop();
             if(rm_span != null){
           
             rm_span.style.display = 'none'; 
@@ -485,18 +485,21 @@ function addSpouse(i){
     td_spouse2.style.fontSize = "2.1em";
     td_spouse2.id = "tdunticked"+i;
     tr_spouse.appendChild(td_spouse2);
+   
     span_spouse2.onclick = function () {  
         if(span_spouse2.id == "unticked"+i){
             span_spouse2.innerHTML = "<img src='/public/touchscreentoolkit/lib/images/ticked.jpg' class='mark'>"; 
             addSpouse(i);
             span_spouse2.id = "ticked"+i;
             td_spouse2.id = "tdticked"+i;
+            refferedSpouse.push("Spouse"+i);
         }
         else if(span_spouse2.id == "ticked"+i){
             var k = i+ 1;
             var span_id = "unticked"+k;
             var td_id = "tdunticked"+k;
             var rm_span_spouse = document.getElementById(span_id);
+            refferedSpouse.pop();
             if(rm_span_spouse != null){
           
             rm_span_spouse.style.display = 'none'; 
@@ -538,12 +541,14 @@ function addChild(i){
             addChild(i);
             span_child2.id = "ticked"+i;
             td_child2.id = "tdticked"+i;
+            referredChild.push("Child"+i);
         }
         else if(span_child2.id == "ticked"+i){
             var k = i+ 1;
             var span_id = "unticked"+k;
             var td_id = "tdunticked"+k;
             var rm_span_child = document.getElementById(span_id);
+            referredChild.pop();
             if(rm_span_child != null){
           
              rm_span_child.style.display = 'none'; 
@@ -583,12 +588,14 @@ function addOther(i){
             addOther(i);
             span_other2.id = "ticked"+i;
             td_other2.id = "tdticked"+i;
+            referredOther.push("Other"+i);
         }
         else if(span_other2.id == "ticked"+i){
             var k = i+ 1;
             var span_id = "unticked"+k;
             var td_id = "tdunticked"+k;
             var rm_span = document.getElementById(span_id);
+            referredOther.pop();
             if(rm_span != null){
           
             rm_span.style.display = 'none'; 
