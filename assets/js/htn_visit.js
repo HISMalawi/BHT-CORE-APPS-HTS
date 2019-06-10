@@ -439,6 +439,7 @@ function buildReferralSlips(){
         spouse_span.id = "unticked"+i;
         spouse_td.id = "tdunticked"+i;
         spouse_td.textContent = "Spouse";
+        refferedSpouse = [];
         //Uncheck Child
        var child = document.getElementById('child');
         while (child.childNodes.length > 2) {
@@ -448,6 +449,7 @@ function buildReferralSlips(){
         child_span.id = "unticked"+i;
         child_td.id = "tdunticked"+i;
         child_td.textContent = "Child";
+        referredChild = [];
         //Uncheck Other
         var other = document.getElementById('other');
         while (other.childNodes.length > 2) {
@@ -457,6 +459,7 @@ function buildReferralSlips(){
         span_other.id = "unticked"+i;
         td_other.id = "tdunticked"+i;
         td_other.textContent = "Other";
+        referredOther = [];
     }
 
 

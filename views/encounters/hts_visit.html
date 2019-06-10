@@ -367,6 +367,7 @@
             default:
                 break;
         }
+        
         var obs = {
             encounter_id: encounter["encounter_id"],
             observations: [
@@ -413,26 +414,26 @@
             obs.observations.push({ concept_id: 7859, value_text: femaleCondoms });
         }
 
-        if( comment !== '') {
-            obs.observations.push({ concept_id: 6357, value_text: comment });
-        }
-        
         if( refferedSpouse.length <= 1){
             refferedSpouse.forEach(element => {
                 obs.observations.push({ concept_id: 9430, value_text: element });
             });
         }
-        // if( referredChild !== '') {
-        //     obs.observations.push({ concept_id: 9430, value_text: referredChild });
+        if( referredChild.length <= 1){
+            referredChild.forEach(element => {
+                obs.observations.push({ concept_id: 9430, value_text: element });
+            });
+        }
+        if( referredOther.length <= 1){
+            referredOther.forEach(element => {
+                obs.observations.push({ concept_id: 9430, value_text: element });
+            });
+        }
 
-        // }
-
-        // if( referredOther !== '') {
-
-        //     obs.observations.push({ concept_id: 9430, value_text: referredOther });
-
-        // }
-
+        if( comment !== '') {
+            obs.observations.push({ concept_id: 6357, value_text: comment });
+        }
+        
         submitParameters(obs, "/observations", "nextPage")
     }
 

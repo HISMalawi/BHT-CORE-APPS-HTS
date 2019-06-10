@@ -625,7 +625,7 @@ var url_string = window.location;
 
     function postHtsVisit() {
         var currentTime = moment().format(' HH:mm:ss');
-        var encounter_datetime = moment(sessionStorage.sessionDate).format('YYYY-MM-DD');
+        var encounter_datetime = node_date;
         encounter_datetime += currentTime;
 
         var encounter = {
@@ -639,12 +639,170 @@ var url_string = window.location;
     }
     
     function postHtsVisitObs(encounter){
+
+        
+        
+        var conceptAnswers = [
+
+            /*Access type*/
+            {
+            "pitc": 9429,
+            "refferalSlip":9430,
+            "other": 6408
+            },      
+     
+            {
+                "spouse": 5617,
+                "parent": 2173,
+                "other": 6408
+            },
+            /*Last HIV Test*/
+            {
+                "neverTested": 9432,
+                "lastNegative": 9433,
+                "lastPositive": 9434,
+                "lastInconclusive": 9436,
+                "lastInfant":9435
+            },
+            /*Client risk*/
+            {
+                "lowRisk": 9437,
+                "OngoingRisk": 9749,
+                "highRisk": 9438,
+                "riskAssess": 9439
+            },
+            
+             /*Partner status*/
+             {
+                "noPartner": 1914,
+                "hivUnknown": 9750,
+                "partnerNegative": 9751,
+                "partnerPositive": 5566           
+            },
+            /*Sex/Pregnancy*/
+            {
+                "male": 2843,
+                "female":2844           
+            },  
+            /*Pregnant*/
+            {
+                "yes": 1065,
+                "no": 1066
+            },  
+        ];
+        var hivAccessAnswer;
+        var refferedSlipAnswer;
+        var hivTestAnswer;
+        var clientRiskAnswer;
+        var pregnantAnswer;
+        var partnerStatusAnswer;
+        var clientConscentAnswer;
+        
+        switch (node_access_type) {
+            case 'PITC':
+                hivAccessAnswer = conceptAnswers[0].pitc;
+                break;
+            case 'FRS':
+                hivAccessAnswer = conceptAnswers[0].refferalSlip;
+                break;
+            case 'Oth':
+                hivAccessAnswer = conceptAnswers[0].other;
+                break;
+            default:
+                break;
+        }
+        // switch (refferedSlip.toUpperCase()) {
+        //     case 'SPOUSE/SEXUAL PARTNER':
+        //         refferedSlipAnswer = conceptAnswers[1].spouse;
+        //         break;
+        //     case 'PARENT':
+        //         refferedSlipAnswer = conceptAnswers[1].parent;
+        //         break;
+        //     case 'OTHER':
+        //         refferedSlipAnswer = conceptAnswers[1].other;
+        //         break;
+        //     default:
+        //         break;
+        // }
+        switch (node_ltest) {
+            case 'LNev':
+                hivTestAnswer = conceptAnswers[2].neverTested;
+                break;
+            case 'L-':
+                hivTestAnswer = conceptAnswers[2].lastNegative;
+                break;
+            case 'L+':
+                hivTestAnswer = conceptAnswers[2].lastPositive;
+                break;
+            case 'LEx':
+                hivTestAnswer = conceptAnswers[2].lastInconclusive;
+                break;
+            case 'LIn':
+                hivTestAnswer = conceptAnswers[2].lastInfant;
+                break;
+            default:
+                break;
+        }
+        switch (node_client_risk) {
+            case 'Low':
+                clientRiskAnswer = conceptAnswers[3].lowRisk;
+                break;
+            case 'Ong':
+                clientRiskAnswer = conceptAnswers[3].OngoingRisk;
+                break;
+            case 'HI':
+                clientRiskAnswer = conceptAnswers[3].highRisk;
+                break;
+            case 'ND':
+                clientRiskAnswer = conceptAnswers[3].riskAssess;
+            break;
+            default:
+                break;
+        }
+        switch (node_partner_status) {
+            case 'NoP':
+                partnerStatusAnswer = conceptAnswers[4].noPartner;
+                break;
+            case 'P?':
+                partnerStatusAnswer = conceptAnswers[4].hivUnknown;
+                break;
+            case 'P-':
+                partnerStatusAnswer = conceptAnswers[4].partnerNegative;
+                break;
+            case 'P+':
+                partnerStatusAnswer = conceptAnswers[4].partnerPositive;
+                break;
+            default:
+                break;
+        }
+        switch (pregnant.toUpperCase()) {
+            case 'NO':
+                pregnantAnswer = conceptAnswers[5].no;
+                break;
+            case 'YES':
+                pregnantAnswer = conceptAnswers[5].yes;
+                break;
+            default:
+                break;
+        }
+
         var obs = {
             encounter_id: encounter["encounter_id"],
             observations: [
-                
-                    ]
+
+                { concept_id: 9428, value_coded: hivAccessAnswer },
+                { concept_id: 9656, value_coded: hivTestAnswer },
+                { concept_id: 9427, value_coded: clientRiskAnswer },
+                { concept_id: 3082, value_coded: partnerStatusAnswer },
+                { concept_id: 3082, value_coded: partnerStatusAnswer},
+                { concept_id: 3082, value_coded: partnerStatusAnswer},
+                { concept_id: 3082, value_coded: partnerStatusAnswer},
+                { concept_id: 3082, value_coded: partnerStatusAnswer},
+                { concept_id: 3082, value_coded: partnerStatusAnswer},
+                { concept_id: 3082, value_coded: partnerStatusAnswer}      
+            ]
         };
+
         submitParameters(obs, "/observations", "nextPage")
 
     }

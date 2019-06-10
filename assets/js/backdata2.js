@@ -193,8 +193,8 @@ function addRow(){
      var div_hts_type = document.createElement("div");
      div_hts_type.className = "normal";
      div_hts_type.id = "htstype"+k;
-     var node_test_two = document.createTextNode(name);
-     div_hts_type.appendChild(node_test_two);
+     var node_access_type = document.createTextNode(name);
+     div_hts_type.appendChild(node_access_type);
      td1_hts_type.appendChild(div_hts_type);
      
      new_row.appendChild(td1_hts_type);
@@ -205,21 +205,27 @@ function addRow(){
               $j('#htstype1').addClass("circled");
               $j('#htstype2').removeClass("circled");
               $j('#htstype3').removeClass("circled");
+              node_access_type = "PITC";
+              console.log(node_access_type);
                break;
              case "htstype2":
              $j('#htstype2').addClass("circled");
              $j('#htstype1').removeClass("circled");
              $j('#htstype3').removeClass("circled");
+             node_access_type = "FRS";
+             console.log(node_access_type);
                break;
              case "htstype3":
              $j('#htstype3').addClass("circled");
              $j('#htstype1').removeClass("circled");
              $j('#htstype2').removeClass("circled");
+             node_access_type = "Oth";
+             console.log(node_access_type); 
                  break;
              default:
            } 
      };  } 
-    
+  //  console.log(node_access_type.nodeValue);
      // LAst HIV Test
      var ltest = ["LNev","L-", "L+", "LEx","LIn"];
      var k =0;
@@ -250,6 +256,7 @@ function addRow(){
                  $j('#ltest3').removeClass("circled");
                  $j('#ltest4').removeClass("circled");
                  $j('#ltest5').removeClass("circled");
+                 node_ltest = "LNEv";
                   break;
                 case "ltest2":
                 $j('#ltest2').addClass("circled");
@@ -257,6 +264,7 @@ function addRow(){
                 $j('#ltest3').removeClass("circled");
                 $j('#ltest4').removeClass("circled");
                 $j('#ltest5').removeClass("circled");
+                node_ltest = "L-";
                   break;
                 case "ltest3":
                 $j('#ltest3').addClass("circled");
@@ -264,6 +272,7 @@ function addRow(){
                 $j('#ltest2').removeClass("circled");
                 $j('#ltest4').removeClass("circled");
                 $j('#ltest5').removeClass("circled");
+                node_ltest = "L+";
                   break;
                 case "ltest4":
                 $j('#ltest4').addClass("circled");
@@ -271,6 +280,7 @@ function addRow(){
                 $j('#ltest2').removeClass("circled");
                 $j('#ltest3').removeClass("circled");
                 $j('#ltest5').removeClass("circled");
+                node_ltest = "LEx";
                 break;
                 case "ltest5":
                 $j('#ltest5').addClass("circled");
@@ -278,6 +288,7 @@ function addRow(){
                 $j('#ltest2').removeClass("circled");
                 $j('#ltest4').removeClass("circled");
                 $j('#ltest3').removeClass("circled");
+                node_ltest = "LIn";
                     break;
                 default:
               } 
@@ -317,8 +328,8 @@ function addRow(){
     var div_partner = document.createElement("div");
     div_partner.className = "normal";
     div_partner.id = "partner"+k;
-    var node_ltest = document.createTextNode(name);
-    div_partner.appendChild(node_ltest);
+    var node_partner = document.createTextNode(name);
+    div_partner.appendChild(node_partner);
     td1_partner.appendChild(div_partner);
     
     new_row.appendChild(td1_partner);
@@ -327,10 +338,12 @@ function addRow(){
             case "partner1":
              $j('#partner1').addClass("circled");
              $j('#partner2').removeClass("circled");
+             node_partner = "N";
               break;
             case "partner2":
             $j('#partner2').addClass("circled");
             $j('#partner1').removeClass("circled");
+            node_partner = "Y";
               break;
             default:
           } 
@@ -352,8 +365,8 @@ function addRow(){
     var div_test = document.createElement("div");
     div_test.className = "normal";
     div_test.id = "test"+k;
-    var node_test = document.createTextNode(name);
-    div_test.appendChild(node_test);
+    var node_test_one = document.createTextNode(name);
+    div_test.appendChild(node_test_one);
     td1_test.appendChild(div_test);
     
     new_row.appendChild(td1_test);
@@ -363,10 +376,12 @@ function addRow(){
             case "test1":
              $j('#test1').addClass("circled");
              $j('#test2').removeClass("circled");
+             node_test_one = "-";
               break;
             case "test2":
             $j('#test2').addClass("circled");
             $j('#test1').removeClass("circled");
+            node_test_one = "+";
               break;
             default:
           } 
@@ -399,10 +414,12 @@ function addRow(){
             case "testtwo1":
              $j('#testtwo1').addClass("circled");
              $j('#testtwo2').removeClass("circled");
+             node_test_two = "-";
               break;
             case "testtwo2":
             $j('#testtwo2').addClass("circled");
             $j('#testtwo1').removeClass("circled");
+            node_test_two = "+";
               break;
             default:
           } 
@@ -434,10 +451,12 @@ function addRow(){
             case "testthree1":
             $j('#testthree1').addClass("circled");
             $j('#testthree2').removeClass("circled");
+            node_test_one = "-";
             break;
             case "testthree2":
             $j('#testthree2').addClass("circled");
             $j('#testthree1').removeClass("circled");
+            node_test_one = "+";
             break;
             default:
         } 
@@ -469,10 +488,12 @@ function addRow(){
             case "testfour1":
             $j('#testfour1').addClass("circled");
             $j('#testfour2').removeClass("circled");
+            node_test_two = "-";
             break;
             case "testfour2":
             $j('#testfour2').addClass("circled");
             $j('#testfour1').removeClass("circled");
+            node_test_two = "+";
             break;
             default:
         } 
@@ -540,7 +561,7 @@ function addRow(){
                 default:
             } 
         };    }  
- // Results
+ // Results given to client
     k=0;
     var result = ["N-","N+", "NEx", "NIN","C+", "CIn"];
     for (var i = 0; i < result.length; i++) {
@@ -571,6 +592,7 @@ function addRow(){
                 $j('#result4').removeClass("circled");
                 $j('#result5').removeClass("circled");
                 $j('#result6').removeClass("circled");
+                node_result = "N-"
                 break;
                 case "result2":
                 $j('#result2').addClass("circled");
@@ -579,6 +601,7 @@ function addRow(){
                 $j('#result4').removeClass("circled");
                 $j('#result5').removeClass("circled");
                 $j('#result6').removeClass("circled");
+                node_result = "N+";
                 break;
                 case "result3":
                 $j('#result3').addClass("circled");
@@ -587,6 +610,7 @@ function addRow(){
                 $j('#result4').removeClass("circled");
                 $j('#result5').removeClass("circled");
                 $j('#result6').removeClass("circled");
+                node_result = "NEx";
                     break;
                 case "result4":
                 $j('#result4').addClass("circled");
@@ -595,6 +619,7 @@ function addRow(){
                 $j('#result2').removeClass("circled");
                 $j('#result5').removeClass("circled");
                 $j('#result6').removeClass("circled");
+                node_result = "NIN";
                 break;
                 case "result5":
                 $j('#result5').addClass("circled");
@@ -603,6 +628,7 @@ function addRow(){
                 $j('#result4').removeClass("circled");
                 $j('#result2').removeClass("circled");
                 $j('#result6').removeClass("circled");
+                node_result = "C+";
                 break;
                 case "result6":
                 $j('#result6').addClass("circled");
@@ -611,6 +637,7 @@ function addRow(){
                 $j('#result4').removeClass("circled");
                 $j('#result5').removeClass("circled");
                 $j('#result2').removeClass("circled");
+                node_result = "CIn";
                 break;
                 default:
             } 
@@ -633,8 +660,8 @@ function addRow(){
     var div_partner_status = document.createElement("div");
     div_partner_status.className = "normal";
     div_partner_status.id = "partnerstatus"+k;
-    var node_test_two = document.createTextNode(name);
-    div_partner_status.appendChild(node_test_two);
+    var node_partner_status = document.createTextNode(name);
+    div_partner_status.appendChild(node_partner_status);
     td1_partner_status.appendChild(div_partner_status);
     
     new_row.appendChild(td1_partner_status);
@@ -646,24 +673,28 @@ function addRow(){
              $j('#partnerstatus2').removeClass("circled");
              $j('#partnerstatus3').removeClass("circled");
              $j('#partnerstatus4').removeClass("circled");
+             node_partner_status = "NoP";
               break;
             case "partnerstatus2":
             $j('#partnerstatus2').addClass("circled");
              $j('#partnerstatus1').removeClass("circled");
              $j('#partnerstatus3').removeClass("circled");
              $j('#partnerstatus4').removeClass("circled");
+             node_partner_status = "P?";
               break;
             case "partnerstatus3":
             $j('#partnerstatus3').addClass("circled");
             $j('#partnerstatus1').removeClass("circled");
             $j('#partnerstatus2').removeClass("circled");
             $j('#partnerstatus4').removeClass("circled");
+            node_partner_status = "P-";
                 break;
             case "partnerstatus4":
             $j('#partnerstatus4').addClass("circled");
             $j('#partnerstatus1').removeClass("circled");
             $j('#partnerstatus2').removeClass("circled");
             $j('#partnerstatus3').removeClass("circled");
+            node_partner_status = "P+";
                 break;
             default:
           } 
@@ -685,8 +716,8 @@ function addRow(){
       var div_client_risk = document.createElement("div");
       div_client_risk.className = "normal";
       div_client_risk.id = "clientrisk"+k;
-      var node_test_two = document.createTextNode(name);
-      div_client_risk.appendChild(node_test_two);
+      var node_client_risk = document.createTextNode(name);
+      div_client_risk.appendChild(node_client_risk);
       td1_client_risk.appendChild(div_client_risk);
       
       new_row.appendChild(td1_client_risk);
@@ -698,24 +729,28 @@ function addRow(){
                $j('#clientrisk2').removeClass("circled");
                $j('#clientrisk3').removeClass("circled");
                $j('#clientrisk4').removeClass("circled");
+               node_client_risk = "Low";
                 break;
               case "clientrisk2":
               $j('#clientrisk2').addClass("circled");
                $j('#clientrisk1').removeClass("circled");
                $j('#clientrisk3').removeClass("circled");
                $j('#clientrisk4').removeClass("circled");
+               node_client_risk = "Ong";
                 break;
               case "clientrisk3":
               $j('#clientrisk3').addClass("circled");
               $j('#clientrisk1').removeClass("circled");
               $j('#clientrisk2').removeClass("circled");
               $j('#clientrisk4').removeClass("circled");
+              node_client_risk = "HI";
                   break;
               case "clientrisk4":
               $j('#clientrisk4').addClass("circled");
               $j('#clientrisk1').removeClass("circled");
               $j('#clientrisk2').removeClass("circled");
               $j('#clientrisk3').removeClass("circled");
+              node_client_risk = "ND";
                   break;
               default:
             } 
@@ -749,6 +784,7 @@ function addRow(){
                $j('#refferal1').addClass("circled");
                $j('#refferal2').removeClass("circled");
                $j('#refferal3').removeClass("circled");
+
                 break;
               case "refferal2":
               $j('#refferal2').addClass("circled");
@@ -762,7 +798,9 @@ function addRow(){
                   break;
               default:
             } 
-      };  }  
+      };  
+   
+    }  
 
       //Appointment given
       var td_appointment = document.createElement("td");
