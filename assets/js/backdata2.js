@@ -11,6 +11,7 @@
  var node_female_condom, node_male_condom, node_family_slip;
  var age,time,hts_date,appointment, provider,comment,family_slip,male,female;
  var ageValue;
+ var patientGender;
 function addRow(){
     var table = document.getElementById("backdata");
    
@@ -95,18 +96,21 @@ function addRow(){
              $j('#sex2').removeClass("circled");
              $j('#sex3').removeClass("circled");
              node_gender = "M";
+             patientGender = "Male";
               break;
             case "sex2":
             $j('#sex2').addClass("circled");
             $j('#sex1').removeClass("circled");
             $j('#sex3').removeClass("circled");
             node_gender = "FNP";
+            patientGender = "Female";
               break;
             case "sex3":
             $j('#sex3').addClass("circled");
             $j('#sex1').removeClass("circled");
             $j('#sex2').removeClass("circled");
             node_gender = "FP";
+            patientGender = "Female";
                 break;
             default:
           } 
@@ -2302,3 +2306,47 @@ function showNumber(id){
         } 
 
 }
+
+//CREATING PATIENT 
+function createClient() {
+    var summary_table = document.getElementsByClassName('summary-table')[0];
+    var rows = summary_table.getElementsByTagName('tr');
+
+    var parametersPassed = {
+        given_name: "Dummy", family_name: "Patient",
+        gender: patientGender, birthdate: "N/A", birthdate_estimated: "N/A",
+        home_district: "N/A", home_traditional_authority: "N/A", home_village: "N/A",
+        current_district: "N/A", current_traditional_authority: "N/A", current_village: "N/A",
+        landmark: "N/A", cell_phone_number: "N/A", relationship: "N/A", patient_type: "N/A", facility_name: "N/A"
+    }
+
+
+    postClientParamaters(parametersPassed);
+}
+
+    function postClientParamaters(parametersPassed) {
+        var url = apiProtocol + '://' + apiURL + ':' + apiPort + '/api/v1/people';
+        if (parametersPassed.birthdate_estimated === "Yes") {
+            parametersPassed.birthdate_estimated = 1;
+        }else {
+            parametersPassed.birthdate_estimated = 0;
+        }
+        var parametersPassed = JSON.stringify(parametersPassed);
+        showStatus();
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 201) {
+                var obj = JSON.parse(this.responseText);
+                createPatient(obj['person_id']);
+
+                // submitPatienttype(obj['person_id']);
+            }
+        };
+        xhttp.open("POST", url, true);
+        xhttp.setRequestHeader('Authorization', sessionStorage.getItem("authorization"));
+        xhttp.setRequestHeader('Content-type', "application/json");
+        xhttp.send(parametersPassed);
+
+    }
+
