@@ -556,6 +556,7 @@ var url_string = window.location;
     var month = moment().month(testMonth-1).format("MMM");
     var new_date = testDay + " " + month + " " + testYear;
 
+
     //current date
     var dateObj = new Date();
     locale = "en-us";
@@ -644,7 +645,7 @@ var url_string = window.location;
         
         var conceptAnswers = [
 
-            /*Access type*/
+            /*Access type 1*/
             {
             "pitc": 9429,
             "refferalSlip":9430,
@@ -656,7 +657,7 @@ var url_string = window.location;
                 "parent": 2173,
                 "other": 6408
             },
-            /*Last HIV Test*/
+            /*Last HIV Test 2*/
             {
                 "neverTested": 9432,
                 "lastNegative": 9433,
@@ -664,7 +665,7 @@ var url_string = window.location;
                 "lastInconclusive": 9436,
                 "lastInfant":9435
             },
-            /*Client risk*/
+            /*Client risk 3*/
             {
                 "lowRisk": 9437,
                 "OngoingRisk": 9749,
@@ -672,32 +673,72 @@ var url_string = window.location;
                 "riskAssess": 9439
             },
             
-             /*Partner status*/
+             /*Partner status 4*/
              {
                 "noPartner": 1914,
                 "hivUnknown": 9750,
                 "partnerNegative": 9751,
                 "partnerPositive": 5566           
+            }, 
+            /*Pregnant 5*/
+            {
+                "yes": 1065,
+                "no": 1066
             },
-            /*Sex/Pregnancy*/
+            /*Sex/Pregnancy 6*/
             {
                 "male": 2843,
                 "female":2844           
             },  
-            /*Pregnant*/
+            /*Age group 7*/
             {
-                "yes": 1065,
-                "no": 1066
-            },  
+                "elevenMonths": 9769,
+                "fourteenYears": 9770,
+                "twentyFourYears": 9768,
+                "twentyFiveYears": 9771
+            }, 
+             /*Hiv status 8*/
+             {
+                "negative": 664,
+                "positive": 703
+            },
+            // Outcome result 9
+            {
+                "negativeOneTwo": 9781,
+                "positiveOneTwo": 9782,
+                "discOneTwo": 9780
+            },
+            // Result  given to client
+            {
+                "newNegative": 9773,
+                "newPositive": 9774,
+                "newInconclusive": 9775,
+                "confPositive": 9776,
+                "inconclusive": 9777,
+                "newExposedInfant": 9783
+            },
+            // Refferal re testing
+            {
+                "NoT": 9778,
+                "ReT": 9762,
+                "CT":7877
+            }
         ];
         var hivAccessAnswer;
         var refferedSlipAnswer;
         var hivTestAnswer;
         var clientRiskAnswer;
         var pregnantAnswer;
+        var partnerAnswer;
         var partnerStatusAnswer;
         var clientConscentAnswer;
-        
+        var ageGroupAnswer;
+        var genderAnswer = ' ';
+        var outcomeAnswer;
+        var testOne;
+        var testTwo;
+        var resultAnswer;
+        var reTestingAnswer;
         switch (node_access_type) {
             case 'PITC':
                 hivAccessAnswer = conceptAnswers[0].pitc;
@@ -708,22 +749,7 @@ var url_string = window.location;
             case 'Oth':
                 hivAccessAnswer = conceptAnswers[0].other;
                 break;
-            default:
-                break;
         }
-        // switch (refferedSlip.toUpperCase()) {
-        //     case 'SPOUSE/SEXUAL PARTNER':
-        //         refferedSlipAnswer = conceptAnswers[1].spouse;
-        //         break;
-        //     case 'PARENT':
-        //         refferedSlipAnswer = conceptAnswers[1].parent;
-        //         break;
-        //     case 'OTHER':
-        //         refferedSlipAnswer = conceptAnswers[1].other;
-        //         break;
-        //     default:
-        //         break;
-        // }
         switch (node_ltest) {
             case 'LNev':
                 hivTestAnswer = conceptAnswers[2].neverTested;
@@ -740,8 +766,6 @@ var url_string = window.location;
             case 'LIn':
                 hivTestAnswer = conceptAnswers[2].lastInfant;
                 break;
-            default:
-                break;
         }
         switch (node_client_risk) {
             case 'Low':
@@ -756,8 +780,6 @@ var url_string = window.location;
             case 'ND':
                 clientRiskAnswer = conceptAnswers[3].riskAssess;
             break;
-            default:
-                break;
         }
         switch (node_partner_status) {
             case 'NoP':
@@ -772,36 +794,154 @@ var url_string = window.location;
             case 'P+':
                 partnerStatusAnswer = conceptAnswers[4].partnerPositive;
                 break;
-            default:
-                break;
         }
-        switch (pregnant.toUpperCase()) {
-            case 'NO':
+        switch (node_gender) {
+            case 'M':
+                genderAnswer = conceptAnswers[6].male;
+                break;
+            case 'FNP':
+                genderAnswer = conceptAnswers[6].female;
                 pregnantAnswer = conceptAnswers[5].no;
                 break;
-            case 'YES':
+            case 'FP':
+                genderAnswer = conceptAnswers[6].female;
                 pregnantAnswer = conceptAnswers[5].yes;
+            break;
+        }
+        switch (node_age_group) {
+            case 'A':
+                ageGroupAnswer = conceptAnswers[7].elevenMonths;
                 break;
-            default:
+            case 'B':
+                ageGroupAnswer = conceptAnswers[7].fourteenYears;
+                break;
+            case 'C':
+                ageGroupAnswer = conceptAnswers[7].twentyFourYears;
+            break;
+            case 'D':
+                ageGroupAnswer = conceptAnswers[7].twentyFiveYears;
                 break;
         }
+        switch (node_test_one) {
+            case '-':
+                testOne = conceptAnswers[8].negative;
+                break;
+            case '+':
+                testOne = conceptAnswers[8].positive;
+                break;
+        }
+        switch (node_test_two) {
+            case '-':
+                testTwo = conceptAnswers[8].negative;
+                break;
+            case '+':
+                testTwo = conceptAnswers[8].positive;
+                break;
+        } 
+        switch (node_outcome) {
+            case '+':
+                outcomeAnswer = conceptAnswers[8].positive;
+                break;
+            case '-':
+                outcomeAnswer = conceptAnswers[8].negative;
+                break;
+            case '--':
+                outcomeAnswer = conceptAnswers[9].twentyFourYears;
+            break;
+            case '++':
+                outcomeAnswer = conceptAnswers[9].twentyFiveYears;
+                break;
+            case 'Disc':
+                outcomeAnswer = conceptAnswers[9].twentyFiveYears;
+            break;
+        }
+        ["N-","N+", "NEx", "NIN","C+", "CIn"]
+        switch (node_result) {
+            case 'N-':
+                resultAnswer = conceptAnswers[10].positive;
+                break;
+            case 'N+':
+                resultAnswer = conceptAnswers[10].negative;
+                break;
+            case 'NEx':
+                resultAnswer = conceptAnswers[10].twentyFourYears;
+            break;
+            case 'NIN':
+                resultAnswer = conceptAnswers[10].twentyFiveYears;
+                break;
+            case 'C+':
+                resultAnswer = conceptAnswers[10].twentyFiveYears;
+            break;
+            case 'CIn':
+                resultAnswer = conceptAnswers[10].twentyFiveYears;
+            break;
+        }
+        switch (node_refferal_retesting) {
+            case 'NoT':
+                reTestingAnswer = conceptAnswers[11].elevenMonths;
+                break;
+            case 'ReT':
+                reTestingAnswer = conceptAnswers[11].fourteenYears;
+                break;
+            case 'CT':
+                reTestingAnswer = conceptAnswers[11].twentyFourYears;
+            break;
+        }
+        switch (node_partner) {
+            case 'NO':
+                partnerAnswer = conceptAnswers[5].no;
+                break;
+            case 'YES':
+                partnerAnswer = conceptAnswers[5].yes;
+                break;
+        }
+        var node_age_value = node_age.nodeValue;
+        var regex = new RegExp('([0-9]+)|([WDMY]+)','g');
+        var splittedArray = node_age_value.match(regex);
 
+        var text = splittedArray[1];
+        var num = splittedArray[0];
+        switch (text) {
+            case 'W':
+               ageValue = num/52;
+                break;
+            case 'D':
+               ageValue = num/365;
+                break;
+            case 'M':
+             ageValue = num/12;
+            break;
+            case 'Y':
+                ageValue = num;
+                break;
+            default:
+             break;
+        }
+    
         var obs = {
             encounter_id: encounter["encounter_id"],
             observations: [
-
+                { concept_id: 8846, value_coded: genderAnswer},
+                { concept_id: 3467, value_text: ageValue}, //Age
+                { concept_id: 9753, value_coded: ageGroupAnswer},
                 { concept_id: 9428, value_coded: hivAccessAnswer },
                 { concept_id: 9656, value_coded: hivTestAnswer },
+                { concept_id: 9765, value_text: node_time },
+                { concept_id: 9761, value_coded: partnerAnswer}, 
+                { concept_id: 9754, value_coded: testOne },
+                { concept_id: 9755, value_coded: testTwo},
+                { concept_id: 9785, value_coded: testThree },
+                { concept_id: 9759, value_coded: testFour},
+                { concept_id: 6538, value_coded: outcomeAnswer},
+                { concept_id: 6538, value_coded: outcomeAnswer},
                 { concept_id: 9427, value_coded: clientRiskAnswer },
-                { concept_id: 3082, value_coded: partnerStatusAnswer },
-                { concept_id: 3082, value_coded: partnerStatusAnswer},
-                { concept_id: 3082, value_coded: partnerStatusAnswer},
-                { concept_id: 3082, value_coded: partnerStatusAnswer},
-                { concept_id: 3082, value_coded: partnerStatusAnswer},
-                { concept_id: 3082, value_coded: partnerStatusAnswer},
-                { concept_id: 3082, value_coded: partnerStatusAnswer}      
+                { concept_id: 3082, vlue_coded: partnerStatusAnswer}      
             ]
         };
+        if(pregnantAnswer !== '') {
+            
+            obs.observations.push({ concept_id: 6131, value_coded: pregnantAnswer });
+        }
 
         submitParameters(obs, "/observations", "nextPage")
 

@@ -10,6 +10,7 @@
  var node_time;
  var node_female_condom, node_male_condom, node_family_slip;
  var age,time,hts_date,appointment, provider,comment,family_slip,male,female;
+ var ageValue;
 function addRow(){
     var table = document.getElementById("backdata");
    
@@ -66,43 +67,46 @@ function addRow(){
 
     //Sex/Pregnancy
     
-    var sex = ["M","FNP","FP"];
+    var gender = ["M","FNP","FP"];
     var k =0;
-    for (var i = 0; i < sex.length; i++) {
+    for (var i = 0; i < gender.length; i++) {
     k++;
-    var name = sex[i];
-    var td1_sex = document.createElement("td");
+    var name = gender[i];
+    var td1_gender = document.createElement("td");
 
-    td1_sex.className = "bdcell";
-    td1_sex.id = "cell_6";
-    if(sex[i] == "FP"){
-        td1_sex.className = "bdcell boldRight";
+    td1_gender.className = "bdcell";
+    td1_gender.id = "cell_6";
+    if(gender[i] == "FP"){
+        td1_gender.className = "bdcell boldRight";
     }
-    var div_sex = document.createElement("div");
-    div_sex.className = "normal";
-    div_sex.id = "sex"+k;
-    var node_test_two = document.createTextNode(name);
-    div_sex.appendChild(node_test_two);
-    td1_sex.appendChild(div_sex);
+    var div_gender = document.createElement("div");
+    div_gender.className = "normal";
+    div_gender.id = "sex"+k;
+    var node_gender = document.createTextNode(name);
+    div_gender.appendChild(node_gender);
+    td1_gender.appendChild(div_gender);
     
-    new_row.appendChild(td1_sex);
+    new_row.appendChild(td1_gender);
 
-    div_sex.onclick = function () {  
+    div_gender.onclick = function () {  
         switch(this.id) {
             case "sex1":
              $j('#sex1').addClass("circled");
              $j('#sex2').removeClass("circled");
              $j('#sex3').removeClass("circled");
+             node_gender = "M";
               break;
             case "sex2":
             $j('#sex2').addClass("circled");
             $j('#sex1').removeClass("circled");
             $j('#sex3').removeClass("circled");
+            node_gender = "FNP";
               break;
             case "sex3":
             $j('#sex3').addClass("circled");
             $j('#sex1').removeClass("circled");
             $j('#sex2').removeClass("circled");
+            node_gender = "FP";
                 break;
             default:
           } 
@@ -141,8 +145,8 @@ function addRow(){
     var div_age_group = document.createElement("div");
     div_age_group.className = "normal";
     div_age_group.id = "agegroup"+k;
-    var node_test_two = document.createTextNode(name);
-    div_age_group.appendChild(node_test_two);
+    var node_age_group = document.createTextNode(name);
+    div_age_group.appendChild(node_age_group);
     td1_age_group.appendChild(div_age_group);
     
     new_row.appendChild(td1_age_group);
@@ -154,24 +158,28 @@ function addRow(){
              $j('#agegroup2').removeClass("circled");
              $j('#agegroup3').removeClass("circled");
              $j('#agegroup4').removeClass("circled");
+             node_age_group = "A";
               break;
             case "agegroup2":
             $j('#agegroup2').addClass("circled");
              $j('#agegroup1').removeClass("circled");
              $j('#agegroup3').removeClass("circled");
              $j('#agegroup4').removeClass("circled");
+             node_age_group = "B";
               break;
             case "agegroup3":
             $j('#agegroup3').addClass("circled");
             $j('#agegroup1').removeClass("circled");
             $j('#agegroup2').removeClass("circled");
             $j('#agegroup4').removeClass("circled");
+            node_age_group = "C";
                 break;
             case "agegroup4":
             $j('#agegroup4').addClass("circled");
             $j('#agegroup1').removeClass("circled");
             $j('#agegroup3').removeClass("circled");
             $j('#agegroup2').removeClass("circled");
+            node_age_group = "D";
                 break;
             default:
           } 
@@ -338,12 +346,12 @@ function addRow(){
             case "partner1":
              $j('#partner1').addClass("circled");
              $j('#partner2').removeClass("circled");
-             node_partner = "N";
+             node_partner = "NO";
               break;
             case "partner2":
             $j('#partner2').addClass("circled");
             $j('#partner1').removeClass("circled");
-            node_partner = "Y";
+            node_partner = "YES";
               break;
             default:
           } 
@@ -515,8 +523,8 @@ function addRow(){
         var div_outcome = document.createElement("div");
         div_outcome.className = "normal";
         div_outcome.id = "outcome"+k;
-        var node_ltest = document.createTextNode(name);
-        div_outcome.appendChild(node_ltest);
+        var node_outcome = document.createTextNode(name);
+        div_outcome.appendChild(node_outcome);
         td1_outcome.appendChild(div_outcome);
         
         new_row.appendChild(td1_outcome);
@@ -529,6 +537,7 @@ function addRow(){
                 $j('#outcome3').removeClass("circled");
                 $j('#outcome4').removeClass("circled");
                 $j('#outcome5').removeClass("circled");
+                node_outcome = "+";
                 break;
                 case "outcome2":
                 $j('#outcome2').addClass("circled");
@@ -536,6 +545,7 @@ function addRow(){
                 $j('#outcome3').removeClass("circled");
                 $j('#outcome4').removeClass("circled");
                 $j('#outcome5').removeClass("circled");
+                node_outcome = "-";
                 break;
                 case "outcome3":
                 $j('#outcome3').addClass("circled");
@@ -543,6 +553,7 @@ function addRow(){
                 $j('#outcome2').removeClass("circled");
                 $j('#outcome4').removeClass("circled");
                 $j('#outcome5').removeClass("circled");
+                node_outcome = "--";
                     break;
                 case "outcome4":
                 $j('#outcome4').addClass("circled");
@@ -550,6 +561,7 @@ function addRow(){
                 $j('#outcome3').removeClass("circled");
                 $j('#outcome2').removeClass("circled");
                 $j('#outcome5').removeClass("circled");
+                node_outcome = "++";
                 break;
                 case "outcome5":
                 $j('#outcome5').addClass("circled");
@@ -557,6 +569,7 @@ function addRow(){
                 $j('#outcome3').removeClass("circled");
                 $j('#outcome4').removeClass("circled");
                 $j('#outcome2').removeClass("circled");
+                node_outcome = "Disc";
                     break;
                 default:
             } 
@@ -772,8 +785,8 @@ function addRow(){
       var div_refferal = document.createElement("div");
       div_refferal.className = "normal";
       div_refferal.id = "refferal"+k;
-      var node_test_two = document.createTextNode(name);
-      div_refferal.appendChild(node_test_two);
+      var node_refferal_retesting = document.createTextNode(name);
+      div_refferal.appendChild(node_refferal_retesting);
       td1_refferal.appendChild(div_refferal);
       
       new_row.appendChild(td1_refferal);
@@ -784,17 +797,19 @@ function addRow(){
                $j('#refferal1').addClass("circled");
                $j('#refferal2').removeClass("circled");
                $j('#refferal3').removeClass("circled");
-
+               node_refferal_retesting = "NoT";
                 break;
               case "refferal2":
               $j('#refferal2').addClass("circled");
                $j('#refferal1').removeClass("circled");
                $j('#refferal3').removeClass("circled");
+               node_refferal_retesting = "ReT";
                 break;
               case "refferal3":
               $j('#refferal3').addClass("circled");
               $j('#refferal1').removeClass("circled");
               $j('#refferal2').removeClass("circled");
+              node_refferal_retesting = "CT";
                   break;
               default:
             } 
@@ -1824,6 +1839,7 @@ function showAge(id){
                                 var v = node_age.nodeValue;
                                 var str = "D";
                                 node_age.nodeValue = v + str;
+
                                     break;
                                 case "week":
                                 var v = node_age.nodeValue;
