@@ -623,6 +623,7 @@ var url_string = window.location;
 
     }
 
+    
 
     function postHtsVisit() {
         var currentTime = moment().format(' HH:mm:ss');
@@ -933,9 +934,15 @@ var url_string = window.location;
                 { concept_id: 9785, value_coded: testThree },
                 { concept_id: 9759, value_coded: testFour},
                 { concept_id: 6538, value_coded: outcomeAnswer},
-                { concept_id: 6538, value_coded: outcomeAnswer},
+                { concept_id: 9764, value_coded: resultAnswer},
+                { concept_id: 3082, vlue_coded: partnerStatusAnswer},      
                 { concept_id: 9427, value_coded: clientRiskAnswer },
-                { concept_id: 3082, vlue_coded: partnerStatusAnswer}      
+                { concept_id: 9762, value_coded: reTestingAnswer},
+                { concept_id: 5096, value_text: node_appointment },
+                { concept_id: 5096, value_text: node_family_slip },
+                { concept_id: 7858, value_text: node_male_condom },
+                { concept_id: 7859, value_text: node_female_condom },
+                { concept_id: 6357, value_text: node_comment }             
             ]
         };
         if(pregnantAnswer !== '') {
