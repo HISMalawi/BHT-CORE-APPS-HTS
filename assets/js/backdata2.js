@@ -6,8 +6,9 @@
  var node_date;
  var node_provider;
  var node_age;
- var node_appointment;
- var node_time;
+ var node_appointment,node_partner,node_test_three,node_test_four;
+ var node_time,node_test_one,node_test_two,node_outcome,node_result,node_refferal_retesting;
+ var node_access_type,node_ltest,node_client_risk,node_partner_status,node_gender,node_age_group;
  var node_female_condom, node_male_condom, node_family_slip;
  var age,time,hts_date,appointment, provider,comment,family_slip,male,female;
  var ageValue;
@@ -83,7 +84,7 @@ function addRow(){
     var div_gender = document.createElement("div");
     div_gender.className = "normal";
     div_gender.id = "sex"+k;
-    var node_gender = document.createTextNode(name);
+     node_gender = document.createTextNode(name);
     div_gender.appendChild(node_gender);
     td1_gender.appendChild(div_gender);
     
@@ -149,7 +150,7 @@ function addRow(){
     var div_age_group = document.createElement("div");
     div_age_group.className = "normal";
     div_age_group.id = "agegroup"+k;
-    var node_age_group = document.createTextNode(name);
+     node_age_group = document.createTextNode(name);
     div_age_group.appendChild(node_age_group);
     td1_age_group.appendChild(div_age_group);
     
@@ -205,7 +206,7 @@ function addRow(){
      var div_hts_type = document.createElement("div");
      div_hts_type.className = "normal";
      div_hts_type.id = "htstype"+k;
-     var node_access_type = document.createTextNode(name);
+      node_access_type = document.createTextNode(name);
      div_hts_type.appendChild(node_access_type);
      td1_hts_type.appendChild(div_hts_type);
      
@@ -254,7 +255,7 @@ function addRow(){
         var div_ltest = document.createElement("div");
         div_ltest.className = "normal";
         div_ltest.id = "ltest"+k;
-        var node_ltest = document.createTextNode(name);
+         node_ltest = document.createTextNode(name);
         div_ltest.appendChild(node_ltest);
         td1_ltest.appendChild(div_ltest);
     
@@ -340,7 +341,7 @@ function addRow(){
     var div_partner = document.createElement("div");
     div_partner.className = "normal";
     div_partner.id = "partner"+k;
-    var node_partner = document.createTextNode(name);
+     node_partner = document.createTextNode(name);
     div_partner.appendChild(node_partner);
     td1_partner.appendChild(div_partner);
     
@@ -377,7 +378,7 @@ function addRow(){
     var div_test = document.createElement("div");
     div_test.className = "normal";
     div_test.id = "test"+k;
-    var node_test_one = document.createTextNode(name);
+     node_test_one = document.createTextNode(name);
     div_test.appendChild(node_test_one);
     td1_test.appendChild(div_test);
     
@@ -415,7 +416,7 @@ function addRow(){
     var div_test_two = document.createElement("div");
     div_test_two.className = "normal";
     div_test_two.id = "testtwo"+k;
-    var node_test_two = document.createTextNode(name);
+     node_test_two = document.createTextNode(name);
     div_test_two.appendChild(node_test_two);
     td1_test_two.appendChild(div_test_two);
     
@@ -453,7 +454,7 @@ function addRow(){
     var div_test_three = document.createElement("div");
     div_test_three.className = "normal";
     div_test_three.id = "testthree"+k;
-    var node_test_three = document.createTextNode(name);
+     node_test_three = document.createTextNode(name);
     div_test_three.appendChild(node_test_three);
     td1_test_three.appendChild(div_test_three);
     
@@ -463,12 +464,12 @@ function addRow(){
             case "testthree1":
             $j('#testthree1').addClass("circled");
             $j('#testthree2').removeClass("circled");
-            node_test_one = "-";
+            node_test_three = "-";
             break;
             case "testthree2":
             $j('#testthree2').addClass("circled");
             $j('#testthree1').removeClass("circled");
-            node_test_one = "+";
+            node_test_three = "+";
             break;
             default:
         } 
@@ -489,7 +490,7 @@ function addRow(){
     var div_test_four = document.createElement("div");
     div_test_four.className = "normal";
     div_test_four.id = "testfour"+k;
-    var node_test_four = document.createTextNode(name);
+     node_test_four = document.createTextNode(name);
     div_test_four.appendChild(node_test_four);
     td1_test_four.appendChild(div_test_four);
     
@@ -500,12 +501,12 @@ function addRow(){
             case "testfour1":
             $j('#testfour1').addClass("circled");
             $j('#testfour2').removeClass("circled");
-            node_test_two = "-";
+            node_test_four = "-";
             break;
             case "testfour2":
             $j('#testfour2').addClass("circled");
             $j('#testfour1').removeClass("circled");
-            node_test_two = "+";
+            node_test_four = "+";
             break;
             default:
         } 
@@ -527,7 +528,7 @@ function addRow(){
         var div_outcome = document.createElement("div");
         div_outcome.className = "normal";
         div_outcome.id = "outcome"+k;
-        var node_outcome = document.createTextNode(name);
+         node_outcome = document.createTextNode(name);
         div_outcome.appendChild(node_outcome);
         td1_outcome.appendChild(div_outcome);
         
@@ -594,7 +595,7 @@ function addRow(){
         var div_result = document.createElement("div");
         div_result.className = "normal";
         div_result.id = "result"+k;
-        var node_result = document.createTextNode(name);
+         node_result = document.createTextNode(name);
         div_result.appendChild(node_result);
         td1_result.appendChild(div_result);
         
@@ -677,7 +678,7 @@ function addRow(){
     var div_partner_status = document.createElement("div");
     div_partner_status.className = "normal";
     div_partner_status.id = "partnerstatus"+k;
-    var node_partner_status = document.createTextNode(name);
+     node_partner_status = document.createTextNode(name);
     div_partner_status.appendChild(node_partner_status);
     td1_partner_status.appendChild(div_partner_status);
     
@@ -733,7 +734,7 @@ function addRow(){
       var div_client_risk = document.createElement("div");
       div_client_risk.className = "normal";
       div_client_risk.id = "clientrisk"+k;
-      var node_client_risk = document.createTextNode(name);
+     node_client_risk = document.createTextNode(name);
       div_client_risk.appendChild(node_client_risk);
       td1_client_risk.appendChild(div_client_risk);
       
@@ -789,7 +790,7 @@ function addRow(){
       var div_refferal = document.createElement("div");
       div_refferal.className = "normal";
       div_refferal.id = "refferal"+k;
-      var node_refferal_retesting = document.createTextNode(name);
+       node_refferal_retesting = document.createTextNode(name);
       div_refferal.appendChild(node_refferal_retesting);
       td1_refferal.appendChild(div_refferal);
       

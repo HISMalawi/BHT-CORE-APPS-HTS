@@ -631,8 +631,8 @@ var url_string = window.location;
         encounter_datetime += currentTime;
 
         var encounter = {
-            encounter_type_name: 'HIV Testing',
-            encounter_type_id:  146,
+            encounter_type_name: 'HTS Visit',
+            encounter_type_id:  163,
             patient_id: sessionStorage.patientID,
             encounter_datetime: encounter_datetime
         };
@@ -738,6 +738,8 @@ var url_string = window.location;
         var outcomeAnswer;
         var testOne;
         var testTwo;
+        var testThree;
+        var testFour;
         var resultAnswer;
         var reTestingAnswer;
         switch (node_access_type) {
@@ -768,6 +770,7 @@ var url_string = window.location;
                 hivTestAnswer = conceptAnswers[2].lastInfant;
                 break;
         }
+
         switch (node_client_risk) {
             case 'Low':
                 clientRiskAnswer = conceptAnswers[3].lowRisk;
@@ -839,6 +842,23 @@ var url_string = window.location;
                 testTwo = conceptAnswers[8].positive;
                 break;
         } 
+        switch (node_test_three) {
+            case '-':
+                testThree = conceptAnswers[8].negative;
+                break;
+            case '+':
+                testThree = conceptAnswers[8].positive;
+                break;
+        } 
+        
+        switch (node_test_four) {
+            case '-':
+                testFour = conceptAnswers[8].negative;
+                break;
+            case '+':
+                testFour = conceptAnswers[8].positive;
+                break;
+        } 
         switch (node_outcome) {
             case '+':
                 outcomeAnswer = conceptAnswers[8].positive;
@@ -856,13 +876,12 @@ var url_string = window.location;
                 outcomeAnswer = conceptAnswers[9].twentyFiveYears;
             break;
         }
-        ["N-","N+", "NEx", "NIN","C+", "CIn"]
         switch (node_result) {
             case 'N-':
-                resultAnswer = conceptAnswers[10].positive;
+                resultAnswer = conceptAnswers[8].positive;
                 break;
             case 'N+':
-                resultAnswer = conceptAnswers[10].negative;
+                resultAnswer = conceptAnswers[8].negative;
                 break;
             case 'NEx':
                 resultAnswer = conceptAnswers[10].twentyFourYears;
@@ -877,17 +896,21 @@ var url_string = window.location;
                 resultAnswer = conceptAnswers[10].twentyFiveYears;
             break;
         }
+        console.log("Result asn " + resultAnswer);
+
         switch (node_refferal_retesting) {
             case 'NoT':
-                reTestingAnswer = conceptAnswers[11].elevenMonths;
+                reTestingAnswer = conceptAnswers[11].NoT;
                 break;
             case 'ReT':
-                reTestingAnswer = conceptAnswers[11].fourteenYears;
+                reTestingAnswer = conceptAnswers[11].ReT;
                 break;
             case 'CT':
-                reTestingAnswer = conceptAnswers[11].twentyFourYears;
+                reTestingAnswer = conceptAnswers[11].CT;
             break;
         }
+        console.log("res "+ node_refferal_retesting);
+        console.log("Retesting is "+reTestingAnswer);
         switch (node_partner) {
             case 'NO':
                 partnerAnswer = conceptAnswers[5].no;
@@ -918,45 +941,45 @@ var url_string = window.location;
             default:
              break;
         }
-    
+
         var obs = {
             encounter_id: encounter["encounter_id"],
             observations: [
-                { concept_id: 8846, value_coded: genderAnswer},
-                { concept_id: 3467, value_text: ageValue}, //Age
-                { concept_id: 9753, value_coded: ageGroupAnswer},
-                { concept_id: 9428, value_coded: hivAccessAnswer },
-                { concept_id: 9656, value_coded: hivTestAnswer },
-                { concept_id: 9765, value_text: node_time },
-                { concept_id: 9761, value_coded: partnerAnswer}, 
-                { concept_id: 9754, value_coded: testOne },
-                { concept_id: 9755, value_coded: testTwo},
-                { concept_id: 9785, value_coded: testThree },
-                { concept_id: 9759, value_coded: testFour},
-                { concept_id: 6538, value_coded: outcomeAnswer},
+                { concept_id: 8846, value_coded: genderAnswer}, //saving
+                { concept_id: 3467, value_text: ageValue}, //Age //saving
+                { concept_id: 9753, value_coded: ageGroupAnswer}, //saving
+                { concept_id: 9428, value_coded: hivAccessAnswer }, //saving
+                { concept_id: 9656, value_coded: hivTestAnswer }, //saving
+                { concept_id: 9765, value_text: node_time.nodeValue }, //saving
+                { concept_id: 9761, value_coded: partnerAnswer}, //yes
+                { concept_id: 9754, value_coded: testOne }, //yes
+                { concept_id: 9755, value_coded: testTwo}, //yes
+                { concept_id: 9785, value_coded: testThree }, //yes
+                { concept_id: 9759, value_coded: testFour}, //yes
+                { concept_id: 6538, value_coded: outcomeAnswer}, 
                 { concept_id: 9764, value_coded: resultAnswer},
                 { concept_id: 3082, vlue_coded: partnerStatusAnswer},      
-                { concept_id: 9427, value_coded: clientRiskAnswer },
-                { concept_id: 9762, value_coded: reTestingAnswer},
-                { concept_id: 5096, value_text: node_appointment },
-                { concept_id: 5096, value_text: node_family_slip },
-                { concept_id: 7858, value_text: node_male_condom },
-                { concept_id: 7859, value_text: node_female_condom },
-                { concept_id: 6357, value_text: node_comment }             
+                { concept_id: 9427, value_coded: clientRiskAnswer }, //yes
+                { concept_id: 9762, value_coded: reTestingAnswer}, 
+                { concept_id: 5096, value_text: node_appointment.nodeValue }, //saving
+                { concept_id: 9758, value_text: node_family_slip.nodeValue }, //saving
+                { concept_id: 7858, value_text: node_male_condom.nodeValue }, //saving
+                { concept_id: 7859, value_text: node_female_condom.nodeValue }, //saving
+                { concept_id: 6357, value_text: node_comment.nodeValue }       //saving      
             ]
         };
         if(pregnantAnswer !== '') {
             
-            obs.observations.push({ concept_id: 6131, value_coded: pregnantAnswer });
+            obs.observations.push({ concept_id: 6131, value_coded: pregnantAnswer }); //yes
         }
-
+        console.log(obs);
         submitParameters(obs, "/observations", "nextPage")
 
     }
     
     function nextPage(){
 
-    nextEncounter(sessionStorage.patientID, sessionStorage.programID);
+    //nextEncounter(sessionStorage.patientID, sessionStorage.programID);
 
     }
 
