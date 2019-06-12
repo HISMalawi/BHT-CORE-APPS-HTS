@@ -2307,10 +2307,20 @@ function showNumber(id){
 
 }
 
-//CREATING PATIENT 
+//CREATING PATIENT
+
+var answers_hash = {
+    patient_type: ""
+}
+
+var patient_type_map = {
+    "New patient": 7572,
+    "External consultation": 9684
+}
+
 function createClient() {
-    var summary_table = document.getElementsByClassName('summary-table')[0];
-    var rows = summary_table.getElementsByTagName('tr');
+  //  var summary_table = document.getElementsByClassName('summary-table')[0];
+    //var rows = summary_table.getElementsByTagName('tr');
 
     var parametersPassed = {
         given_name: "Dummy", family_name: "Patient",
@@ -2324,7 +2334,7 @@ function createClient() {
     postClientParamaters(parametersPassed);
 }
 
-    function postClientParamaters(parametersPassed) {
+function postClientParamaters(parametersPassed) {
         var url = apiProtocol + '://' + apiURL + ':' + apiPort + '/api/v1/people';
         if (parametersPassed.birthdate_estimated === "Yes") {
             parametersPassed.birthdate_estimated = 1;
@@ -2350,3 +2360,93 @@ function createClient() {
 
     }
 
+
+function createPatient(person_id) {
+    var url = apiProtocol + '://' + apiURL + ':' + apiPort + '/api/v1/patients';
+    var parametersPassed = JSON.stringify({person_id: person_id, program_id: sessionStorage.programID});
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 201) {
+            var obj = JSON.parse(this.responseText);
+                enrollPatient(person_id);
+        }
+    };
+    xhttp.open("POST", url, true);
+    xhttp.setRequestHeader('Authorization', sessionStorage.getItem("authorization"));
+    xhttp.setRequestHeader('Content-type', "application/json");
+    xhttp.send(parametersPassed);
+}
+
+function enrollPatient(person_id) {
+    sessionStorage.patientID = person_id;
+    var http = new XMLHttpRequest();
+    var url = 'http://' + apiURL + ':' + apiPort + '/api/v1/patients/' + person_id + "/programs/";
+    var params = JSON.stringify({
+        program_id: sessionStorage.programID,
+        date_enrolled: moment(node_date.nodeValue).format("YYYY-MM-DD")
+    });
+    http.open('POST', url, true);
+    //Send the proper header information along with the request
+    http.setRequestHeader('Content-type', 'application/json');
+    http.onreadystatechange = function () { //Call a function when the state changes.
+        if (http.readyState == 4) {
+            if (http.status == 201) {
+                var v = JSON.parse(http.responseText);
+                submitPatienttype(person_id);
+
+            } else if (http.status == 409) {
+                alert('Username already exists');
+            } else {
+                alert('error' + http.status);
+            }
+        }
+    }
+    http.setRequestHeader('Authorization', sessionStorage.getItem('authorization'));
+    http.send(params);
+}
+
+function showTypeOfPatient() {
+    return sessionStorage.programID == '1' ? true : false;
+  }
+
+
+  function submitPatienttype(patient_id) {
+    var currentTime = moment().format(' HH:mm:ss');
+    var encounter_datetime = moment(sessionStorage.sessionDate).format('YYYY-MM-DD');
+    encounter_datetime += currentTime;
+
+    var encounter = {
+        encounter_type_name: 'REGISTRATION',
+        encounter_type_id: 5,
+        patient_id: patient_id,
+        program_id: sessionStorage.programID,
+        encounter_datetime: encounter_datetime
+    }
+
+    submitParameters(encounter, "/encounters", "postPatienttypeObs");
+}
+
+function postPatienttypeObs(encounter) {
+    if(showTypeOfPatient() == true) {
+      var patient_type = $('patient_type');
+      var ans = patient_type_map[patient_type.value];
+    }else{
+      var ans = 'New patient';
+      ans = patient_type_map[ans];
+    }
+
+    var obs = {
+        encounter_id: encounter.encounter_id,
+        observations: [
+            {concept_id: 3289, value_coded: ans}
+        ]
+    };
+
+    submitParameters(obs, "/observations", "savePatienttypeThenRedirect");
+}
+
+function savePatienttypeThenRedirect(obs) {
+  //  document.location = "/views/patient/print.html?person_id=" + obs[0].person_id;
+  postHtsVisit();
+}
