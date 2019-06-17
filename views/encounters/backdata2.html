@@ -960,6 +960,9 @@ var url_string = window.location;
                 ageValue = num;
                 break;
             default:
+            var text = document.getElementById("modal_text");
+                text.innerHTML = "Hopefully must be entered";
+                $("#myModal").modal();
              break;
         }
 
@@ -981,6 +984,9 @@ var url_string = window.location;
                 timeValue = time_num;
                 break;
             default:
+            var text = document.getElementById("modal_text");
+                text.innerHTML = "Hopefully must be entered";
+                $("#myModal").modal();
              break;
         }
 
@@ -1079,7 +1085,7 @@ var url_string = window.location;
             }else
             if(partnerPresent < 1){
                 var text = document.getElementById("modal_text");
-                text.innerHTML = "HTS Access Type must be entered";
+                text.innerHTML = "Partner present must be entered";
                 $("#myModal").modal();
             }else
             if(firstTest < 1){
@@ -1112,16 +1118,18 @@ var url_string = window.location;
                 text.innerHTML = "Client Risk Category must be entered";
                 $("#myModal").modal();
             }else
-            if(refferal < 1){
+            if(retesting < 1){
                 var text = document.getElementById("modal_text");
                 text.innerHTML = "Referral for Re-Testing must be entered";
                 $("#myModal").modal();
             }else
-            if(result < 1){
+            if(resultGiven < 1){
                 var text = document.getElementById("modal_text");
                 text.innerHTML = "Result given to client must be entered";
                 $("#myModal").modal();
-            }
+            }else{
+            createClient();
+        }
         //     if( node_age.nodeValue == ' ' || node_time.nodeValue == ' ' || node_family_slip.nodeValue == ' ' || node_male_condom.nodeValue == ' ' ||
         // node_female_condom.nodeValue == ' ' || j < 14){
         //     $("#myModal").modal();

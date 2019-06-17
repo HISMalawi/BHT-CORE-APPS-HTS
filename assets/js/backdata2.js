@@ -9,12 +9,11 @@
  var node_appointment,node_partner,node_test_three,node_test_four;
  var node_time,node_test_one,node_test_two,node_outcome,node_result,node_refferal_retesting;
  var node_access_type,node_ltest,node_client_risk,node_partner_status,node_gender,node_age_group;
- var node_female_condom, node_m
- ale_condom, node_family_slip;
+ var node_female_condom, node_male_condom, node_family_slip;
  var age,time,hts_date,appointment, provider,comment,family_slip,male,female;
- var gen, ageGroup, type, hivTest, partnerPresent, firstTest, secondTest, thirdTest, fourthTest, result, outSummary, client,refferal;
+ var gen, ageGroup, type, hivTest, partnerPresent, firstTest, secondTest, thirdTest, fourthTest, resultGiven, outSummary, client,retesting;
  var ageValue;
- gen = ageGroup = type = hivTest = partnerPresent = firstTest = secondTest = thirdTest = fourthTest = result = outSummary = client = refferal = 0;
+ gen = ageGroup = type = hivTest = partnerPresent = firstTest = secondTest = thirdTest = fourthTest = resultGiven = outSummary = client = retesting = 0;
  var j = 0;
  var patientGender;
 function addRow(){
@@ -620,7 +619,7 @@ function addRow(){
         new_row.appendChild(td1_result);
         
         div_result.onclick = function () {  
-            result = 1;
+            resultGiven = 1;
             switch(this.id) {
                 case "result1":
                 $j('#result1').addClass("circled");
@@ -820,7 +819,7 @@ function addRow(){
       new_row.appendChild(td1_refferal);
   
       div_refferal.onclick = function () {  
-          referral = 1;
+        retesting = 1;
           switch(this.id) {
               case "refferal1":
                $j('#refferal1').addClass("circled");
@@ -1869,12 +1868,13 @@ function showAge(id){
                                 var v = node_age.nodeValue;
                                 var str = "D";
                                 node_age.nodeValue = v + str;
-
+                                j = 1;
                                     break;
                                 case "week":
                                 var v = node_age.nodeValue;
                                 var str = "W";
                                 node_age.nodeValue = v + str;
+
                                 break;
                                 case "month":
                                 var v = node_age.nodeValue;
