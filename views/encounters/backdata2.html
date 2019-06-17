@@ -527,7 +527,7 @@ div.dataTables_wrapper {
             <span>Finish</span>
           </button>
           <!-- createClient(); -->
-          <button id="save" class="blue right" onmousedown="validateObs();">
+          <button id="save" class="blue right">
             <span>Save</span>
           </button>
         </div>
@@ -580,7 +580,7 @@ var url_string = window.location;
     var testYear = testing_date.split('-')[2];
     var month = moment().month(testMonth-1).format("MMM");
     var new_date = testDay + " " + month + " " + testYear;
-
+    var node_age_value, regex, splittedArray, splittedTimeArray, text, num, node_time_value, time_text, time_num,timeValue, ageValue;
 
     //current date
     var dateObj = new Date();
@@ -767,6 +767,7 @@ var url_string = window.location;
         var testFour;
         var resultAnswer;
         var reTestingAnswer;
+
         switch (node_access_type) {
             case 'PITC':
                 hivAccessAnswer = conceptAnswers[0].pitc;
@@ -824,6 +825,7 @@ var url_string = window.location;
                 partnerStatusAnswer = conceptAnswers[4].partnerPositive;
                 break;
         }
+
         switch (node_gender) {
             case 'M':
                 genderAnswer = conceptAnswers[6].male;
@@ -851,6 +853,7 @@ var url_string = window.location;
                 ageGroupAnswer = conceptAnswers[7].twentyFiveYears;
                 break;
         }
+
         switch (node_test_one) {
             case '-':
                 testOne = conceptAnswers[8].negative;
@@ -859,6 +862,7 @@ var url_string = window.location;
                 testOne = conceptAnswers[8].positive;
                 break;
         }
+
         switch (node_test_two) {
             case '-':
                 testTwo = conceptAnswers[8].negative;
@@ -884,6 +888,7 @@ var url_string = window.location;
                 testFour = conceptAnswers[8].positive;
                 break;
         } 
+
         switch (node_outcome) {
             case '+':
                 outcomeAnswer = conceptAnswers[8].positive;
@@ -901,6 +906,7 @@ var url_string = window.location;
                 outcomeAnswer = conceptAnswers[9].twentyFiveYears;
             break;
         }
+
         switch (node_result) {
             case 'N-':
                 resultAnswer = conceptAnswers[8].positive;
@@ -932,6 +938,7 @@ var url_string = window.location;
                 reTestingAnswer = conceptAnswers[11].CT;
             break;
         }
+
         switch (node_partner) {
             case 'NO':
                 partnerAnswer = conceptAnswers[5].no;
@@ -939,55 +946,6 @@ var url_string = window.location;
             case 'YES':
                 partnerAnswer = conceptAnswers[5].yes;
                 break;
-        }
-        var node_age_value = node_age.nodeValue;
-        var regex = new RegExp('([0-9]+)|([WDMY]+)','g');
-        var splittedArray = node_age_value.match(regex);
-
-        var text = splittedArray[1];
-        var num = splittedArray[0];
-        switch (text) {
-            case 'W':
-               ageValue = Math.round(num/52);
-                break;
-            case 'D':
-               ageValue = Math.round(num/365);
-                break;
-            case 'M':
-             ageValue =  Math.round(num/12);
-            break;
-            case 'Y':
-                ageValue = num;
-                break;
-            default:
-            var text = document.getElementById("modal_text");
-                text.innerHTML = "Hopefully must be entered";
-                $("#myModal").modal();
-             break;
-        }
-
-        var node_time_value = node_time.nodeValue;
-        var time_text = splittedArray[1];
-        var time_num = splittedArray[0];
-        var timeValue;
-        switch (time_text) {
-            case 'W':
-               timeValue = Math.round(time_num/52);
-                break;
-            case 'D':
-               timeValue = Math.round(time_num/365);
-                break;
-            case 'M':
-                timeValue =  Math.round(time_num/12);
-            break;
-            case 'Y':
-                timeValue = time_num;
-                break;
-            default:
-            var text = document.getElementById("modal_text");
-                text.innerHTML = "Hopefully must be entered";
-                $("#myModal").modal();
-             break;
         }
 
         var obs = {
@@ -1026,31 +984,88 @@ var url_string = window.location;
     function nextPage(){
     window.location.href = "/apps/HTS/views/encounters/backdata2.html?testing_date = "+testing_date;
     }
-    function validateObs(){
 
-      
-        
-    }
 </script>
 <script>
 
     jQuery(document).ready(function($){
         $("#save").click(function(){
+
+
+            if( node_age.nodeValue == ' ' || node_time.nodeValue == ' ' || node_family_slip.nodeValue == ' ' || node_male_condom.nodeValue == ' ' ||
+            node_female_condom.nodeValue == ' ' || gen < 1 || ageGroup < 1 || type < 1 || hivTest < 1 || partnerPresent < 1 || firstTest < 1 || secondTest < 1 || thirdTest < 1
+            || fourthTest < 1 || client < 1 ||retesting < 1 || resultGiven < 1 ){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "HTS Provider ID, Sex/Pregnancy, Age, Age Group, HTS Access Type, Last HIV Test, Partner Present, HIV Rapid Test Outcomes, Outcome summary, Result Given to Client, Client Risk Category, Referral for Re-Testing, Number of FRS given, Number of male condoms given, Number of female condoms given must be entered";
+                $("#myModal").modal();
+            }else
             if( node_age.nodeValue == ' ' ){
                 var text = document.getElementById("modal_text");
                 text.innerHTML = "Age must be entered";
                 $("#myModal").modal();
-            } else
+            }else if( node_time.nodeValue == ' ' ){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "Last HIV test must be entered";
+                $("#myModal").modal();
+            } 
+            
+            node_age_value = node_age.nodeValue;
+            regex = new RegExp('([0-9]+)|([WDMY]+)','g');
+            splittedArray = node_age_value.match(regex);
+
+            text = splittedArray[1];
+            num = splittedArray[0];
+            switch (text) {
+                case 'W':
+                ageValue = Math.round(num/52);
+                    break;
+                case 'D':
+                ageValue = Math.round(num/365);
+                    break;
+                case 'M':
+                ageValue =  Math.round(num/12);
+                break;
+                case 'Y':
+                    ageValue = num;
+                    break;
+                default:
+                var text = document.getElementById("modal_text");
+                    text.innerHTML = "Number and time units (days, weeks, months, years) must be entered";
+                    $("#myModal").modal();
+                break;
+            }
+        
+        
+         node_time_value = node_time.nodeValue;
+         splittedTimeArray = node_time_value.match(regex);
+         time_text = splittedTimeArray[1];
+         time_num = splittedTimeArray[0];
+        switch (time_text) {
+            case 'W':
+               timeValue = Math.round(time_num/52);
+                break;
+            case 'D':
+               timeValue = Math.round(time_num/365);
+                break;
+            case 'M':
+                timeValue =  Math.round(time_num/12);
+            break;
+            case 'Y':
+                timeValue = time_num;
+                break;
+            default:
+            var text = document.getElementById("modal_text");
+                text.innerHTML = "Number and time units (days, weeks, months, years) must be entered";
+                $("#myModal").modal();
+             break;
+        }
+
+ 
             if( node_family_slip.nodeValue == ' ' ){
                 $("#myModal").modal();var text = document.getElementById("modal_text");
                 text.innerHTML = "Number of FRS must be entered";
                 $("#myModal").modal();
             }else
-            if( node_time.nodeValue == ' ' ){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "Last HIV test must be entered";
-                $("#myModal").modal();
-            } else
             if( node_male_condom.nodeValue == ' ' ){
                 var text = document.getElementById("modal_text");
                 text.innerHTML = "Male condoms must be entered";
@@ -1129,13 +1144,7 @@ var url_string = window.location;
                 $("#myModal").modal();
             }else{
             createClient();
-        }
-        //     if( node_age.nodeValue == ' ' || node_time.nodeValue == ' ' || node_family_slip.nodeValue == ' ' || node_male_condom.nodeValue == ' ' ||
-        // node_female_condom.nodeValue == ' ' || j < 14){
-        //     $("#myModal").modal();
-        // }else{
-        //     createClient();
-        // }
+            }       
       
       });
 });
