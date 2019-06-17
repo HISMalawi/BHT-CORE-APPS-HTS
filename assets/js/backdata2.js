@@ -9,9 +9,13 @@
  var node_appointment,node_partner,node_test_three,node_test_four;
  var node_time,node_test_one,node_test_two,node_outcome,node_result,node_refferal_retesting;
  var node_access_type,node_ltest,node_client_risk,node_partner_status,node_gender,node_age_group;
- var node_female_condom, node_male_condom, node_family_slip;
+ var node_female_condom, node_m
+ ale_condom, node_family_slip;
  var age,time,hts_date,appointment, provider,comment,family_slip,male,female;
+ var gen, ageGroup, type, hivTest, partnerPresent, firstTest, secondTest, thirdTest, fourthTest, result, outSummary, client,refferal;
  var ageValue;
+ gen = ageGroup = type = hivTest = partnerPresent = firstTest = secondTest = thirdTest = fourthTest = result = outSummary = client = refferal = 0;
+ var j = 0;
  var patientGender;
 function addRow(){
     var table = document.getElementById("backdata");
@@ -91,6 +95,7 @@ function addRow(){
     new_row.appendChild(td1_gender);
 
     div_gender.onclick = function () {  
+        gen = 1;
         switch(this.id) {
             case "sex1":
              $j('#sex1').addClass("circled");
@@ -115,7 +120,8 @@ function addRow(){
                 break;
             default:
           } 
-    };  }  
+    };
+  }
 
     //Age
     var td_age = document.createElement("td");
@@ -157,6 +163,7 @@ function addRow(){
     new_row.appendChild(td1_age_group);
 
     div_age_group.onclick = function () {  
+        ageGroup = 1;
         switch(this.id) {
             case "agegroup1":
              $j('#agegroup1').addClass("circled");
@@ -188,6 +195,7 @@ function addRow(){
                 break;
             default:
           } 
+          j = j + 1;
     };  }  
 
      //HTS ACCESS TYPE
@@ -213,27 +221,25 @@ function addRow(){
      new_row.appendChild(td1_hts_type);
  
      div_hts_type.onclick = function () {  
+        type = 1;
          switch(this.id) {
              case "htstype1":  
               $j('#htstype1').addClass("circled");
               $j('#htstype2').removeClass("circled");
               $j('#htstype3').removeClass("circled");
               node_access_type = "PITC";
-              console.log(node_access_type);
                break;
              case "htstype2":
              $j('#htstype2').addClass("circled");
              $j('#htstype1').removeClass("circled");
              $j('#htstype3').removeClass("circled");
              node_access_type = "FRS";
-             console.log(node_access_type);
                break;
              case "htstype3":
              $j('#htstype3').addClass("circled");
              $j('#htstype1').removeClass("circled");
              $j('#htstype2').removeClass("circled");
              node_access_type = "Oth";
-             console.log(node_access_type); 
                  break;
              default:
            } 
@@ -262,6 +268,7 @@ function addRow(){
         new_row.appendChild(td1_ltest);
         
         div_ltest.onclick = function () {  
+            hivTest = 1;
             switch(this.id) {
                 case "ltest1":
                  $j('#ltest1').addClass("circled");
@@ -305,7 +312,7 @@ function addRow(){
                     break;
                 default:
               } 
-
+              j = j + 1;
         };    }  
 
       //Time since last test
@@ -346,7 +353,8 @@ function addRow(){
     td1_partner.appendChild(div_partner);
     
     new_row.appendChild(td1_partner);
-    div_partner.onclick = function () {  
+    div_partner.onclick = function () { 
+        partnerPresent = 1; 
         switch(this.id) {
             case "partner1":
              $j('#partner1').addClass("circled");
@@ -360,6 +368,7 @@ function addRow(){
               break;
             default:
           } 
+          j = j + 1;
     };     }  
 
     // Test 1
@@ -385,6 +394,7 @@ function addRow(){
     new_row.appendChild(td1_test);
 
     div_test.onclick = function () {  
+        firstTest = 1;
         switch(this.id) {
             case "test1":
              $j('#test1').addClass("circled");
@@ -398,6 +408,7 @@ function addRow(){
               break;
             default:
           } 
+          j = j + 1;
     };    }  
 
     // Test 2
@@ -423,6 +434,7 @@ function addRow(){
     new_row.appendChild(td1_test_two);
 
     div_test_two.onclick = function () {  
+        secondTest = 1;
         switch(this.id) {
             case "testtwo1":
              $j('#testtwo1').addClass("circled");
@@ -436,6 +448,7 @@ function addRow(){
               break;
             default:
           } 
+          j = j + 1;
     };  }  
 
     // Test 3
@@ -459,7 +472,8 @@ function addRow(){
     td1_test_three.appendChild(div_test_three);
     
     new_row.appendChild(td1_test_three);
-    div_test_three.onclick = function () {  
+    div_test_three.onclick = function () { 
+        thirdTest = 1; 
         switch(this.id) {
             case "testthree1":
             $j('#testthree1').addClass("circled");
@@ -473,6 +487,7 @@ function addRow(){
             break;
             default:
         } 
+        j = j + 1;
     };    }  
 
     // Test 4
@@ -497,6 +512,7 @@ function addRow(){
     new_row.appendChild(td1_test_four);
 
     div_test_four.onclick = function () {  
+        fourthTest = 1;
         switch(this.id) {
             case "testfour1":
             $j('#testfour1').addClass("circled");
@@ -535,6 +551,7 @@ function addRow(){
         new_row.appendChild(td1_outcome);
         
         div_outcome.onclick = function () {  
+            outSummary = 1;
             switch(this.id) {
                 case "outcome1":
                 $j('#outcome1').addClass("circled");
@@ -578,6 +595,7 @@ function addRow(){
                     break;
                 default:
             } 
+            j = j + 1;
         };    }  
  // Results given to client
     k=0;
@@ -602,6 +620,7 @@ function addRow(){
         new_row.appendChild(td1_result);
         
         div_result.onclick = function () {  
+            result = 1;
             switch(this.id) {
                 case "result1":
                 $j('#result1').addClass("circled");
@@ -659,6 +678,7 @@ function addRow(){
                 break;
                 default:
             } 
+            j = j + 1;
         };    } 
 
  
@@ -716,6 +736,7 @@ function addRow(){
                 break;
             default:
           } 
+          j = j + 1;
     };  }  
 
     //Client risk
@@ -740,7 +761,8 @@ function addRow(){
       
       new_row.appendChild(td1_client_risk);
   
-      div_client_risk.onclick = function () {  
+      div_client_risk.onclick = function () { 
+          client = 1; 
           switch(this.id) {
               case "clientrisk1":
                $j('#clientrisk1').addClass("circled");
@@ -772,6 +794,7 @@ function addRow(){
                   break;
               default:
             } 
+            j = j + 1;
       };  }  
 
       //Referral for retesting
@@ -797,6 +820,7 @@ function addRow(){
       new_row.appendChild(td1_refferal);
   
       div_refferal.onclick = function () {  
+          referral = 1;
           switch(this.id) {
               case "refferal1":
                $j('#refferal1').addClass("circled");
@@ -818,6 +842,7 @@ function addRow(){
                   break;
               default:
             } 
+            j = j + 1;
       };  
    
     }  
@@ -991,7 +1016,7 @@ function showDate(id){
   });
   var footer = document.createElement("div");
         
-  footer.innerHTML = "<table style='width: 100%;'><tr><td id = 'left' style='width: 35%; float: left;'></td><td id='right' style='width: 100%;' rowspan='2'></td></tr>" +
+  footer.innerHTML = "<table style='width: 100%; background-color:#000000;'><tr><td id = 'left' style='width: 35%; float: left;'></td><td id='right' style='width: 100%;' rowspan='2'></td></tr>" +
       "<tr><td id = ''></td></tr><tr><td id='btns' colspan='2' style='padding-top: 8px; padding-bottom: 3px;border-top:1px solid black; background-color: black;'>" +
       "</td></tr></table>"
 
@@ -1122,9 +1147,9 @@ function showDate(id){
   };
   $j("#popup").css({
 
-    "width": "600px",
+    "width": "550px",
 
-    "min-width": "600px"
+    "min-width": "550px"
 
 });
 
@@ -1321,9 +1346,9 @@ function displayKeyboard(id){
 
     $j("#popup").css({
         
-        "width": "700px",
+         "width": "630px",
 
-        "min-width": "700px"
+        "min-width": "630px"
 
     });
        var tbl = document.createElement("table");
@@ -1501,7 +1526,7 @@ function displayKeyboard(id){
                     node_provider.nodeValue = " ";
                       break;
                     case "Del":
-                    var v =  node_age.nodeValue;
+                    var v =  node_provider.nodeValue;
                     node_provider.nodeValue = v.slice(0, -1);
                       break;
                     case "Space":
@@ -1929,9 +1954,9 @@ function showAge(id){
                  
             $j("#popup").css({
         
-                "width": "420px",
+                "width": "385px",
         
-                "min-width": "420px"
+                "min-width": "385px"
         
             });
             

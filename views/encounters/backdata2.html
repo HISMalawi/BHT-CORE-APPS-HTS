@@ -3,6 +3,7 @@
         
 <script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
 <script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/standard.js" defer="true"></script>
+<link rel="stylesheet" type="text/css" href="../../../../assets/css/bootstrap/bootstrap.min.css">
 
 <script type="text/javascript" src="/assets/js/yes_no_ctrls.js"></script>
 <link rel="stylesheet" href="/assets/css/yes_no_ctrls.css" type="text/css">
@@ -18,12 +19,17 @@
 <link rel="stylesheet" href="/assets/css/alertifyjs/css/alertify.css" type="text/css">
 <link rel="stylesheet" type="text/css" href="../../../../assets/css/datatables/jquery.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="../../../../assets/css/datatables/fixedHeader.dataTables.min.css">
+
 <link rel="stylesheet" href="/assets/css/maindashboard/footer.css">
 <link rel="stylesheet" href="/apps/HTS/assets/css/backdata.css" type="text/css">
 
 
 <style>
-
+    * {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing:content-box;
+}
     .main{
         width: 1000%;
     }
@@ -95,7 +101,7 @@ div.dataTables_wrapper {
     font-weight: 700;
     padding: 5px;
     font-size: 14px;
-    width: 4150px;
+    width: 4530px;
 }
 #save {
     min-width: 140px;
@@ -247,7 +253,7 @@ div.dataTables_wrapper {
                 </div>
             </td>
             <td rowspan="3" class="td"  style="border-left: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="5">
-                <div style="height: 120px; font-size: 12px; width: 30px;">
+                <div style="height: 120px; font-size: 12px; width: 34px;">
                     <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -85px;">Routine
                         <i style="color: rgb(255, 255, 255);">_</i>HTS
                         <i style="color: rgb(255, 255, 255);">_</i>within Health
@@ -266,7 +272,7 @@ div.dataTables_wrapper {
                 </div>
             </td>
             <td rowspan="3" class="td"  style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="boldRight 5">
-                <div style="height: 120px; font-size: 12px; width: 30px;">
+                <div style="height: 120px; font-size: 12px; width: 15px;">
                     <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -100px;">Other
                         <i style="color: rgb(255, 255, 255);">_</i>(VCT,etc.)
                         <i style="color: rgb(255, 255, 255);">________________________</i>
@@ -292,7 +298,7 @@ div.dataTables_wrapper {
                 </div>
             </td>
             <td rowspan="3" class="td"  style="border-bottom: 1px solid rgb(51, 51, 51); width: 30px; height: 50px;" class="6">
-                <div style="height: 120px; font-size: 12px; width: 30px;">
+                <div style="height: 120px; font-size: 12px; width: 45px;">
                     <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -85px;">Last
                         <i style="color: rgb(255, 255, 255);">_</i>Expos.
                         <i style="color: rgb(255, 255, 255);">_</i>Infant
@@ -450,7 +456,7 @@ div.dataTables_wrapper {
                 </div>
             </td>
             <td class="td"  style="border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="12">
-                <div style="height: 120px; font-size: 12px; width: 30px;">
+                <div style="height: 175px; font-size: 12px; width: 67px;">
                     <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -56px;">  High
                         <i style="color: rgb(255, 255, 255);">_</i>Risk
                         <i style="color: rgb(255, 255, 255);">_</i>Event
@@ -461,7 +467,7 @@ div.dataTables_wrapper {
                 </div>
             </td>
             <td class="td" style="border-right: 1px solid rgb(51, 51, 51); border-bottom: 1px solid rgb(51, 51, 51);" rowspan="2" class="boldRight 12">
-                <div style="height: 120px; font-size: 12px; width: 30px;">
+                <div style="height: 160px; font-size: 12px; width: 50px;">
                     <div style="transform: rotate(-90deg); transform-origin: right bottom 0px; margin-left: -57px;">Risk
                         <i style="color: rgb(255, 255, 255);">_</i>assessment<br>Not
                         <i style="color: rgb(255, 255, 255);">_</i>Done
@@ -508,32 +514,51 @@ div.dataTables_wrapper {
             </td>
         </tr>
         <tr>
-            <td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" colspan="2" class="8" align="center">Test 1</td>
-            <td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" colspan="2" class="8" align="center">Test 2</td>
-            <td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px;" colspan="2" class="8" align="center">Test 1</td>
-            <td style="border-bottom: 1px solid rgb(51, 51, 51); border-right: 3px solid rgb(0, 0, 0); font-style: italic; font-size: 12px;" colspan="2" class="8" align="center">Test 2</td>
+            <td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px; text-align: center;" colspan="2" class="8">Test 1</td>
+            <td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px; text-align: center;" colspan="2" class="8">Test 2</td>
+            <td style="border-bottom: 1px solid rgb(51, 51, 51); font-style: italic; font-size: 12px; text-align: center;" colspan="2" class="8">Test 1</td>
+            <td style="border-bottom: 1px solid rgb(51, 51, 51); border-right: 3px solid rgb(0, 0, 0); font-style: italic; font-size: 12px; text-align: center;" colspan="2" class="8">Test 2</td>
         </tr>
    <tr id="row0" style="cursor: pointer;"><td class="bdcell boldRight" style="width: 150px; color: rgb(197, 0, 0); font-size: 16px; text-align: center;"><span>&nbsp;</span></td><td id="cell0_0" class="bdcell boldRight "><div id="circle0_0" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center; width: 120px;"></div></td><td id="cell0_1" class="bdcell boldRight 1" style="background-color: rgba(200, 200, 200, 0.3);"><div id="circle0_1" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div></td><td id="cell0_2" class="bdcell 2"><div id="circle0_2" class="normal">M</div></td><td id="cell0_3" class="bdcell 2"><div id="circle0_3" class="normal">FNP</div></td><td id="cell0_4" class="bdcell boldRight 2"><div id="circle0_4" class="normal">FP</div></td><td id="cell0_5" class="bdcell boldRight 3"><div id="circle0_5" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div></td><td id="cell0_6" class="bdcell 4"><div id="circle0_6" class="normal">A</div></td><td id="cell0_7" class="bdcell 4"><div id="circle0_7" class="normal">B</div></td><td id="cell0_8" class="bdcell 4"><div id="circle0_8" class="normal">C</div></td><td id="cell0_9" class="bdcell boldRight 4"><div id="circle0_9" class="normal">D</div></td><td id="cell0_10" class="bdcell 5"><div id="circle0_10" class="normal">PITC</div></td><td id="cell0_11" class="bdcell 5"><div id="circle0_11" class="normal">FRS</div></td><td id="cell0_12" class="bdcell boldRight 5"><div id="circle0_12" class="normal">Oth</div></td><td id="cell0_13" class="bdcell 6"><div id="circle0_13" class="normal">LNev</div></td><td id="cell0_14" class="bdcell 6"><div id="circle0_14" class="normal">L-</div></td><td id="cell0_15" class="bdcell 6"><div id="circle0_15" class="normal">L+</div></td><td id="cell0_16" class="bdcell 6"><div id="circle0_16" class="normal">LEx</div></td><td id="cell0_17" class="bdcell boldRight 6"><div id="circle0_17" class="normal">LIn</div></td><td id="cell0_18" class="bdcell boldRight 6"><div id="circle0_18" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div></td><td id="cell0_19" class="bdcell 7"><div id="circle0_19" class="normal">N</div></td><td id="cell0_20" class="bdcell boldRight 7"><div id="circle0_20" class="normal">Y</div></td><td id="cell0_21" class="bdcell 8"><div id="circle0_21" class="normal">-</div></td><td id="cell0_22" class="bdcell boldRight 8"><div id="circle0_22" class="normal">+</div></td><td id="cell0_23" class="bdcell 8"><div id="circle0_23" class="normal">-</div></td><td id="cell0_24" class="bdcell boldRight 8"><div id="circle0_24" class="normal">+</div></td><td id="cell0_25" class="bdcell 8"><div id="circle0_25" class="normal">-</div></td><td id="cell0_26" class="bdcell boldRight 8"><div id="circle0_26" class="normal">+</div></td><td id="cell0_27" class="bdcell 8"><div id="circle0_27" class="normal">-</div></td><td id="cell0_28" class="bdcell boldRight 8"><div id="circle0_28" class="normal">+</div></td><td id="cell0_29" class="bdcell 9"><div id="circle0_29" class="normal">-</div></td><td id="cell0_30" class="bdcell 9"><div id="circle0_30" class="normal">+</div></td><td id="cell0_31" class="bdcell 9"><div id="circle0_31" class="normal">--</div></td><td id="cell0_32" class="bdcell 9"><div id="circle0_32" class="normal">++</div></td><td id="cell0_33" class="bdcell boldRight 9"><div id="circle0_33" class="normal">Disc</div></td><td id="cell0_34" class="bdcell 10"><div id="circle0_34" class="normal">N-</div></td><td id="cell0_35" class="bdcell 10"><div id="circle0_35" class="normal">N+</div></td><td id="cell0_36" class="bdcell 10"><div id="circle0_36" class="normal">NEx</div></td><td id="cell0_37" class="bdcell 10"><div id="circle0_37" class="normal">NIn</div></td><td id="cell0_38" class="bdcell 10"><div id="circle0_38" class="normal">C+</div></td><td id="cell0_39" class="bdcell boldRight 10"><div id="circle0_39" class="normal">CIn</div></td><td id="cell0_40" class="bdcell 11"><div id="circle0_40" class="normal">NoP</div></td><td id="cell0_41" class="bdcell 11"><div id="circle0_41" class="normal">P?</div></td><td id="cell0_42" class="bdcell 11"><div id="circle0_42" class="normal">P-</div></td><td id="cell0_43" class="bdcell boldRight 11"><div id="circle0_43" class="normal">P+</div></td><td id="cell0_44" class="bdcell 12"><div id="circle0_44" class="normal">Low</div></td><td id="cell0_45" class="bdcell 12"><div id="circle0_45" class="normal">Ong</div></td><td id="cell0_46" class="bdcell 12"><div id="circle0_46" class="normal">Hi</div></td><td id="cell0_47" class="bdcell boldRight 12"><div id="circle0_47" class="normal">ND</div></td><td id="cell0_48" class="bdcell 13"><div id="circle0_48" class="normal">NoT</div></td><td id="cell0_49" class="bdcell 13"><div id="circle0_49" class="normal">ReT</div></td><td id="cell0_50" class="bdcell boldRight 13"><div id="circle0_50" class="normal">CT</div></td><td id="cell0_51" class="bdcell boldRight 13"><div id="circle0_51" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center; width: 120px;"></div></td><td id="cell0_52" class="bdcell boldRight 14"><div id="circle0_52" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div></td><td id="cell0_53" class="bdcell 14"><div id="circle0_53" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div></td><td id="cell0_54" class="bdcell boldRight 14"><div id="circle0_54" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div></td><td id="cell0_55" class="bdcell boldRight 15"><div id="circle0_55" class="normal" style="color: rgb(197, 0, 0); font-size: 16px; text-align: center;"></div></td></tr>
 </table>
-
-</div>
-
-</div>
-<div class="popup-overlay">
-    <!--Creates the popup content-->
-     <div class="popup-content">
-            </div>
-  </div>
 <footer class="footer">
         <div class="container-footer">
           <button id="btnNext" class="green right" onclick="location='/';">
             <span>Finish</span>
           </button>
-          <button id="save" class="blue right" onmousedown="createClient();">
+          <!-- createClient(); -->
+          <button id="save" class="blue right" onmousedown="validateObs();">
             <span>Save</span>
           </button>
         </div>
       </footer>
+
+</div>
+
+</div>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+            <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+        <div class="modal-body">
+          <!-- <p style="font-size: 22px;font-weight: 800; text-align: center;">HTS Provider ID, Sex/Pregnancy, Age, Age Group, HTS Access Type, Last HIV Test, Partner Present, HIV Rapid Test Outcomes, Outcome summary, Result Given to Client, Client Risk Category, Referral for Re-Testing, Number of FRS given, Number of male condoms given, Number of female condoms given must be entered</p> -->
+        <p style="font-size: 22px;font-weight: 800; text-align: center;" id="modal_text"></p>
+        </div>
+ 
+      </div>
+    </div>
+  </div>
+  <div class="popup-overlay">
+        <!--Creates the popup content-->
+         <div class="popup-content">
+
+         </div>
+      </div>
+
 </body>
 </html>
 <script src="../../../../assets/js/bootstrap/bootstrap.min.js"></script>
@@ -880,7 +905,7 @@ var url_string = window.location;
             case 'N-':
                 resultAnswer = conceptAnswers[8].positive;
                 break;
-            case 'N+':
+            case 'N+':DS_Store
                 resultAnswer = conceptAnswers[8].negative;
                 break;
             case 'NEx':
@@ -993,15 +1018,117 @@ var url_string = window.location;
 
     }  
     function nextPage(){
-    window.location.href = "/apps/HTS/views/encounters/backdata2.html";
+    window.location.href = "/apps/HTS/views/encounters/backdata2.html?testing_date = "+testing_date;
     }
     function validateObs(){
-        if(node_gender == ' ' || node_age == ' ' || node_age_group == ' ' || node_access_type == ' ' || node_ltest == ' '||
-        node_time == ' ' || node_partner == ' ' || node_test_one == ' ' || node_test_two == ' ' || node_test_three.nodeValue == '' ||
-        node_test_four.nodeValue == '' || node_outcome.nodeValue == '' || node_result == '' || node_partner_status == '' || node_client_risk == ''
-        || node_refferal_retesting == '' || node_appointment.nodeValue == '' || node_family_slip.nodeValue == '' || node_male_condom.nodeValue == '' ||
-        node_female_condom == ''){
 
-        }
+      
+        
     }
 </script>
+<script>
+
+    jQuery(document).ready(function($){
+        $("#save").click(function(){
+            if( node_age.nodeValue == ' ' ){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "Age must be entered";
+                $("#myModal").modal();
+            } else
+            if( node_family_slip.nodeValue == ' ' ){
+                $("#myModal").modal();var text = document.getElementById("modal_text");
+                text.innerHTML = "Number of FRS must be entered";
+                $("#myModal").modal();
+            }else
+            if( node_time.nodeValue == ' ' ){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "Last HIV test must be entered";
+                $("#myModal").modal();
+            } else
+            if( node_male_condom.nodeValue == ' ' ){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "Male condoms must be entered";
+                $("#myModal").modal();
+            } else
+            if( node_female_condom.nodeValue == ' ' ){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "Female must be entered";
+                $("#myModal").modal();
+            }else
+            if(gen < 1){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "Sex/Pregnancy must be entered";
+                $("#myModal").modal();
+            }
+            else
+            if(ageGroup < 1){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "Age group must be entered";
+                $("#myModal").modal();
+            }else
+            if(type < 1){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "HTS Access Type must be entered";
+                $("#myModal").modal();
+            }else
+            if(hivTest < 1){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "HTS Access Type must be entered";
+                $("#myModal").modal();
+
+            }else
+            if(partnerPresent < 1){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "HTS Access Type must be entered";
+                $("#myModal").modal();
+            }else
+            if(firstTest < 1){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "HIV Rapid Test Outcomes must be entered";
+                $("#myModal").modal();
+            }else
+            if(secondTest < 1){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "HIV Rapid Test Outcomes must be entered";
+                $("#myModal").modal();
+            }else
+            if(thirdTest < 1){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "HIV Rapid Test Outcomes must be entered";
+                $("#myModal").modal();
+            }else
+            if(fourthTest < 1){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "HIV Rapid Test Outcomes must be entered";
+                $("#myModal").modal();
+            }else
+            if(outSummary < 1){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "Outcome summary must be entered";
+                $("#myModal").modal();
+            }else
+            if(client < 1){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "Client Risk Category must be entered";
+                $("#myModal").modal();
+            }else
+            if(refferal < 1){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "Referral for Re-Testing must be entered";
+                $("#myModal").modal();
+            }else
+            if(result < 1){
+                var text = document.getElementById("modal_text");
+                text.innerHTML = "Result given to client must be entered";
+                $("#myModal").modal();
+            }
+        //     if( node_age.nodeValue == ' ' || node_time.nodeValue == ' ' || node_family_slip.nodeValue == ' ' || node_male_condom.nodeValue == ' ' ||
+        // node_female_condom.nodeValue == ' ' || j < 14){
+        //     $("#myModal").modal();
+        // }else{
+        //     createClient();
+        // }
+      
+      });
+});
+ </script>
