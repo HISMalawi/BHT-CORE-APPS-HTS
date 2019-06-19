@@ -25,9 +25,9 @@ var table = null;
   
 var count = 1;
 
+var first_name, last_name;
 console.log("Start date is "+start_date);
 $(document).ready(function(){
-  
  populateTable(start_date,end_date);
 
 });
@@ -79,17 +79,64 @@ function addRows(data){
             Object.keys(names).forEach(function(key) {
               var names_obj = names[key];
               Object.keys(names_obj).forEach(function(key) {
-                console.log(names_obj["given_name"]); 
-                             
-              });          
+               first_name = names_obj["given_name"]; 
+               last_name  = names_obj["family_name"]; 
+              });  
             });
+           
           }
           
         });
       }
       
     });
-    break;
+    var table = document.getElementById("referral_tbody");
+   
+    var new_row = document.createElement("tr");
+    new_row.style.fontSize = "14px";
+    new_row.style.backgroundColor = "rgb(204, 204, 204)";
+    new_row.style.height = "75px";
+
+    var td_name = document.createElement("td");
+    td_name.style.borderRight = "1px solid rgb(51, 51, 51);";
+ 
+    var node_name = document.createTextNode(first_name + " " + last_name);  
+
+    td_name.appendChild(node_name);
+    new_row.appendChild(td_name);
+
+    var td_entry_code = document.createElement("td");
+    td_entry_code.style.borderRight = "1px solid rgb(51, 51, 51);";
+ 
+    var node_entry_code = document.createTextNode("EC30-3");  
+
+    td_entry_code.appendChild(node_entry_code);
+    new_row.appendChild(td_entry_code);
+
+    var outcome = ["ART","REF","D","UNK"];
+    var k =0;
+    for (var i = 0; i < outcome.length; i++) {
+     k++;
+    var name = outcome[i];
+    var td1_outcome = document.createElement("td");
+
+    td1_outcome.className = "refValue";
+    td1_outcome.style.textAlign = "center";
+    if(outcome[i] == "UNK"){
+      //td1_outcome.className = "bdcell boldRight";
+    }
+    var div_outcome = document.createElement("div");
+    div_outcome.className = "refNormal";
+
+     node_outcome = document.createTextNode(name);
+     div_outcome.appendChild(node_outcome);
+     td1_outcome.appendChild(div_outcome);
+    
+    new_row.appendChild(td1_outcome);
+
+    table.appendChild(new_row);   
+  }
+  break;
   }
 
 }
