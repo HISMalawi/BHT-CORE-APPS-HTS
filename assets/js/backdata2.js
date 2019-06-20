@@ -12,7 +12,7 @@
  var node_female_condom, node_male_condom, node_family_slip;
  var age,time,hts_date,appointment, provider,comment,family_slip,male,female;
  var gen, ageGroup, type, hivTest, partnerPresent, firstTest, secondTest, thirdTest, fourthTest, resultGiven, outSummary, client,retesting;
- var ageValue;
+ var ageValue,outcome_date,node_outcome_date;
  gen = ageGroup = type = hivTest = partnerPresent = firstTest = secondTest = thirdTest = fourthTest = resultGiven = outSummary = client = retesting = 0;
  var j = 0;
  var patientGender;
@@ -242,7 +242,8 @@ function addRow(){
                  break;
              default:
            } 
-     };  } 
+     }; 
+     } 
   //  console.log(node_access_type.nodeValue);
      // LAst HIV Test
      var ltest = ["LNev","L-", "L+", "LEx","LIn"];
@@ -1135,9 +1136,11 @@ function showDate(id){
     }else if(appointment == 1){
         var new_date = __$("dateselector_day").value + " " + __$("dateselector_month").value + " " +__$("dateselector_year").value;
         node_appointment.nodeValue= new_date;
-      //  $j('#backButton, #nextButton').attr("disabled", false);
 
         $j("#shield, #popup").css("display", "none");
+    }else if(outcome_date == 1){
+        var new_date = __$("dateselector_day").value + " " + __$("dateselector_month").value + " " +__$("dateselector_year").value;
+        node_appointment.nodeValue= new_date;
     }
 
     appointment = 0;
