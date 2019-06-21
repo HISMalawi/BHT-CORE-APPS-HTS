@@ -1027,11 +1027,13 @@ function showDate(id){
       "border": "hidden"
 
   });
+    
+    
+    var day = node_date.nodeValue.split(" ")[0];
+    var mon = node_date.nodeValue.split(" ")[1];
+    var year = node_date.nodeValue.split(" ")[2];
 
-  var day = node_date.nodeValue.split(" ")[0];
-  var mon = node_date.nodeValue.split(" ")[1];
-  var year = node_date.nodeValue.split(" ")[2];
-
+ 
 
   var table = document.createElement("table");
   table.style.marginLeft = "150px";
@@ -1087,6 +1089,7 @@ function showDate(id){
       $j("#shield, #popup").css("display", "none");
       appointment = 0;
       hts_date =0;
+      
   };
 
   $j(cl).css({
@@ -1140,7 +1143,9 @@ function showDate(id){
         $j("#shield, #popup").css("display", "none");
     }else if(outcome_date == 1){
         var new_date = __$("dateselector_day").value + " " + __$("dateselector_month").value + " " +__$("dateselector_year").value;
-        node_appointment.nodeValue= new_date;
+        node_outcome_date.nodeValue= new_date;
+
+        $j("#shield, #popup").css("display", "none");
     }
 
     appointment = 0;
@@ -1276,11 +1281,11 @@ function displayKeyboard(id){
 
     var row1 = ["0","1", "2", "3","4","5","6","7","8","9"];
 
-    var row2 = ["A", "B", "C", "D", "E", "F","G","H","J","K"];
+    var row2 = ["A", "B", "C", "D", "E", "F","G","H","J","I"];
 
-    var row3 = ["L", "M", "N","O", "P","Q", "R", "S", "T", "U"];
+    var row3 = ["J", "K", "L","M", "N","O", "P", "Q", "R", "S"];
 
-    var row4 = ["V","W","X","Y","Z","Del", "Clear", "Space"];
+    var row4 = ["T","U","V","W","X","Y","Z","Del", "Clear", "Space"];
 
 
     var cl = document.createElement("div");
@@ -1297,7 +1302,8 @@ function displayKeyboard(id){
         $j("#popup").html("");
         provider = 0;
         comment = 0;
-
+        reg = 0;
+        art = 0;
     };
 
     $j(cl).css({
@@ -1331,6 +1337,8 @@ function displayKeyboard(id){
         $j("#popup").html("");
         comment = 0;
         provider = 0;
+        art = 0;
+        reg = 0;
     }
     var holder = document.createElement("div");
 
@@ -1405,6 +1413,12 @@ function displayKeyboard(id){
          }else if(comment ==1){
             var str = node_comment.nodeValue;
             node_comment.nodeValue = str + v;
+         }else if(art ==1){
+            var str = node_art.nodeValue;
+            node_art.nodeValue = str + v;
+         }else if(reg ==1){
+            var str = node_reg.nodeValue;
+            node_reg.nodeValue = str + v;
          }
 
         }
@@ -1445,7 +1459,13 @@ function displayKeyboard(id){
             }else if (comment ==1){
                 var str = node_comment.nodeValue;
                 node_comment.nodeValue = str + v;
-            }
+            }else if(art ==1){
+                var str = node_art.nodeValue;
+                node_art.nodeValue = str + v;
+             }else if(reg ==1){
+                var str = node_reg.nodeValue;
+                node_reg.nodeValue = str + v;
+             }
         }
 
         td2.appendChild(btn);
@@ -1484,7 +1504,13 @@ function displayKeyboard(id){
             }else if(comment ==1){
                 var str = node_comment.nodeValue;
                 node_comment.nodeValue = str + v;
-            }
+            }else if(art ==1){
+                var str = node_art.nodeValue;
+                node_art.nodeValue = str + v;
+             }else if(reg ==1){
+                var str = node_reg.nodeValue;
+                node_reg.nodeValue = str + v;
+             }
         }
 
         td3.appendChild(btn);
@@ -1556,6 +1582,42 @@ function displayKeyboard(id){
                     default:
                     var str2 = node_comment.nodeValue;
                     node_comment.nodeValue = str2 + str;
+                    }
+            }else if(art == 1){
+                switch(str){
+                    case "Clear":
+                    node_art.nodeValue = " ";
+                      break;
+                    case "Del":
+                    var v =  node_art.nodeValue;
+                   
+                    node_art.nodeValue = v.slice(0, -1);
+                      break;
+                    case "Space":
+                    var v =  node_art.nodeValue;
+                    node_art.nodeValue = v + " ";
+                    break;
+                    default:
+                    var str2 = node_art.nodeValue;
+                    node_art.nodeValue = str2 + str;
+                    }
+            }else if(reg == 1){
+                switch(str){
+                    case "Clear":
+                    node_reg.nodeValue = " ";
+                      break;
+                    case "Del":
+                    var v =  node_reg.nodeValue;
+                   
+                    node_reg.nodeValue = v.slice(0, -1);
+                      break;
+                    case "Space":
+                    var v =  node_reg.nodeValue;
+                    node_reg.nodeValue = v + " ";
+                    break;
+                    default:
+                    var str2 = node_reg.nodeValue;
+                    node_reg.nodeValue = str2 + str;
                     }
             }
             }
@@ -2335,6 +2397,76 @@ function showNumber(id){
         } 
 
 }
+
+function incrementDay(){
+    var value = parseInt(__$("dateselector_day").value);
+    var v = value + 1;
+    if(v<10){
+        __$("dateselector_day").value = "0"+v;
+    }else{
+        __$("dateselector_day").value = value + 1;
+    }
+}
+function decrementDay(){
+    var value = parseInt(__$("dateselector_day").value);
+    var v = value - 1;
+    if(v<10){
+        __$("dateselector_day").value = "0"+v;
+    }else{
+        __$("dateselector_day").value = value - 1;
+    }
+}
+function incrementYear(){
+    var value = parseInt(__$("dateselector_year").value);
+    if(value < year){
+    __$("dateselector_year").value = value + 0001;
+    }else{
+        __$("dateselector_year").value = value;
+    }
+}
+var dob_months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+function decrementYear(){
+    var value = parseInt(__$("dateselector_year").value);
+    __$("dateselector_year").value = value - 0001;
+
+}
+
+function incrementMonth(){
+    var value = $("dateselector_month").value;
+    var value_year =  $("dateselector_year").value;
+    var value_index = dob_months.indexOf(value);
+    // if(value_year < year){   
+    //      __$("dateselector_month").value = dob_months[(value_index+1) % dob_months.length];
+    // }else if (value_year == year){
+    //     console.log("Year is "+dob_months[(value_index+1)]);
+    //     $("dateselector_month").value = value;
+    // }
+    __$("dateselector_month").value = dob_months[(value_index+1) % dob_months.length];
+
+}
+
+function decrementMonth(){
+    var value = $("dateselector_month").value;
+    var value_index = dob_months.indexOf(value);
+    if ((value_index-1) < 0){
+        __$("dateselector_month").value = dob_months[(dob_months.length-1) % dob_months.length];
+    }else{
+        __$("dateselector_month").value = dob_months[(value_index-1) % dob_months.length];
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 //CREATING PATIENT
 

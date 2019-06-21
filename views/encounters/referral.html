@@ -15,16 +15,28 @@
 <script type="text/javascript" src="/apps/HTS/assets/js/common.js"></script>
 <script type="text/javascript" src="/apps/HTS/assets/js/elements.js"></script>
 <script src="../../../../assets/js/jquery.min.js"></script>
-<script type="text/javascript" src="/apps/HTS/assets/js/backdata2.js"></script>
 <script type="text/javascript" src="/apps/HTS/assets/js/referral.js"></script>
+<script type="text/javascript" src="/apps/HTS/assets/js/backdata2.js"></script>
+
 <link rel="stylesheet" href="/assets/css/alertifyjs/css/alertify.css" type="text/css">
 <link rel="stylesheet" type="text/css" href="../../../../assets/css/datatables/jquery.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="../../../../assets/css/datatables/fixedHeader.dataTables.min.css">
 
 <link rel="stylesheet" href="/assets/css/maindashboard/footer.css">
+<link rel="stylesheet" href="/apps/HTS/assets/css/backdata.css" type="text/css">
 <link rel="stylesheet" href="/apps/HTS/assets/css/referral.css" type="text/css">
-
+<script src="/assets/js/datatables/jquery.dataTables.min.js"></script>
+<script src="/assets/js/datatables/dataTables.fixedHeader.min.js"></script>
+<script src="/assets/js/datatables/datatables.js"></script>
+<style>
+    * {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing:content-box;
+}
+</style>
 <style media="save">
+
 button {
     display: none;
 }
@@ -60,11 +72,6 @@ button {
   /*Shows pop-up content when "active" class is present */
   visibility:visible;
 }      
-* {
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing:content-box;
-}
 .main{
     width: 1000%;
 }
@@ -87,20 +94,34 @@ background: url(/assets/images/btn_yellow.png) right repeat;
 border-radius: 12px;
 pointer-events: none;
 }
- </style>      
+ </style> 
+ <script>
+  //current date
+  var dateObj = new Date();
+  locale = "en-us";
+  var mon = dateObj.toLocaleString(locale, { month: "short" });
+  var day = dateObj.getUTCDate();
+  var year = dateObj.getUTCFullYear();
+
+  var node_date = document.createTextNode("");  
+  node_date.nodeValue = day + " " + mon + " " + year;
+ </script>     
 </head>
-<body id="mateme"s>
+<body id="mateme">
 <div id="container">
     <div id="content" class="main">
-        <div style="border: 1px inset rgb(136, 136, 136); overflow: auto; width: calc(100vw - 20px); height: calc(100vh - 320px); margin: 1px;">
+        <div style="border: 1px inset rgb(136, 136, 136);width: calc(100vw - 20px); height: calc(100vh - 320px); margin: 1px;">
                 <div class="sectionHeader">ART Referral</div>
                 <div style="border-bottom: 1px solid rgb(0, 101, 253); height: 2px;"></div>
             <table id="referral" width="100%" cellpadding="10" border="0" style="border-collapse: collapse;">
-                <tbody id = "referral_tbody">
-                    <tr class="refHeader">
-                        <th colspan="2" style="text-align: center; border-right: 1px solid rgb(51, 51, 51); padding-right: 8%;">Patient</th>
-                        <th colspan="7" style="text-align: center; border-right: 1px solid rgb(51, 51, 51); padding-left: 20%;">Referral Outcome</th>
-                    </tr>
+              <thead>
+                <tr class="refHeader">
+                  <th colspan="2" style="text-align: center; border-right: 1px solid rgb(51, 51, 51); padding-right: 8%;">Patient</th>
+                  <th colspan="7" style="text-align: center; border-right: 1px solid rgb(51, 51, 51); padding-left: 20%;">Referral Outcome</th>
+              </tr>
+              </thead>
+              
+              <tbody id = "referral_tbody">
                     <tr>
                         <td  style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">Name</td>
                         <td  style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">Visit Entry Code</td>
@@ -124,9 +145,9 @@ pointer-events: none;
             <span>Finish</span>
           </button>
           <!-- createClient(); -->
-          <!-- <button id="save" class="blue right">
-            <span>Save</span>
-          </button> -->
+          <button id="save" class="blue right">
+            <span>Back</span>
+          </button>
         </div>
       </footer>
 
@@ -143,6 +164,20 @@ pointer-events: none;
 
 </body>
 </html>
-<script src="../../../../assets/js/bootstrap/bootstrap.min.js"></script>
-<script src="../../../../assets/js/datatables/jquery.dataTables.min.js"></script>
-<script src="../../../../assets/js/datatables/dataTables.fixedHeader.min.js"></script>
+
+<script type="text/javascript">
+  // $("#referral").dataTables({
+  //   "bJQueryUI":true,
+  //    "bSort":false,
+  //    "bPaginate":true,
+  //    "sPaginationType":"full_numbers",
+  //     "iDisplayLength": 3
+  // });+
+
+  table = $("referral").DataTable({"pageLength": 3,
+            dom: 'Bfrtip',
+            buttons: [
+              { extend: 'excel', text: 'Export excel', className: 'blue'}
+            ]
+          });
+</script>

@@ -589,66 +589,7 @@ var url_string = window.location;
     var day = dateObj.getUTCDate();
     var year = dateObj.getUTCFullYear();
     
-    function incrementDay(){
-        var value = parseInt(__$("dateselector_day").value);
-        var v = value + 1;
-        if(v<10){
-            __$("dateselector_day").value = "0"+v;
-        }else{
-            __$("dateselector_day").value = value + 1;
-        }
-    }
-    function decrementDay(){
-        var value = parseInt(__$("dateselector_day").value);
-        var v = value - 1;
-        if(v<10){
-            __$("dateselector_day").value = "0"+v;
-        }else{
-            __$("dateselector_day").value = value - 1;
-        }
-    }
-    function incrementYear(){
-        var value = parseInt(__$("dateselector_year").value);
-        if(value < year){
-        __$("dateselector_year").value = value + 0001;
-        }else{
-            __$("dateselector_year").value = value;
-        }
-    }
-    var dob_months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    function decrementYear(){
-        var value = parseInt(__$("dateselector_year").value);
-        __$("dateselector_year").value = value - 0001;
 
-    }
-
-    function incrementMonth(){
-        var value = $("dateselector_month").value;
-        var value_year =  $("dateselector_year").value;
-        var value_index = dob_months.indexOf(value);
-        // if(value_year < year){   
-        //      __$("dateselector_month").value = dob_months[(value_index+1) % dob_months.length];
-        // }else if (value_year == year){
-        //     console.log("Year is "+dob_months[(value_index+1)]);
-        //     $("dateselector_month").value = value;
-        // }
-        __$("dateselector_month").value = dob_months[(value_index+1) % dob_months.length];
-
-    }
-
-    function decrementMonth(){
-        var value = $("dateselector_month").value;
-        var value_index = dob_months.indexOf(value);
-        if ((value_index-1) < 0){
-            __$("dateselector_month").value = dob_months[(dob_months.length-1) % dob_months.length];
-        }else{
-            __$("dateselector_month").value = dob_months[(value_index-1) % dob_months.length];
-        }
-
-
-    }
-
-    
 
     function postHtsVisit() {
         var currentTime = moment().format(' HH:mm:ss');
