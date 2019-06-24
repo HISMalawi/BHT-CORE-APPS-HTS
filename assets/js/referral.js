@@ -25,19 +25,17 @@ var months = {0: "January", 1: "February",
 var table = null;
   
 var first_name, last_name, patientID,node_date, started_art, refused, died, unknown;
-var new_date, art_id, reg_id;
+var new_date, art_id, reg_id, save,art,reg;
 var art_input =  reg_input =0;
 
 $j(document).ready(function(){
 
    populateTable(start_date,end_date);
-    table = $j("#referral").DataTable({
-      pageLength: 3
-      // pagination: true,
-      // lengthMenu: [5, 10, 30]
-  });
-
-  console.log(table);
+  //   table = $j("#referral").DataTable({
+  //     pageLength: 3
+  //     // pagination: true,
+  //     // lengthMenu: [5, 10, 30]
+  // });
 
 });
 
@@ -94,7 +92,6 @@ function addRows(data){
                 first_name = names_obj["given_name"]; 
                 last_name  = names_obj["family_name"]; 
                 if(first_name != "Dummy"){
-                  console.log(c);
                   populateRows(c);
                   }
                 break;
@@ -262,7 +259,7 @@ function addRows(data){
 
     var btn_save = document.createElement("button");
     btn_save.className = "gray_save";
-    btn_save.id = "btnSave";
+    btn_save.id = "btnSave"+c;
 
     node_save = document.createTextNode("Save");  
     btn_save.appendChild(node_save);
@@ -274,7 +271,7 @@ function addRows(data){
     
     div_date.onclick = function () { 
       outcome_date = document.getElementById(this.id);
-
+      
       //css
       div_date.style.border = "2px solid rgb(197, 0, 0)";
       div_art.style.border = "2px solid rgb(136, 136, 136)";
@@ -291,12 +288,16 @@ function addRows(data){
       art = document.getElementById(this.id);
       art_input = 1;
       art_id = this.id;
+
+      regex = new RegExp('([0-9]+)|([WDMY]+)','g');
+      splittedArray = art_id.match(regex);
+      num = splittedArray[0];
       //css 
       div_art.style.border = "2px solid rgb(197, 0, 0)";
       div_date.style.border = "2px solid rgb(136, 136, 136)";
       div_reg.style.border = "2px solid rgb(136, 136, 136)";
-      $j("#btnSave").removeClass("gray_save");
-      $j("#btnSave").addClass("blue_save");
+      $j("#btnSave"+num).removeClass("gray_save");
+      $j("#btnSave"+num).addClass("blue_save");
 
       $j("#popup").html("");
       displayKeyboard2("popup");
@@ -305,20 +306,29 @@ function addRows(data){
       reg = document.getElementById(this.id);  
       reg_input = 1;
       reg_id = this.id;
+
+      regex = new RegExp('([0-9]+)|([WDMY]+)','g');
+      splittedArray = reg_id.match(regex);
+      num = splittedArray[0];
+
+      //css
       div_reg.style.border = "2px solid rgb(197, 0, 0)";
       div_art.style.border = "2px solid rgb(136, 136, 136)";
       div_date.style.border = "2px solid rgb(136, 136, 136)";
-      $j("#btnSave").removeClass("gray_save");
-      $j("#btnSave").addClass("blue_save");
+      $j("#btnSave"+num).removeClass("gray_save");
+      $j("#btnSave"+num).addClass("blue_save");
 
       $j("#popup").html("");
       displayKeyboard2("popup");
     };
-    btn_save.onclick = function () {
-
+    $j('#btnSave'+c).click(function(){
+      if(node_outcome == ''){
+          showMessage("Enter outcome");
+      }else{
       postArtReferral();
-    
-    };
+      }
+  });
+  
   }
 
     
@@ -376,11 +386,11 @@ function addRows(data){
               ]
       };
 
-      if(art.innerHTML !== '') {
+      if(art_input == 1) {
         obs.observations.push({ concept_id: 7054, value_text: art.innerHTML });
       }
 
-      if(reg.innerHTML !== '') {
+      if(reg_input == 1) {
         obs.observations.push({ concept_id: 7014, value_text: reg.innerHTML });
       }
       submitParameters(obs, "/observations", "nextPage")    

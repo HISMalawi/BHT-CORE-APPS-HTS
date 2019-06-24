@@ -72,7 +72,7 @@
     filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#ccc,endColorstr=#999);
 }
 
-.blue_save {
+.blue_save,.blue_save:hover {
     border: 1px solid #2f62a0;
     border-radius: 3px;
     font-size: 20px;
@@ -100,7 +100,7 @@
     margin-left:40%;
     cursor: pointer;
 }
-#btnSave:hover {
+.gray_save:hover {
     border: 1px solid #2f62a0;
     border-radius: 3px;
     font-size: 20px;

@@ -75,7 +75,7 @@ button {
 .btn-yellow {
 min-height: 40px;
 margin: 0px;
-    margin-bottom: 0px;
+margin-bottom: 0px;
 margin-bottom: 5px;
 font-size: 1.2em;
 background-color: #ffc579;
@@ -92,15 +92,16 @@ pointer-events: none;
 }
  </style> 
  <script>
-  //current date
-  var dateObj = new Date();
-  locale = "en-us";
-  var mon = dateObj.toLocaleString(locale, { month: "short" });
-  var day = dateObj.getUTCDate();
-  var year = dateObj.getUTCFullYear();
 
-  var node_date = document.createTextNode("");  
-  node_date.nodeValue = day + " " + mon + " " + year;
+    //current date
+    var dateObj = new Date();
+    locale = "en-us";
+    var mon = dateObj.toLocaleString(locale, { month: "short" });
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+
+    var node_date = document.createTextNode("");  
+    node_date.nodeValue = day + " " + mon + " " + year;
  </script>     
 </head>
 <body id="mateme">
@@ -111,40 +112,40 @@ pointer-events: none;
                 <div style="border-bottom: 1px solid rgb(0, 101, 253); height: 2px;"></div>
             <table id="referral" width="100%" cellpadding="10" border="0" style="border-collapse: collapse;">
               <thead>
-                <tr class="refHeader">
-                  <th style="text-align: center; border-right: 1px solid rgb(51, 51, 51); padding-right: 8%;">Patient</th>
-                  <th  style="text-align: center; border-right: 1px solid rgb(51, 51, 51); padding-left: 20%;">Referral Outcome</th>
-                  <th style="display:none;"></th>
-                  <th style="display:none;"></th>
-                  <th style="display:none;"></th>
-                  <th style="display:none;"></th>
-                  <th style="display:none;"></th>
-                  <th style="display:none;"></th>
-                  <th style="display:none;"></th>
-                  <th style="display:none;"></th>
-              </tr>
+                  <tr class="refHeader">
+                    <th colspan="2" style="text-align: center; border-right: 1px solid rgb(51, 51, 51); padding-right: 8%;">Patient</th>
+                    <th colspan="7" style="text-align: center; border-right: 1px solid rgb(51, 51, 51); padding-left: 20%;">Referral Outcome</th>
+                    <th style="display:none;"></th>
+                    <th style="display:none;"></th>
+                    <th style="display:none;"></th>
+                    <th style="display:none;"></th>
+                    <th style="display:none;"></th>
+                    <th style="display:none;"></th>
+                    <th style="display:none;"></th>
+                    <th style="display:none;"></th>
+                  </tr>
               </thead>
               
               <tbody id = "referral_tbody">
-                    <tr>
-                        <td  style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">Name</td>
-                        <td  style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">Visit Entry Code</td>
-                        <td class="vertHeader">Started ART</td>
-                        <td class="vertHeader">Refused/not<br> ready</td>
-                        <td class="vertHeader">Died<span style="color: white;">_______</span></td>
-                        <td class="vertHeader" style="border-right: 1px solid rgb(51, 51, 51);">Unknown<span style="color: white;">__</span></td>
-                        <td style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">Outcome Date</td>
-                        <td style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">Actual ART Site</td>
-                        <td style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">ART Reg No</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                </tbody>
+                  <tr>
+                      <td  style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">Name</td>
+                      <td  style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">Visit Entry Code</td>
+                      <td class="vertHeader">Started ART</td>
+                      <td class="vertHeader">Refused/not<br> ready</td>
+                      <td class="vertHeader">Died<span style="color: white;">_______</span></td>
+                      <td class="vertHeader" style="border-right: 1px solid rgb(51, 51, 51);">Unknown<span style="color: white;">__</span></td>
+                      <td style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">Outcome Date</td>
+                      <td style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">Actual ART Site</td>
+                      <td style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">ART Reg No</td>
+                      <td>&nbsp;</td>
+                  </tr>
+              </tbody>
         
             </table>
         </div>
     <footer class="footer">
 
-        <div class="container-footer">
+        <div class="container-footer">                 
           <button id="btnNext" class="green right" onclick="location='/';">
             <span>Finish</span>
           </button>

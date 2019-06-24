@@ -138,7 +138,7 @@ div.dataTables_wrapper {
         }
         #main {
             height: 100%;
-        }  </style>
+}  </style>
 
         
 </head>
@@ -571,21 +571,31 @@ var url_string = window.location;
     locale = "en-us";
     var testing_date = url.searchParams.get("testing_date");
     console.log("tes "+testing_date);
-    var testDay = testing_date.split('-')[0];
-    var testMonth = testing_date.split('-')[1];
-    var testYear = testing_date.split('-')[2];
-    var month = moment().month(testMonth-1).format("MMM");
-    var new_date = testDay + " " + month + " " + testYear;
+
+   
+    
     var node_age_value, regex, splittedArray, splittedTimeArray, text, num, node_time_value, time_text, time_num,timeValue, ageValue;
 
     //current date
-    var dateObj = new Date();
-    locale = "en-us";
-    var month = dateObj.toLocaleString(locale, { month: "short" });
-    var day = dateObj.getUTCDate();
-    var year = dateObj.getUTCFullYear();
+        var dateObj = new Date();
+        locale = "en-us";
+        var month = dateObj.toLocaleString(locale, { month: "short" });
+        var day = dateObj.getUTCDate();
+        var year = dateObj.getUTCFullYear();
     
-
+    if(testing_date == null){
+        console.log("Rea");
+         testDay = day;
+         testMonth = month;
+         testYear = year;
+         var new_date = testDay + " " + month + " " + testYear;
+    }else{
+        var testDay = testing_date.split('-')[0];
+        var testMonth = testing_date.split('-')[1];
+        var testYear = testing_date.split('-')[2];
+        var month = moment().month(testMonth-1).format("MMM");
+        var new_date = testDay + " " + month + " " + testYear;
+    }
 
     function postHtsVisit() {
         var currentTime = moment().format(' HH:mm:ss');
@@ -604,7 +614,6 @@ var url_string = window.location;
     
     function postHtsVisitObs(encounter){
 
-        
         
         var conceptAnswers = [
 
@@ -919,6 +928,7 @@ var url_string = window.location;
 
     }  
     function nextPage(){
+
     window.location.href = "/apps/HTS/views/encounters/backdata2.html?testing_date = "+testing_date;
     }
 
