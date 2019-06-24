@@ -1017,7 +1017,7 @@ function showDate(id){
   var footer = document.createElement("div");
         
   footer.innerHTML = "<table style='width: 100%; background-color:#000000;'><tr><td id = 'left' style='width: 35%; float: left;'></td><td id='right' style='width: 100%;' rowspan='2'></td></tr>" +
-      "<tr><td id = ''></td></tr><tr><td id='btns' colspan='2' style='padding-top: 8px; padding-bottom: 3px;border-top:1px solid black; background-color: black;'>" +
+      "<tr><td id = ''></td></tr><tr><td id='btns' colspan='2' style='padding-top: 8px; border-top:1px solid black; background-color: black;'>" +
       "</td></tr></table>"
 
   $j(footer).css({
@@ -1199,7 +1199,7 @@ function loadPopup(row) {
 
       left: 0.325 * screen.width + "px",
 
-      top: 0.18 * screen.height + "px",
+      top: 0.54 * screen.height + "px",
 
       border: "1px solid black",
 
@@ -1416,6 +1416,8 @@ function displayKeyboard(id){
          }else if(art ==1){
             var str = node_art.nodeValue;
             node_art.nodeValue = str + v;
+            
+            console.log("art "+ node_art.nodeValue);
          }else if(reg ==1){
             var str = node_reg.nodeValue;
             node_reg.nodeValue = str + v;

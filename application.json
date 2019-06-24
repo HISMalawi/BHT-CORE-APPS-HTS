@@ -1,30 +1,16 @@
 {
   "encounters": {
-    "hiv testing": {
+    "hts visit": {
       "available": true,
-      "encountersName": "hiv testing",
-      "activitiesIcon": "/assets/images/hts.png",
+      "encountersName": "hts visit",
+      "activitiesIcon": "/assets/images/anc.png",
       "url": "/apps/HTS/views/encounters/hts_visit.html"
-    },
-    "art referral": {
-      "available": true,
-      "encountersName": "art referral",
-      "activitiesIcon": "/assets/images/hiv-staging.png",
-      "url": "/apps/HTS/views/encounters/art_referral.html"
-    },
-    "find record": {
-      "available": true,
-      "encountersName": "Find enterred record",
-      "activitiesIcon": "/assets/images/social_history.png",
-      "url": "/apps/HTS/views/encounters/art_referral.html"
     }
   },
   "activities": {
     "url": "/apps/HTS/views/activities.html",
     "tasks": [
-      ["HIV Testing","hiv testing"],
-      ["ART Referral","art referral"],
-      ["Find Record","find record"]
+      ["HTS Visit","hts visit"]
     ]
     
   },

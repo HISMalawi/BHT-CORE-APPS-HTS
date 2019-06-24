@@ -411,3 +411,13 @@ select {
 #messageBar {
     left: 528.533px !important;
 }
+.noHover{
+    pointer-events: none;
+}
+#btnClose:hover{
+    background-color:  #fff;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#fff),to(#fff));
+    background-image: -webkit-linear-gradient(top,#fff,#fff);
+    background-image: -o-linear-gradient(top,#fff,#fff);
+    background-image: linear-gradient(180deg,#fff,#fff);
+}

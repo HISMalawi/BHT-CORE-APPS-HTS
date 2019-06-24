@@ -2,29 +2,24 @@
 <head>
         
 <script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
-<script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/standard.js" defer="true"></script>
-<link rel="stylesheet" type="text/css" href="../../../../assets/css/bootstrap/bootstrap.min.css">
 
-<script type="text/javascript" src="/assets/js/yes_no_ctrls.js"></script>
-<link rel="stylesheet" href="/assets/css/yes_no_ctrls.css" type="text/css">
 <script type="text/javascript" src="/assets/js/post_parameters.js"></script>
 <script type="text/javascript" src="/assets/js/generic_ajaxrequest.js"></script>
 <script type="text/javascript" src="/assets/js/alertifyjs/alertify.js"></script>
 <script type="text/javascript" src="/assets/js/does_connection_exist.js"></script>
 <script type="text/javascript" src="/assets/js/moment.js"></script>
-<script type="text/javascript" src="/apps/HTS/assets/js/common.js"></script>
-<script type="text/javascript" src="/apps/HTS/assets/js/elements.js"></script>
-<script src="../../../../assets/js/jquery.min.js"></script>
+<script src="/assets/js/jquery.min.js"></script>
 <script type="text/javascript" src="/apps/HTS/assets/js/referral.js"></script>
 <script type="text/javascript" src="/apps/HTS/assets/js/backdata2.js"></script>
 
+<link rel="stylesheet" type="text/css" href="../../../../assets/css/bootstrap/bootstrap.min.css">
 <link rel="stylesheet" href="/assets/css/alertifyjs/css/alertify.css" type="text/css">
 <link rel="stylesheet" type="text/css" href="../../../../assets/css/datatables/jquery.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="../../../../assets/css/datatables/fixedHeader.dataTables.min.css">
-
 <link rel="stylesheet" href="/assets/css/maindashboard/footer.css">
 <link rel="stylesheet" href="/apps/HTS/assets/css/backdata.css" type="text/css">
 <link rel="stylesheet" href="/apps/HTS/assets/css/referral.css" type="text/css">
+
 <script src="/assets/js/datatables/jquery.dataTables.min.js"></script>
 <script src="/assets/js/datatables/dataTables.fixedHeader.min.js"></script>
 <script src="/assets/js/datatables/datatables.js"></script>
@@ -45,7 +40,8 @@ button {
 }
   
 #save {
-    min-width: 140px;
+    min-width: 152px;
+    font-weight: 800;
   }
   .popup-overlay{
   /*Hides pop-up when there is no "active" class*/
@@ -109,15 +105,23 @@ pointer-events: none;
 </head>
 <body id="mateme">
 <div id="container">
-    <div id="content" class="main">
+    <div id="content" class="main" style="width:100%; overflow-x: scroll;height: 735px;">
         <div style="border: 1px inset rgb(136, 136, 136);width: calc(100vw - 20px); height: calc(100vh - 320px); margin: 1px;">
                 <div class="sectionHeader">ART Referral</div>
                 <div style="border-bottom: 1px solid rgb(0, 101, 253); height: 2px;"></div>
             <table id="referral" width="100%" cellpadding="10" border="0" style="border-collapse: collapse;">
               <thead>
                 <tr class="refHeader">
-                  <th colspan="2" style="text-align: center; border-right: 1px solid rgb(51, 51, 51); padding-right: 8%;">Patient</th>
-                  <th colspan="7" style="text-align: center; border-right: 1px solid rgb(51, 51, 51); padding-left: 20%;">Referral Outcome</th>
+                  <th style="text-align: center; border-right: 1px solid rgb(51, 51, 51); padding-right: 8%;">Patient</th>
+                  <th  style="text-align: center; border-right: 1px solid rgb(51, 51, 51); padding-left: 20%;">Referral Outcome</th>
+                  <th style="display:none;"></th>
+                  <th style="display:none;"></th>
+                  <th style="display:none;"></th>
+                  <th style="display:none;"></th>
+                  <th style="display:none;"></th>
+                  <th style="display:none;"></th>
+                  <th style="display:none;"></th>
+                  <th style="display:none;"></th>
               </tr>
               </thead>
               
@@ -145,7 +149,7 @@ pointer-events: none;
             <span>Finish</span>
           </button>
           <!-- createClient(); -->
-          <button id="save" class="blue right">
+          <button id="save" class="blue right" style="min-width:155px; font-weight: 800;">
             <span>Back</span>
           </button>
         </div>
@@ -164,20 +168,3 @@ pointer-events: none;
 
 </body>
 </html>
-
-<script type="text/javascript">
-  // $("#referral").dataTables({
-  //   "bJQueryUI":true,
-  //    "bSort":false,
-  //    "bPaginate":true,
-  //    "sPaginationType":"full_numbers",
-  //     "iDisplayLength": 3
-  // });+
-
-  table = $("referral").DataTable({"pageLength": 3,
-            dom: 'Bfrtip',
-            buttons: [
-              { extend: 'excel', text: 'Export excel', className: 'blue'}
-            ]
-          });
-</script>

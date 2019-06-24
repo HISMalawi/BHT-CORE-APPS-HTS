@@ -542,7 +542,7 @@ div.dataTables_wrapper {
       <!-- Modal content-->
       <div class="modal-content">
             <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" id="btnClose" data-dismiss="modal">&times;</button>
             </div>
         <div class="modal-body">
           <!-- <p style="font-size: 22px;font-weight: 800; text-align: center;">HTS Provider ID, Sex/Pregnancy, Age, Age Group, HTS Access Type, Last HIV Test, Partner Present, HIV Rapid Test Outcomes, Outcome summary, Result Given to Client, Client Risk Category, Referral for Re-Testing, Number of FRS given, Number of male condoms given, Number of female condoms given must be entered</p> -->
@@ -564,17 +564,13 @@ div.dataTables_wrapper {
 <script src="../../../../assets/js/bootstrap/bootstrap.min.js"></script>
 <script src="../../../../assets/js/datatables/jquery.dataTables.min.js"></script>
 <script src="../../../../assets/js/datatables/dataTables.fixedHeader.min.js"></script>
-<script type="text/javascript">
-    $('#backdata').DataTable( {
-        "scrollX": true,
-        "scrollY": true
-    } );
-</script>
+
 <script>
 var url_string = window.location;
     var url = new URL(url_string);
     locale = "en-us";
     var testing_date = url.searchParams.get("testing_date");
+    console.log("tes "+testing_date);
     var testDay = testing_date.split('-')[0];
     var testMonth = testing_date.split('-')[1];
     var testYear = testing_date.split('-')[2];
@@ -852,7 +848,7 @@ var url_string = window.location;
             case 'N-':
                 resultAnswer = conceptAnswers[8].positive;
                 break;
-            case 'N+':DS_Store
+            case 'N+':
                 resultAnswer = conceptAnswers[8].negative;
                 break;
             case 'NEx':
