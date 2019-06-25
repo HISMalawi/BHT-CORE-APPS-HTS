@@ -26,7 +26,7 @@ var table = null;
   
 var first_name, last_name, patientID,node_date, started_art, refused, died, unknown;
 var new_date, art_id, reg_id, save,art,reg;
-var art_input =  reg_input =0;
+var art_input =  reg_input = outcome_input = 0;
 
 $j(document).ready(function(){
 
@@ -45,11 +45,13 @@ $j(document).ready(function(){
     
     var url = apiProtocol + "://" + apiURL + ":" + apiPort;
 
-    url += "/api/v1/programs/"+ sessionStorage.programID + "/reports/find_all_patients?name=find_all_patients&patient";
+    url += "/api/v1/programs/"+ sessionStorage.programID + "/reports/patients?name=find_all_patients&patient";
 
     url += "&start_date=" + start_date;
 
     url += "&end_date=" + end_date;
+
+    url += "&page=2&page_size=3";
 
     console.log("Link is " + url);
 
@@ -155,7 +157,7 @@ function addRows(data){
       
       new_row.appendChild(td1_outcome);
       div_outcome.onclick = function () {  
-
+        outcome_input++;
         switch(this.id) {
             case "outcome1"+c:  
               $j('#outcome1'+c).addClass("circled");
@@ -225,10 +227,6 @@ function addRows(data){
     div_art.style.textAlign = "center";
     div_art.style.height ="30px";
 
-    // node_art = document.createTextNode(""); 
-    // node_art.id = "nodeArt"+c;
-    // console.log(node_art.id);  
-    // div_art.appendChild(node_art);
     td_art.appendChild(div_art);
 
     new_row.appendChild(td_art);
@@ -906,3 +904,42 @@ function addRows(data){
            $j("#shield, #popup").css("display", "block");
       
       }
+
+function previousPage(){
+  window.location.href = "refferal.html";
+}
+<div style="border: 1px inset rgb(153, 153, 153); border-radius: 5px; text-align: center; width: 380px; display: inline; padding: 15px; font-size: 20px; margin-left: 10px; margin-right: 10px;">
+- of -
+</div>
+function buildPagination(){
+  var div = document.getElementById('pagination');
+
+  var btnPrev = document.createElement("button");
+  btnPrev.id = "btnNavPrev";
+  btnPrev.className = "blue";
+  btnPrev.style.display = "inline";
+
+  var spanPrev = document.createElement("span");
+  //spanPrev.text("&lt;");
+  var nodePrev = document.createTextNode("<");
+  spanPrev.appendChild(nodePrev);
+
+  btnPrev.appendChild(spanPrev);
+  div.appendChild(btnPrev);
+
+  var divNum = document.createElement("div");
+  divNum.style.border = "border: 1px inset rgb(153, 153, 153)";
+  divNum.style.borderRadius = "5px";
+  divNum.style.textAlign = "center";
+  divNum.style.width = "380px";
+  divNum.style.display = "inline";
+  divNum.style.padding = "15px";
+  divNum.style.fontSize = "20px";
+  divNum.style.marginLeft = "10px";
+  divNum.style.marginRight = "10px";
+
+  var nodeNum = document.createTextNode("- of - ");
+  divNum.appendChild(nodeNum);
+
+
+}
