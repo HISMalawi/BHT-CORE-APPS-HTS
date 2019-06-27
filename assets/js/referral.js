@@ -25,7 +25,7 @@ var months = {0: "January", 1: "February",
 var table = null;
   
 var first_name, last_name, patientID,node_date, started_art, refused, died, unknown;
-var new_date, art_id, reg_id, save,art,reg;
+var new_date, art_id, reg_id, save,art,reg,date_id;
 var art_input =  reg_input = outcome_input = 0;
 var pageNum = dummy_patients = 0;
 var pageStart = 1;
@@ -34,12 +34,6 @@ $j(document).ready(function(){
 
    populateTable(start_date,end_date,pageNum);
    buildPagination();
-  //   table = $j("#referral").DataTable({
-  //     pageLength: 3
-  //     // pagination: true,
-  //     // lengthMenu: [5, 10, 30]
-  // });
-
 });
 
 
@@ -170,8 +164,15 @@ function addRows(data){
     
       var new_row = document.createElement("tr");
       new_row.style.fontSize = "14px";
-      new_row.style.backgroundColor = "rgb(204, 204, 204)";
       new_row.style.height = "75px";
+
+      if ( c % 2 == 0) {
+        new_row.style.backgroundColor = "#fff";
+
+      }else{
+        new_row.style.backgroundColor = "rgb(204, 204, 204)";
+
+      }
 
       var td_name = document.createElement("td");
       td_name.style.borderRight = "1px solid rgb(51, 51, 51)";
@@ -261,9 +262,6 @@ function addRows(data){
     div_date.style.textAlign = "center";
     div_date.style.height = "30px";
 
-  //  node_outcome_date = document.createTextNode(" "); 
-    //node_outcome.id = "outcomedate" +c;  
-   // div_date.appendChild(node_outcome_date);
     td_date.appendChild(div_date);
 
     new_row.appendChild(td_date);
@@ -277,7 +275,7 @@ function addRows(data){
     var div_art = document.createElement("div");
     div_art.id = "art"+c;
     div_art.className = "refText";
-    div_art.style.border = "2px solid rgb(136, 136, 136))";
+    div_art.style.border = "2px solid rgb(136, 136, 136)";
     div_art.style.fontSize = "16px";
     div_art.style.textAlign = "center";
     div_art.style.height ="30px";
@@ -310,16 +308,6 @@ function addRows(data){
     td_save.style.borderRight = "1px solid rgb(51, 51, 51)";
     td_save.style.padding = "0px";
 
-    // var btn_save = document.createElement("button");
-    // btn_save.id = "";
-    // btn_save.className = "gray_save";
-  
-    // var spanLast = document.createElement("span");
-    // var nodeLast = document.createTextNode("Save");
-    // spanLast.appendChild(nodeLast);
-  
-    // btn_save.appendChild(spanLast);
-
     var btn_save = document.createElement("button");
     btn_save.className = "gray_save";
     btn_save.id = "btnSave"+c;
@@ -339,13 +327,16 @@ function addRows(data){
     
     div_date.onclick = function () { 
       outcome_date = document.getElementById(this.id);
-      
+      date_id = this.id;
+
+      regex = new RegExp('([0-9]+)|([WDMY]+)','g');
+      splittedArray = date_id.match(regex);
+      num = splittedArray[0];
+
       //css
       div_date.style.border = "2px solid rgb(197, 0, 0)";
       div_art.style.border = "2px solid rgb(136, 136, 136)";
       div_reg.style.border = "2px solid rgb(136, 136, 136)";
-      $j("#btnSave").removeClass("gray_save");
-      $j("#btnSave").addClass("blue_save");
 
       $j("#popup").html("");
       showDate2("popup");
@@ -365,10 +356,6 @@ function addRows(data){
       div_date.style.border = "2px solid rgb(136, 136, 136)";
       div_reg.style.border = "2px solid rgb(136, 136, 136)";
 
-      $j("#btnSave"+num).removeClass("gray_save");
-      $j("#btnSave"+num).addClass("blue");
-      $j("#spanSave"+num).removeClass("gray_save");
-
       $j("#popup").html("");
       displayKeyboard2("popup");
     };
@@ -385,9 +372,6 @@ function addRows(data){
       div_reg.style.border = "2px solid rgb(197, 0, 0)";
       div_art.style.border = "2px solid rgb(136, 136, 136)";
       div_date.style.border = "2px solid rgb(136, 136, 136)";
-      $j("#btnSave"+num).removeClass("gray_save");
-      $j("#btnSave"+num).addClass("blue");
-      $j("#spanSave"+num).removeClass("gray_save");
 
       $j("#popup").html("");
       displayKeyboard2("popup");
@@ -614,11 +598,14 @@ function addRows(data){
  
              new_date = __$("dateselector_day").value + " " + __$("dateselector_month").value + " " +__$("dateselector_year").value;
             outcome_date.innerHTML = new_date;
-          
-           // node_outcome_date.nodeValue= new_date;
-    
+              
             $j("#shield, #popup").css("display", "none");
-        
+
+            
+            $j("#btnSave"+num).removeClass("gray_save");
+            $j("#btnSave"+num).addClass("blue");
+            $j("#spanSave"+num).removeClass("gray_save");
+
         appointment = 0;
         hts_date =0;
     
@@ -700,7 +687,13 @@ function addRows(data){
       ok.onclick = function () {
   
           $j('#backButton, #nextButton').attr("disabled", false);
-  
+
+
+          $j("#btnSave"+num).removeClass("gray_save");
+          $j("#btnSave"+num).addClass("blue");
+          $j("#spanSave"+num).removeClass("gray_save");
+
+
           $j("#shield, #popup").css("display", "none");
           $j("#popup").html("");
           comment = 0;
@@ -778,6 +771,7 @@ function addRows(data){
           if(art_input ==1){
            var v = this.innerHTML;
             art.innerHTML += v;
+
           }else if(reg_input){
             var v = this.innerHTML;
             reg.innerHTML += v;
