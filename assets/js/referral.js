@@ -26,16 +26,15 @@ var table = null;
   
 var first_name, last_name, patientID,node_date, started_art, refused, died, unknown;
 var new_date, art_id, reg_id, save,art,reg,date_id;
-var art_input =  reg_input = outcome_input = 0;
+var art_input =  reg_input = outcome_input = count = 0;
 var pageNum = dummy_patients = 0;
 var pageStart = 1;
-var pageEnd, totalSize;
+var pageEnd, totalSize,patient_num;
 $j(document).ready(function(){
 
    populateTable(start_date,end_date,pageNum);
-   buildPagination();
-});
 
+});
 
 
   function populateTable(start_date,end_date,pageNum){
@@ -52,8 +51,6 @@ $j(document).ready(function(){
 
     url += "&page_size=3";
 
-    console.log("Link is " + url);
-
     var xhttp = new XMLHttpRequest();
     
     xhttp.onreadystatechange = function() {
@@ -61,11 +58,10 @@ $j(document).ready(function(){
       if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
         
         var obj = JSON.parse(this.responseText);
-        console.log(obj);
+        
         for(let i in obj) {
-          var  patient_obj = obj['patients'];
-          var  patient_num = obj['count'];
-          console.log(patient_obj);
+             var  patient_obj = obj['patients'];
+            patient_num = obj['count'];
             break;
            }
            Object.size = function(patient_num) {
@@ -76,9 +72,11 @@ $j(document).ready(function(){
                 return size;
             };
             totalSize = Object.size(patient_num);
-            console.log("Total "+totalSize);
-           getTotalPages(patient_num);
            addRows(patient_obj);
+           pageEnd = Math.round(totalSize/3);
+           if(count == 0){
+           buildPagination();
+           }
       }
     
     };
@@ -91,33 +89,6 @@ $j(document).ready(function(){
     
     xhttp.send();
       
-  }
-
-  function getTotalPages(data){
-    for(var i = 0; i < data.length; i++){
-      var  obj = data[i];
-     for(let i in obj) {
-           patientID =  obj['patient_id'];     
-           var person_obj = obj["person"];
-               var names = person_obj["names"];
-               for(let i in names) {
-                 var names_obj = names[i];
-                 for(let i in names_obj) {
-                 first_name = names_obj["given_name"]; 
-                 last_name  = names_obj["family_name"]; 
-                 if(first_name == "Dummy"){
-                    dummy_patients++;
-                   }
-                 break;
-                 }
-               break;
-               }
-               break;
-       }
-   }
-   console.log("Patient"+dummy_patients);
-   pageEnd = Math.round((totalSize - dummy_patients) / 3);
-   console.log("Tota" + pageEnd);
   }
 
 function addRows(data){
@@ -137,12 +108,11 @@ function addRows(data){
                 first_name = names_obj["given_name"]; 
                 last_name  = names_obj["family_name"]; 
                if(first_name != "Dummy"){
-                  console.log(c);
                   populateRows(c);
                   }else{
-                   dummy_patients++;  
-                  //break;
-                   //populateTable(start_date,end_date,pageNum);
+                  first_name = "--";
+                  last_name = "";
+                  populateRows(c);
                  }
                 break;
                 }
@@ -150,11 +120,6 @@ function addRows(data){
               }
               break;
       }
-      // if(c==3){
-      //   break;
-      // }
-      
- //break;
   }
 
 }
@@ -455,7 +420,6 @@ function addRows(data){
     window.location.href = "/apps/HTS/views/encounters/referral.html?start_date=" + start_date +"&end_date=" + end_date;
 
     }
-
 
     function showDate2(id){
       $j("#shield, #popup").css("display", "block");
@@ -976,6 +940,7 @@ function previousPage(){
   window.location.href = "refferal.html";
 }
 function buildPagination(){
+  count =1;
   var div = document.getElementById('pagination');
 
   var btnFirst = document.createElement("button");
@@ -1044,18 +1009,19 @@ function buildPagination(){
   div.appendChild(btnLast);
 
   btnNext.onclick = function () { 
+    var last = pageEnd - 1;
+    if(pageNum < last){
     pageNum++;
     pageStart++;
     nodeNum.nodeValue = pageStart +" - of - " + pageEnd;
-    console.log("Page Num" + pageNum);
     $j("#referral_tbody tr").remove(); 
     populateTable(start_date,end_date,pageNum);
+    }
   }
   btnPrev.onclick = function () { 
     if(pageNum >= 1){
       pageNum--;
       pageStart--;
-        console.log("Wasssss");
       nodeNum.nodeValue = pageStart +" - of - " + pageEnd;
       $j("#referral_tbody tr").remove(); 
       populateTable(start_date,end_date,pageNum);
@@ -1068,4 +1034,13 @@ function buildPagination(){
     $j("#referral_tbody tr").remove(); 
     populateTable(start_date,end_date,pageNum);
   }
+  btnLast.onclick = function () { 
+    var last = pageEnd - 1;
+    pageNum = last;
+    pageStart = pageEnd;
+    nodeNum.nodeValue = pageStart +" - of - " + pageEnd;
+    $j("#referral_tbody tr").remove(); 
+    populateTable(start_date,end_date,pageNum);
+  
+}
 }

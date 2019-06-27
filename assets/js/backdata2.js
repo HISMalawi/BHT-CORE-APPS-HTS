@@ -1201,7 +1201,7 @@ function loadPopup(row) {
 
       top: 0.54 * screen.height + "px",
 
-      border: "1px solid black",
+     // border: "1px solid black",
 
       background: "white",
 
@@ -1236,7 +1236,7 @@ function loadPopup(row) {
   shield.style.zIndex = 50;
 
   var frame = document.getElementById('content');
- frame.appendChild(shield);
+ //frame.appendChild(shield);
 
 
  frame.appendChild(popup);
