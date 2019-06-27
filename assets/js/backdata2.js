@@ -1212,34 +1212,6 @@ function loadPopup(row) {
   });
 
 
-  var popupHeader = document.createElement("div");
-
-  popupHeader.id = "popup-header";
-
-  popupHeader.innerHTML = current_popup;
-
-  $j(popupHeader).css({
-
-      "width": "100%",
-
-      "height": 0.055 * screen.height + "px",
-
-      "font-size": "22px",
-
-      "font-weight": "bold",
-
-      "padding-top": "10px",
-
-      "text-align": "center",
-
-      border: "1px dotted white",
-
-      background: "#6D929B",
-
-      color: "white"
-
-  });
-
 
   var shield = document.createElement("div");
 
@@ -1266,7 +1238,6 @@ function loadPopup(row) {
   var frame = document.getElementById('content');
  frame.appendChild(shield);
 
-popup.appendChild(popupHeader);
 
  frame.appendChild(popup);
 }
@@ -1662,9 +1633,7 @@ function displayKeyboard(id){
         __$("btns").appendChild(cl);
     
         __$("btns").appendChild(ok);
-    
-        // __$("popup-header").innerHTML = current_popup;
-    
+        
          $j("#shield, #popup").css("display", "block");
     
     }
@@ -2036,9 +2005,7 @@ function showAge(id){
                 __$("btns").appendChild(cl);
             
                 __$("btns").appendChild(ok);
-            
-                // __$("popup-header").innerHTML = current_popup;
-            
+                        
                  $j("#shield, #popup").css("display", "block");
             
                 } 

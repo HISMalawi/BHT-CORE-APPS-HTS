@@ -27,10 +27,13 @@ var table = null;
 var first_name, last_name, patientID,node_date, started_art, refused, died, unknown;
 var new_date, art_id, reg_id, save,art,reg;
 var art_input =  reg_input = outcome_input = 0;
-
+var pageNum = dummy_patients = 0;
+var pageStart = 1;
+var pageEnd, totalSize;
 $j(document).ready(function(){
 
-   populateTable(start_date,end_date);
+   populateTable(start_date,end_date,pageNum);
+   buildPagination();
   //   table = $j("#referral").DataTable({
   //     pageLength: 3
   //     // pagination: true,
@@ -41,7 +44,7 @@ $j(document).ready(function(){
 
 
 
-  function populateTable(start_date,end_date){
+  function populateTable(start_date,end_date,pageNum){
     
     var url = apiProtocol + "://" + apiURL + ":" + apiPort;
 
@@ -51,7 +54,9 @@ $j(document).ready(function(){
 
     url += "&end_date=" + end_date;
 
-    url += "&page=2&page_size=3";
+    url += "&page=" + pageNum;
+
+    url += "&page_size=3";
 
     console.log("Link is " + url);
 
@@ -62,7 +67,24 @@ $j(document).ready(function(){
       if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
         
         var obj = JSON.parse(this.responseText);
-        addRows(obj);
+        console.log(obj);
+        for(let i in obj) {
+          var  patient_obj = obj['patients'];
+          var  patient_num = obj['count'];
+          console.log(patient_obj);
+            break;
+           }
+           Object.size = function(patient_num) {
+            var size = 0, key;
+            for (key in patient_num) {
+                if (patient_num.hasOwnProperty(key)) size++;
+                }
+                return size;
+            };
+            totalSize = Object.size(patient_num);
+            console.log("Total "+totalSize);
+           getTotalPages(patient_num);
+           addRows(patient_obj);
       }
     
     };
@@ -75,6 +97,33 @@ $j(document).ready(function(){
     
     xhttp.send();
       
+  }
+
+  function getTotalPages(data){
+    for(var i = 0; i < data.length; i++){
+      var  obj = data[i];
+     for(let i in obj) {
+           patientID =  obj['patient_id'];     
+           var person_obj = obj["person"];
+               var names = person_obj["names"];
+               for(let i in names) {
+                 var names_obj = names[i];
+                 for(let i in names_obj) {
+                 first_name = names_obj["given_name"]; 
+                 last_name  = names_obj["family_name"]; 
+                 if(first_name == "Dummy"){
+                    dummy_patients++;
+                   }
+                 break;
+                 }
+               break;
+               }
+               break;
+       }
+   }
+   console.log("Patient"+dummy_patients);
+   pageEnd = Math.round((totalSize - dummy_patients) / 3);
+   console.log("Tota" + pageEnd);
   }
 
 function addRows(data){
@@ -93,9 +142,14 @@ function addRows(data){
                 for(let i in names_obj) {
                 first_name = names_obj["given_name"]; 
                 last_name  = names_obj["family_name"]; 
-                if(first_name != "Dummy"){
+               if(first_name != "Dummy"){
+                  console.log(c);
                   populateRows(c);
-                  }
+                  }else{
+                   dummy_patients++;  
+                  //break;
+                   //populateTable(start_date,end_date,pageNum);
+                 }
                 break;
                 }
               break;
@@ -108,6 +162,7 @@ function addRows(data){
       
  //break;
   }
+
 }
 
  function populateRows(c){
@@ -255,12 +310,27 @@ function addRows(data){
     td_save.style.borderRight = "1px solid rgb(51, 51, 51)";
     td_save.style.padding = "0px";
 
+    // var btn_save = document.createElement("button");
+    // btn_save.id = "";
+    // btn_save.className = "gray_save";
+  
+    // var spanLast = document.createElement("span");
+    // var nodeLast = document.createTextNode("Save");
+    // spanLast.appendChild(nodeLast);
+  
+    // btn_save.appendChild(spanLast);
+
     var btn_save = document.createElement("button");
     btn_save.className = "gray_save";
     btn_save.id = "btnSave"+c;
+    btn_save.style.display = "inline";
 
-    node_save = document.createTextNode("Save");  
-    btn_save.appendChild(node_save);
+    var spanLast = document.createElement("span");
+    spanLast.className = "gray";
+    spanLast.id = "spanSave"+c;
+    node_save = document.createTextNode("Save"); 
+    spanLast.appendChild(node_save); 
+    btn_save.appendChild(spanLast);
     td_save.appendChild(btn_save);
     new_row.appendChild(td_save);
 
@@ -294,8 +364,10 @@ function addRows(data){
       div_art.style.border = "2px solid rgb(197, 0, 0)";
       div_date.style.border = "2px solid rgb(136, 136, 136)";
       div_reg.style.border = "2px solid rgb(136, 136, 136)";
+
       $j("#btnSave"+num).removeClass("gray_save");
-      $j("#btnSave"+num).addClass("blue_save");
+      $j("#btnSave"+num).addClass("blue");
+      $j("#spanSave"+num).removeClass("gray_save");
 
       $j("#popup").html("");
       displayKeyboard2("popup");
@@ -314,7 +386,8 @@ function addRows(data){
       div_art.style.border = "2px solid rgb(136, 136, 136)";
       div_date.style.border = "2px solid rgb(136, 136, 136)";
       $j("#btnSave"+num).removeClass("gray_save");
-      $j("#btnSave"+num).addClass("blue_save");
+      $j("#btnSave"+num).addClass("blue");
+      $j("#spanSave"+num).removeClass("gray_save");
 
       $j("#popup").html("");
       displayKeyboard2("popup");
@@ -908,11 +981,21 @@ function addRows(data){
 function previousPage(){
   window.location.href = "refferal.html";
 }
-<div style="border: 1px inset rgb(153, 153, 153); border-radius: 5px; text-align: center; width: 380px; display: inline; padding: 15px; font-size: 20px; margin-left: 10px; margin-right: 10px;">
-- of -
-</div>
 function buildPagination(){
   var div = document.getElementById('pagination');
+
+  var btnFirst = document.createElement("button");
+  btnFirst.id = "btnNavPrev";
+  btnFirst.className = "blue";
+  btnFirst.style.display = "inline";
+
+  var spanFirst = document.createElement("span");
+  var nodeFirst = document.createTextNode("|<");
+  spanFirst.appendChild(nodeFirst);
+
+  btnFirst.appendChild(spanFirst);
+  div.appendChild(btnFirst);
+
 
   var btnPrev = document.createElement("button");
   btnPrev.id = "btnNavPrev";
@@ -920,7 +1003,6 @@ function buildPagination(){
   btnPrev.style.display = "inline";
 
   var spanPrev = document.createElement("span");
-  //spanPrev.text("&lt;");
   var nodePrev = document.createTextNode("<");
   spanPrev.appendChild(nodePrev);
 
@@ -928,7 +1010,7 @@ function buildPagination(){
   div.appendChild(btnPrev);
 
   var divNum = document.createElement("div");
-  divNum.style.border = "border: 1px inset rgb(153, 153, 153)";
+  divNum.style.border = "1px inset rgb(153, 153, 153)";
   divNum.style.borderRadius = "5px";
   divNum.style.textAlign = "center";
   divNum.style.width = "380px";
@@ -938,8 +1020,58 @@ function buildPagination(){
   divNum.style.marginLeft = "10px";
   divNum.style.marginRight = "10px";
 
-  var nodeNum = document.createTextNode("- of - ");
+  var nodeNum = document.createTextNode(pageStart +" - of - " + pageEnd);
   divNum.appendChild(nodeNum);
 
+  div.appendChild(divNum);
 
+  var btnNext = document.createElement("button");
+  btnNext.id = "btnNavPrev";
+  btnNext.className = "blue";
+  btnNext.style.display = "inline";
+
+  var spanNext = document.createElement("span");
+  var nodeNext = document.createTextNode(">");
+  spanNext.appendChild(nodeNext);
+
+  btnNext.appendChild(spanNext);
+  div.appendChild(btnNext);
+
+  var btnLast = document.createElement("button");
+  btnLast.id = "btnNavPrev";
+  btnLast.className = "blue";
+  btnLast.style.display = "inline";
+
+  var spanLast = document.createElement("span");
+  var nodeLast = document.createTextNode(">|");
+  spanLast.appendChild(nodeLast);
+
+  btnLast.appendChild(spanLast);
+  div.appendChild(btnLast);
+
+  btnNext.onclick = function () { 
+    pageNum++;
+    pageStart++;
+    nodeNum.nodeValue = pageStart +" - of - " + pageEnd;
+    console.log("Page Num" + pageNum);
+    $j("#referral_tbody tr").remove(); 
+    populateTable(start_date,end_date,pageNum);
+  }
+  btnPrev.onclick = function () { 
+    if(pageNum >= 1){
+      pageNum--;
+      pageStart--;
+        console.log("Wasssss");
+      nodeNum.nodeValue = pageStart +" - of - " + pageEnd;
+      $j("#referral_tbody tr").remove(); 
+      populateTable(start_date,end_date,pageNum);
+      }
+  }
+  btnFirst.onclick = function () { 
+    pageNum = 0;
+    pageStart = 1;
+    nodeNum.nodeValue = pageStart +" - of - " + pageEnd;
+    $j("#referral_tbody tr").remove(); 
+    populateTable(start_date,end_date,pageNum);
+  }
 }

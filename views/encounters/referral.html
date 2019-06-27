@@ -29,6 +29,9 @@
     -moz-box-sizing: content-box;
     box-sizing:content-box;
 }
+.gray{
+  background: none;
+}
 </style>
 <style media="save">
 
@@ -90,6 +93,7 @@ background: url(/assets/images/btn_yellow.png) right repeat;
 border-radius: 12px;
 pointer-events: none;
 }
+
  </style> 
  <script>
 
@@ -104,7 +108,7 @@ pointer-events: none;
     node_date.nodeValue = day + " " + mon + " " + year;
  </script>     
 </head>
-<body id="mateme" onload="buildPagination();">
+<body id="mateme" onload="">
 <div id="container">
     <div id="content" class="main" style="width:100%; overflow-x: scroll;height: 735px;">
         <div style="border: 1px inset rgb(136, 136, 136);width: calc(100vw - 20px); height: calc(100vh - 320px); margin: 1px;">
@@ -124,21 +128,22 @@ pointer-events: none;
                     <th style="display:none;"></th>
                     <th style="display:none;"></th>
                   </tr>
+                  <tr>
+                    <td  style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">Name</td>
+                    <td  style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">Visit Entry Code</td>
+                    <td class="vertHeader">Started ART</td>
+                    <td class="vertHeader">Refused/not<br> ready</td>
+                    <td class="vertHeader">Died<span style="color: white;">_______</span></td>
+                    <td class="vertHeader" style="border-right: 1px solid rgb(51, 51, 51);">Unknown<span style="color: white;">__</span></td>
+                    <td style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">Outcome Date</td>
+                    <td style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">Actual ART Site</td>
+                    <td style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">ART Reg No</td>
+                    <td>&nbsp;</td>
+                </tr>
               </thead>
               
               <tbody id = "referral_tbody">
-                  <tr>
-                      <td  style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">Name</td>
-                      <td  style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">Visit Entry Code</td>
-                      <td class="vertHeader">Started ART</td>
-                      <td class="vertHeader">Refused/not<br> ready</td>
-                      <td class="vertHeader">Died<span style="color: white;">_______</span></td>
-                      <td class="vertHeader" style="border-right: 1px solid rgb(51, 51, 51);">Unknown<span style="color: white;">__</span></td>
-                      <td style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">Outcome Date</td>
-                      <td style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">Actual ART Site</td>
-                      <td style="text-align: center; border-right: 1px solid rgb(51, 51, 51); vertical-align: bottom;">ART Reg No</td>
-                      <td>&nbsp;</td>
-                  </tr>
+                 
               </tbody>
         
             </table>
