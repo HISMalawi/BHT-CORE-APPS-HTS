@@ -2059,8 +2059,6 @@ function showNumber(id){
 
     $j(ok).css({
 
-        //'margin-left': '360px',
-
         'margin-right': '2px'
 
     });
@@ -2426,17 +2424,6 @@ function decrementMonth(){
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
 //CREATING PATIENT
 
 var answers_hash = {
@@ -2449,9 +2436,6 @@ var patient_type_map = {
 }
 
 function createClient() {
-  //  var summary_table = document.getElementsByClassName('summary-table')[0];
-    //var rows = summary_table.getElementsByTagName('tr');
-
     var parametersPassed = {
         given_name: "Dummy", family_name: "Patient",
         gender: patientGender, birthdate: "N/A", birthdate_estimated: "N/A",
@@ -2479,8 +2463,6 @@ function postClientParamaters(parametersPassed) {
             if (this.readyState == 4 && this.status == 201) {
                 var obj = JSON.parse(this.responseText);
                 createPatient(obj['person_id']);
-
-                // submitPatienttype(obj['person_id']);
             }
         };
         xhttp.open("POST", url, true);
@@ -2517,9 +2499,11 @@ function enrollPatient(person_id) {
         date_enrolled: moment(node_date.nodeValue).format("YYYY-MM-DD")
     });
     http.open('POST', url, true);
+
     //Send the proper header information along with the request
     http.setRequestHeader('Content-type', 'application/json');
-    http.onreadystatechange = function () { //Call a function when the state changes.
+    http.onreadystatechange = function () { 
+        //Call a function when the state changes.
         if (http.readyState == 4) {
             if (http.status == 201) {
                 var v = JSON.parse(http.responseText);
@@ -2572,14 +2556,13 @@ function postPatienttypeObs(encounter) {
             {concept_id: 3289, value_coded: ans}
         ]
     };
-
     submitParameters(obs, "/observations", "savePatienttypeThenRedirect");
 }
 
 function savePatienttypeThenRedirect(obs) {
-  //  document.location = "/views/patient/print.html?person_id=" + obs[0].person_id;
   postHtsVisit();
 }
+
 function previousPage(){
     window.location.href = "backdata.html";
   }

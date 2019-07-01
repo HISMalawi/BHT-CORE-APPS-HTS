@@ -56,7 +56,35 @@
     /* .td {
       border: 1px solid black;
     } */
-    
+    .deleteHeader{
+        padding: 5px;
+
+        color: white;
+
+        background-color: rgb(52, 92, 180);
+
+        border: 2px outset rgb(52, 92, 180);
+
+        border-top-left-radius: 8px;
+
+        border-top-right-radius: 8px;
+
+        font-size: 28px;
+    }
+    .deleteTitle{
+        font-size: 18px;
+
+        text-align: center;
+
+        font-weight: 600;
+    }
+    .deleteBody{
+        font-size: 20px;
+
+        text-align: center;
+
+        font-weight: 400;
+    }
     table {
     width: 100%;
     height: 100%;
@@ -154,6 +182,70 @@ div.dataTables_wrapper {
   /*Shows pop-up content when "active" class is present */
   visibility:visible;
 }
+.btnDelete,.btnDelete:hover {
+    margin-bottom: 5px;
+    font-size: 1.2em;
+    background-color: #6281a7;
+    color: #FFF;
+    font-weight: normal;
+    padding: 9px;
+    cursor: pointer;
+    background: #305f92;
+    -moz-user-select: none;
+    -moz-user-focus: disabled;
+    border-radius: 12px;
+    }
+.btnClose {
+    margin-bottom: 5px;
+    font-size: 1.2em;
+    background-color: #6281a7;
+    color: #FFF;
+    font-weight: normal;
+    padding: 9px;
+    cursor: pointer;
+    background: #c50000;
+    -moz-user-select: none;
+    -moz-user-focus: disabled;
+    border-radius: 12px;
+    }
+    .btnClose:hover {
+
+    background-color: #600909;
+    background: #600909;
+    }
+    .btnDelete:hover {
+    background: #23466c;
+
+    }
+.validHeader{
+    padding: 5px;
+
+    color: white;
+
+    background-color: #c50000;
+
+    border: 2px outset#c50000;
+
+    border-top-left-radius: 8px;
+
+    border-top-right-radius: 8px;
+
+    font-size: 28px;
+}
+.validTitle{
+        font-size: 18px;
+
+        text-align: center;
+
+        font-weight: 600;
+    }
+    .validBody{
+        font-size: 18px;
+
+        text-align: center;
+
+        font-weight: 400;
+    }
  </style>
 <style media="save">
         button {
@@ -607,17 +699,35 @@ div.dataTables_wrapper {
     
       <!-- Modal content-->
       <div class="modal-content">
-            <div class="modal-header">
-                    <button type="button" class="close" id="btnClose" data-dismiss="modal">&times;</button>
+        <div class="modal-header validHeader">
+                <h5 class="modal-title validTitle" id="exampleModalLabel">Confirm Action</h5>
             </div>
         <div class="modal-body">
-          <!-- <p style="font-size: 22px;font-weight: 800; text-align: center;">HTS Provider ID, Sex/Pregnancy, Age, Age Group, HTS Access Type, Last HIV Test, Partner Present, HIV Rapid Test Outcomes, Outcome summary, Result Given to Client, Client Risk Category, Referral for Re-Testing, Number of FRS given, Number of male condoms given, Number of female condoms given must be entered</p> -->
-        <p style="font-size: 22px;font-weight: 800; text-align: center;" id="modal_text"></p>
+        <p style="font-size: 20px; text-align: center;" id="modal_text"></p>
         </div>
- 
+        <div class="modal-footer" style="text-align:center;">
+                <button type="button" class=" btn-secondary btnDelete" data-dismiss="modal">OK</button>
+        </div>
       </div>
     </div>
   </div>
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header deleteHeader">
+              <h5 class="modal-title deleteTitle" id="exampleModalLabel">Confirm Action</h5>
+            </div>
+            <div class="modal-body deleteBody">
+                You are about to delete this record. <br>
+                Do you want to continue?
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+             <button type="button" class=" btn-secondary btnClose" data-dismiss="modal">Close</button>
+              <button type="button" class=" btn-primary btnDelete" onmousedown="deleteRow();">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
   <div class="popup-overlay">
         <!--Creates the popup content-->
          <div class="popup-content">
@@ -1158,8 +1268,14 @@ var url_string = window.location;
       
       });
         $("#delete").click(function(){
-        $('#backdata tr:last').remove();
-        addRow();
+            $("#deleteModal").modal();
+ 
       });
+   
 });
+function deleteRow(){
+        $j('#backdata tr:last').remove();
+        addRow();
+        $j('#deleteModal').modal('hide');
+      }
  </script>
