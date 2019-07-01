@@ -2580,3 +2580,6 @@ function savePatienttypeThenRedirect(obs) {
   //  document.location = "/views/patient/print.html?person_id=" + obs[0].person_id;
   postHtsVisit();
 }
+function previousPage(){
+    window.location.href = "backdata.html";
+  }
