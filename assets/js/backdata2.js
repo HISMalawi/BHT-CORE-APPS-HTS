@@ -1201,7 +1201,7 @@ function loadPopup(row) {
 
       top: 0.54 * screen.height + "px",
 
-     // border: "1px solid black",
+      border: "1px solid black",
 
       background: "white",
 
