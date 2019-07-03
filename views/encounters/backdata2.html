@@ -741,22 +741,22 @@ div.dataTables_wrapper {
 <script src="../../../../assets/js/datatables/dataTables.fixedHeader.min.js"></script>
 
 <script>
-var url_string = window.location;
+    var url_string = window.location;
     var url = new URL(url_string);
     locale = "en-us";
     var testing_date = url.searchParams.get("testing_date");
-    console.log("tes "+testing_date);
-
-   
     
     var node_age_value, regex, splittedArray, splittedTimeArray, text, num, node_time_value, time_text, time_num,timeValue, ageValue;
-
+    var min,max;
+    var hivAccessAnswer, refferedSlipAnswer, hivTestAnswer,clientRiskAnswer, pregnantAnswer,partnerAnswer,partnerStatusAnswer,clientConscentAnswer;
+    var ageGroupAnswer, outcomeAnswer, testOne, testTwo, testThree, testFour, resultAnswer, reTestingAnswer;
+    var genderAnswer = ' ';
     //current date
-        var dateObj = new Date();
-        locale = "en-us";
-        var month = dateObj.toLocaleString(locale, { month: "short" });
-        var day = dateObj.getUTCDate();
-        var year = dateObj.getUTCFullYear();
+    var dateObj = new Date();
+    locale = "en-us";
+    var month = dateObj.toLocaleString(locale, { month: "short" });
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
     
     if(testing_date == null){
          testDay = day;
@@ -788,8 +788,53 @@ var url_string = window.location;
     
     function postHtsVisitObs(encounter){
 
-        
-        var conceptAnswers = [
+        var obs = {
+            encounter_id: encounter["encounter_id"],
+            observations: [
+                { concept_id: 8846, value_coded: genderAnswer}, 
+                { concept_id: 3467, value_text: ageValue}, 
+                { concept_id: 9753, value_coded: ageGroupAnswer}, 
+                { concept_id: 9428, value_coded: hivAccessAnswer }, 
+                { concept_id: 9656, value_coded: hivTestAnswer }, 
+                { concept_id: 9765, value_text: timeValue }, 
+                { concept_id: 9761, value_coded: partnerAnswer}, 
+                { concept_id: 9754, value_coded: testOne }, 
+                { concept_id: 9755, value_coded: testTwo}, 
+                { concept_id: 9785, value_coded: testThree }, 
+                { concept_id: 9759, value_coded: testFour},
+                { concept_id: 6538, value_coded: outcomeAnswer}, 
+                { concept_id: 9764, value_coded: resultAnswer},
+                { concept_id: 3082, vlue_coded: partnerStatusAnswer},      
+                { concept_id: 9427, value_coded: clientRiskAnswer }, 
+                { concept_id: 9762, value_coded: reTestingAnswer}, 
+                { concept_id: 5096, value_text: node_appointment.nodeValue }, 
+                { concept_id: 9758, value_text: node_family_slip.nodeValue }, 
+                { concept_id: 7858, value_text: node_male_condom.nodeValue }, 
+                { concept_id: 7859, value_text: node_female_condom.nodeValue },
+                { concept_id: 6357, value_text: node_comment.nodeValue }      
+            ]
+        };
+        if(pregnantAnswer !== '') {
+            
+            obs.observations.push({ concept_id: 6131, value_coded: pregnantAnswer });
+        }
+        submitParameters(obs, "/observations", "nextPage")
+
+    }  
+    function nextPage(){
+
+    window.location.href = "/apps/HTS/views/encounters/backdata2.html?testing_date = "+testing_date;
+    }
+
+</script>
+<script>
+
+    jQuery(document).ready(function($){
+        $("#save").click(function(){
+            var modalText = document.getElementById("modal_text");
+            var age;
+                    
+            var conceptAnswers = [
 
             /*Access type 1*/
             {
@@ -870,23 +915,7 @@ var url_string = window.location;
                 "CT":7877
             }
         ];
-        var hivAccessAnswer;
-        var refferedSlipAnswer;
-        var hivTestAnswer;
-        var clientRiskAnswer;
-        var pregnantAnswer;
-        var partnerAnswer;
-        var partnerStatusAnswer;
-        var clientConscentAnswer;
-        var ageGroupAnswer;
-        var genderAnswer = ' ';
-        var outcomeAnswer;
-        var testOne;
-        var testTwo;
-        var testThree;
-        var testFour;
-        var resultAnswer;
-        var reTestingAnswer;
+
 
         switch (node_access_type) {
             case 'PITC':
@@ -961,15 +990,23 @@ var url_string = window.location;
         }
         switch (node_age_group) {
             case 'A':
+                min = 0;
+                max = 330;
                 ageGroupAnswer = conceptAnswers[7].elevenMonths;
                 break;
             case 'B':
+                min = 331;
+                max = 5110;
                 ageGroupAnswer = conceptAnswers[7].fourteenYears;
                 break;
             case 'C':
+                min = 5111;
+                max = 8760;
                 ageGroupAnswer = conceptAnswers[7].twentyFourYears;
             break;
             case 'D':
+                min = 8761;
+                max = 36500;
                 ageGroupAnswer = conceptAnswers[7].twentyFiveYears;
                 break;
         }
@@ -1067,67 +1104,22 @@ var url_string = window.location;
                 partnerAnswer = conceptAnswers[5].yes;
                 break;
         }
-
-        var obs = {
-            encounter_id: encounter["encounter_id"],
-            observations: [
-                { concept_id: 8846, value_coded: genderAnswer}, 
-                { concept_id: 3467, value_text: ageValue}, 
-                { concept_id: 9753, value_coded: ageGroupAnswer}, 
-                { concept_id: 9428, value_coded: hivAccessAnswer }, 
-                { concept_id: 9656, value_coded: hivTestAnswer }, 
-                { concept_id: 9765, value_text: timeValue }, 
-                { concept_id: 9761, value_coded: partnerAnswer}, 
-                { concept_id: 9754, value_coded: testOne }, 
-                { concept_id: 9755, value_coded: testTwo}, 
-                { concept_id: 9785, value_coded: testThree }, 
-                { concept_id: 9759, value_coded: testFour},
-                { concept_id: 6538, value_coded: outcomeAnswer}, 
-                { concept_id: 9764, value_coded: resultAnswer},
-                { concept_id: 3082, vlue_coded: partnerStatusAnswer},      
-                { concept_id: 9427, value_coded: clientRiskAnswer }, 
-                { concept_id: 9762, value_coded: reTestingAnswer}, 
-                { concept_id: 5096, value_text: node_appointment.nodeValue }, 
-                { concept_id: 9758, value_text: node_family_slip.nodeValue }, 
-                { concept_id: 7858, value_text: node_male_condom.nodeValue }, 
-                { concept_id: 7859, value_text: node_female_condom.nodeValue },
-                { concept_id: 6357, value_text: node_comment.nodeValue }      
-            ]
-        };
-        if(pregnantAnswer !== '') {
-            
-            obs.observations.push({ concept_id: 6131, value_coded: pregnantAnswer });
-        }
-        submitParameters(obs, "/observations", "nextPage")
-
-    }  
-    function nextPage(){
-
-    window.location.href = "/apps/HTS/views/encounters/backdata2.html?testing_date = "+testing_date;
-    }
-
-</script>
-<script>
-
-    jQuery(document).ready(function($){
-        $("#save").click(function(){
-
-            if( node_age.nodeValue == ' ' || node_time.nodeValue == ' ' || node_family_slip.nodeValue == ' ' || node_male_condom.nodeValue == ' ' ||
-            node_female_condom.nodeValue == ' ' || gen < 1 || ageGroup < 1 || type < 1 || hivTest < 1 || partnerPresent < 1 || firstTest < 1 || secondTest < 1 || thirdTest < 1
-            || fourthTest < 1 || client < 1 ||retesting < 1 || resultGiven < 1 ){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "HTS Provider ID, Sex/Pregnancy, Age, Age Group, HTS Access Type, Last HIV Test, Partner Present, HIV Rapid Test Outcomes, Outcome summary, Result Given to Client, Client Risk Category, Referral for Re-Testing, Number of FRS given, Number of male condoms given, Number of female condoms given must be entered";
-                $("#myModal").modal();
-            }else
-            if( node_age.nodeValue == ' ' ){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "Age must be entered";
-                $("#myModal").modal();
-            }else if( node_time.nodeValue == ' ' ){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "Last HIV test must be entered";
-                $("#myModal").modal();
-            } 
+            // if( node_age.nodeValue == ' ' || node_time.nodeValue == ' ' || node_family_slip.nodeValue == ' ' || node_male_condom.nodeValue == ' ' ||
+            // node_female_condom.nodeValue == ' ' || gen < 1 || ageGroup < 1 || type < 1 || hivTest < 1 || partnerPresent < 1 || firstTest < 1 || secondTest < 1 || thirdTest < 1
+            // || fourthTest < 1 || client < 1 ||retesting < 1 || resultGiven < 1 ){
+            //     var text = document.getElementById("modal_text");
+            //     text.innerHTML = "HTS Provider ID, Sex/Pregnancy, Age, Age Group, HTS Access Type, Last HIV Test, Partner Present, HIV Rapid Test Outcomes, Outcome summary, Result Given to Client, Client Risk Category, Referral for Re-Testing, Number of FRS given, Number of male condoms given, Number of female condoms given must be entered";
+            //     $("#myModal").modal();
+            // }else
+            // if( node_age.nodeValue == ' ' ){
+            //     var text = document.getElementById("modal_text");
+            //     text.innerHTML = "Age must be entered";
+            //     $("#myModal").modal();
+            // }else if( node_time.nodeValue == ' ' ){
+            //     var text = document.getElementById("modal_text");
+            //     text.innerHTML = "Last HIV test must be entered";
+            //     $("#myModal").modal();
+            // } 
             
             node_age_value = node_age.nodeValue;
             regex = new RegExp('([0-9]+)|([WDMY]+)','g');
@@ -1137,134 +1129,173 @@ var url_string = window.location;
             num = splittedArray[0];
             switch (text) {
                 case 'W':
-                ageValue = Math.round(num/52);
+                if(num > 1 && num <= 26){
+                    ageValue = Math.round(num/52);
+                    age = num*7;
+                }else{
+                    modalText.innerHTML = "Number of weeks between 1 and 26 must be entered";
+                    $("#myModal").modal();
+                }           
                     break;
                 case 'D':
-                ageValue = Math.round(num/365);
+                    if(num > 1 && num <= 30){
+                        ageValue = Math.round(num/365);
+                        age = num*1;
+                    }else{
+                        modalText.innerHTML = "Number of days between 1 and 30 must be entered";
+                        $("#myModal").modal();
+                    }             
                     break;
                 case 'M':
-                ageValue =  Math.round(num/12);
+                    if(num > 1 && num <= 36){
+                    ageValue =  Math.round(num/12);
+                    age = num*30;
+                    }else{
+                        modalText.innerHTML = "Number of months between 1 and 36 must be entered";
+                        $("#myModal").modal();
+                    }   
                 break;
                 case 'Y':
-                    ageValue = num;
-                    break;
+                    if(num > 1 && num <= 110){
+                        ageValue = num;
+                        age = num*365;
+                    }else{
+                        modalText.innerHTML = "Number of years between 1 and 110 must be entered";
+                        $("#myModal").modal();
+                    }
+                  break;
                 default:
-                var text = document.getElementById("modal_text");
-                    text.innerHTML = "Number and time units (days, weeks, months, years) must be entered";
+                    
+                     modalText.innerHTML = "Missing Units for Age";
                     $("#myModal").modal();
                 break;
-            }
-        
-        
-         node_time_value = node_time.nodeValue;
-         splittedTimeArray = node_time_value.match(regex);
-         time_text = splittedTimeArray[1];
-         time_num = splittedTimeArray[0];
-        switch (time_text) {
-            case 'W':
-               timeValue = Math.round(time_num/52);
-                break;
-            case 'D':
-               timeValue = Math.round(time_num/365);
-                break;
-            case 'M':
-                timeValue =  Math.round(time_num/12);
-            break;
-            case 'Y':
-                timeValue = time_num;
-                break;
-            default:
-            var text = document.getElementById("modal_text");
-                text.innerHTML = "Number and time units (days, weeks, months, years) must be entered";
-                $("#myModal").modal();
-             break;
         }
+    
+      if (age < min || age > max) {
+            modalText.innerHTML = "Age group does not match entered age";
+            $("#myModal").modal();
+      } 
+        
+        // if(node_ltest != "LNev"){
+        //         node_time_value = node_time.nodeValue;
+        //     if(node_time_value == ' '){
+        //         modalText.innerHTML = "Time since last test must be entered";
+        //         $("#myModal").modal();
+        //     }else{
+        //     splittedTimeArray = node_time_value.match(regex);
+        //     time_text = splittedTimeArray[1];
+        //     time_num = splittedTimeArray[0];
+        //     switch (time_text) {
+        //         case 'W':
+        //         if(time_num > 1 && time_num <= 26){
+        //             timeValue = Math.round(time_num/52);
+        //         }else{
+        //             modalText.innerHTML = "Number and time units (days, weeks, months, years) must be entered";
+        //             $("#myModal").modal();
+        //         }
+                
+        //             break;
+        //         case 'D':
+        //             if(time_num > 1 && time_num <= 30){
+        //                 timeValue = Math.round(time_num/365);
+        //             }else{
+        //                 modalText.innerHTML = "Number and time units (days, weeks, months, years) must be entered";
+        //                 $("#myModal").modal();
+        //             }
+        //             break;
+        //         case 'M':
+        //             if(time_num > 1 && time_num <= 36){
+        //                 timeValue =  Math.round(time_num/12);
+        //             }else{
+        //                 modalText.innerHTML = "Number and time units (days, weeks, months, years) must be entered";
+        //                 $("#myModal").modal();
+        //             }
+        //         break;
+        //         case 'Y':
+        //             if(time_num > 1 && time_num <= 110){
+        //                 timeValue = time_num;
+        //             }else{
+        //                 modalText.innerHTML = "Number and time units (days, weeks, months, years) must be entered";
+        //                 $("#myModal").modal();
+        //             }
+        //             break;
+        //         default:
+        //             modalText.innerHTML = "Expecting Time Since Last Test to be a number with a unit";
+        //             $("#myModal").modal();
+        //         break;
+        //     }
+        // }
 
+        // }
  
-            if( node_family_slip.nodeValue == ' ' ){
-                $("#myModal").modal();var text = document.getElementById("modal_text");
-                text.innerHTML = "Number of FRS must be entered";
-                $("#myModal").modal();
-            }else
-            if( node_male_condom.nodeValue == ' ' ){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "Male condoms must be entered";
-                $("#myModal").modal();
-            } else
-            if( node_female_condom.nodeValue == ' ' ){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "Female must be entered";
-                $("#myModal").modal();
-            }else
-            if(gen < 1){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "Sex/Pregnancy must be entered";
-                $("#myModal").modal();
-            }
-            else
-            if(ageGroup < 1){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "Age group must be entered";
-                $("#myModal").modal();
-            }else
-            if(type < 1){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "HTS Access Type must be entered";
-                $("#myModal").modal();
-            }else
-            if(hivTest < 1){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "HTS Access Type must be entered";
-                $("#myModal").modal();
+            // if( node_family_slip.nodeValue == ' ' ){
+            //     modalText.innerHTML = "Number of FRS must be entered";
+            //     $("#myModal").modal();
+            // }else
+            // if( node_male_condom.nodeValue == ' ' ){
+            //     modalText.innerHTML = "Male condoms must be entered";
+            //     $("#myModal").modal();
+            // } else
+            // if( node_female_condom.nodeValue == ' ' ){
+            //     modalText.innerHTML = "Female must be entered";
+            //     $("#myModal").modal();
+            // }else
+            // if(gen < 1){
+            //     modalText.innerHTML = "Sex/Pregnancy must be entered";
+            //     $("#myModal").modal();
+            // }
+            // else
+            // if(ageGroup < 1){
+            //     modalText.innerHTML = "Age group must be entered";
+            //     $("#myModal").modal();
+            // }else
+            // if(type < 1){
+            //     modalText.innerHTML = "HTS Access Type must be entered";
+            //     $("#myModal").modal();
+            // }else
+            // if(hivTest < 1){
+            //     modalText.innerHTML = "HTS Access Type must be entered";
+            //     $("#myModal").modal();
 
-            }else
-            if(partnerPresent < 1){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "Partner present must be entered";
-                $("#myModal").modal();
-            }else
-            if(firstTest < 1){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "HIV Rapid Test Outcomes must be entered";
-                $("#myModal").modal();
-            }else
-            if(secondTest < 1){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "HIV Rapid Test Outcomes must be entered";
-                $("#myModal").modal();
-            }else
-            if(thirdTest < 1){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "HIV Rapid Test Outcomes must be entered";
-                $("#myModal").modal();
-            }else
-            if(fourthTest < 1){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "HIV Rapid Test Outcomes must be entered";
-                $("#myModal").modal();
-            }else
-            if(outSummary < 1){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "Outcome summary must be entered";
-                $("#myModal").modal();
-            }else
-            if(client < 1){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "Client Risk Category must be entered";
-                $("#myModal").modal();
-            }else
-            if(retesting < 1){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "Referral for Re-Testing must be entered";
-                $("#myModal").modal();
-            }else
-            if(resultGiven < 1){
-                var text = document.getElementById("modal_text");
-                text.innerHTML = "Result given to client must be entered";
-                $("#myModal").modal();
-            }else{
-            createClient();
-            }       
+            // }else
+            // if(partnerPresent < 1){
+            //     modalText.innerHTML = "Partner present must be entered";
+            //     $("#myModal").modal();
+            // }else
+            // if(firstTest < 1){
+            //     modalText.innerHTML = "HIV Rapid Test Outcomes must be entered";
+            //     $("#myModal").modal();
+            // }else
+            // if(secondTest < 1){
+            //     modalText.innerHTML = "HIV Rapid Test Outcomes must be entered";
+            //     $("#myModal").modal();
+            // }else
+            // if(thirdTest < 1){
+            //     modalText.innerHTML = "HIV Rapid Test Outcomes must be entered";
+            //     $("#myModal").modal();
+            // }else
+            // if(fourthTest < 1){
+            //     modalText.innerHTML = "HIV Rapid Test Outcomes must be entered";
+            //     $("#myModal").modal();
+            // }else
+            // if(outSummary < 1){
+            //     modalText.innerHTML = "Outcome summary must be entered";
+            //     $("#myModal").modal();
+            // }else
+            // if(client < 1){
+            //     modalText.innerHTML = "Client Risk Category must be entered";
+            //     $("#myModal").modal();
+            // }else
+            // if(retesting < 1){
+            //     modalText.innerHTML = "Referral for Re-Testing must be entered";
+            //     $("#myModal").modal();
+            // }else
+            // if(resultGiven < 1){
+            //     modalText.innerHTML = "Result given to client must be entered";
+            //     $("#myModal").modal();
+            // }else{
+            // createClient();
+            // }       
       
       });
         $("#delete").click(function(){

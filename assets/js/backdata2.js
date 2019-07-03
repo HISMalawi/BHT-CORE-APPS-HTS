@@ -276,7 +276,7 @@ function addRow(){
                  $j('#ltest3').removeClass("circled");
                  $j('#ltest4').removeClass("circled");
                  $j('#ltest5').removeClass("circled");
-                 node_ltest = "LNEv";
+                 node_ltest = "LNev";
                   break;
                 case "ltest2":
                 $j('#ltest2').addClass("circled");
@@ -1922,6 +1922,11 @@ function showAge(id){
                                 var str = "Y";
                                 node_age.nodeValue = v + str;
                                 break;
+                                case "0":
+                                var v = this.innerHTML;
+                                var str = node_age.nodeValue;
+                                node_age.nodeValue = str + v;
+                                break;
                                 default:
                               } 
                         }else if(time == 1){
@@ -1952,6 +1957,11 @@ function showAge(id){
                                 var v = node_time.nodeValue;
                                 var str = "Y";
                                 node_time.nodeValue = v + str;
+                                break;
+                                case "0":
+                                var v = this.innerHTML;
+                                var str = node_time.nodeValue;
+                                node_time.nodeValue = str + v;
                                 break;
                                 default:
                               } 
