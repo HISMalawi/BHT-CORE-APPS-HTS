@@ -2030,7 +2030,7 @@ function showNumber(id){
 
     var row3 = ["7", "8", "9"];
 
-    var row4 = ["Del", "Clear"];
+    var row4 = ["0","Del", "Clear"];
 
 
     var cl = document.createElement("div");
@@ -2281,12 +2281,17 @@ function showNumber(id){
                 if(family_slip ==1){
                     switch(str){
                         case "Clear":
-                        node_family_slip.nodeValue = " ";
+                          node_family_slip.nodeValue = " ";
                          break;
                          case "Del":
+
                          var v =  node_family_slip.nodeValue;
                            
                          node_family_slip.nodeValue = v.slice(0, -1);
+                         break;
+                         case "0":
+                         var v = node_family_slip.nodeValue;
+                         node_family_slip.nodeValue = v + str;
                          break;
                     }
                      }else if(male ==1){
@@ -2295,9 +2300,12 @@ function showNumber(id){
                             node_male_condom.nodeValue = " ";
                              break;
                              case "Del":
-                             var v =  node_male_condom.nodeValue;
-                               
+                             var v =  node_male_condom.nodeValue;   
                              node_male_condom.nodeValue = v.slice(0, -1);
+                             break;
+                             case "0":
+                             var v = node_male_condom.nodeValue;
+                             node_male_condom.nodeValue = v + str;
                              break;
                         }
                      }else if(female ==1){
@@ -2306,9 +2314,12 @@ function showNumber(id){
                             node_female_condom.nodeValue = " ";
                              break;
                              case "Del":
-                             var v =  node_female_condom.nodeValue;
-                               
+                             var v =  node_female_condom.nodeValue;      
                              node_female_condom.nodeValue = v.slice(0, -1);
+                             break;
+                             case "0":
+                             var v = node_female_condom.nodeValue;
+                             node_female_condom.nodeValue = v + str;
                              break;
                         }
                      }
@@ -2317,7 +2328,7 @@ function showNumber(id){
     
             td4.appendChild(btn);
     
-    
+
         tbl.appendChild(tr4);
     
         var input = document.createElement("div");
