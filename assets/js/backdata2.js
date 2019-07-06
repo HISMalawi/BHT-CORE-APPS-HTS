@@ -13,7 +13,7 @@
  var age,time,hts_date,appointment, provider,comment,family_slip,male,female;
  var gen, ageGroup, type, hivTest, partnerPresent, firstTest, secondTest, thirdTest, fourthTest, resultGiven, outSummary, client,retesting;
  var ageValue,outcome_date,node_outcome_date;
- gen = ageGroup = type = hivTest = partnerPresent = firstTest = secondTest = thirdTest = fourthTest = resultGiven = outSummary = client = retesting = 0;
+ gen = ageGroup = type = hivTest = partnerPresent = firstTest = secondTest = thirdTest = fourthTest = resultGiven = outSummary = client = retesting = partnerStatus = 0;
  var j = 0;
  var patientGender;
 function addRow(){
@@ -705,6 +705,7 @@ function addRow(){
     new_row.appendChild(td1_partner_status);
 
     div_partner_status.onclick = function () {  
+        partnerStatus = 1;
         switch(this.id) {
             case "partnerstatus1":
              $j('#partnerstatus1').addClass("circled");
