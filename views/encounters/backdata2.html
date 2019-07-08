@@ -1127,6 +1127,11 @@ div.dataTables_wrapper {
                 max = 36500;
                 break;
         }
+        if(node_provider.nodeValue == ' '){
+            modalText.innerHTML != '' ? modalText.innerText += ",HTS provider ID" 
+            : modalText.innerHTML += "HTS provider ID";
+            count++;
+         }
 
         if(gen < 1){
             modalText.innerHTML != '' ? modalText.innerText += ",Sex/Pregnancy" 
@@ -1155,7 +1160,6 @@ div.dataTables_wrapper {
                 count++;
             }
 
-            ///Time since last test
         if(partnerPresent < 1){
             modalText.innerHTML != '' ? modalText.innerText += ",Partner present" 
                 : modalText.innerHTML += "Partner present";
@@ -1166,7 +1170,6 @@ div.dataTables_wrapper {
                 count++;
         }
 
-        // conditions for other tests
         if(outSummary < 1){
             modalText.innerHTML != '' ? modalText.innerText += ",Outcome summary" 
                 : modalText.innerHTML += "Outcome summary";
@@ -1188,16 +1191,12 @@ div.dataTables_wrapper {
                 : modalText.innerHTML += "Referral for Re-Testing";
                 count++;
         }
-        // if(node_family_slip.nodeValue == ' '){
-        //     modalText.innerHTML != '' ? modalText.innerText += ",Referral for Re-Testing" 
-        //         : modalText.innerHTML += "Referral for Re-Testing";
-        // }
 
         if(count > 1){
             modalText.innerHTML += " must be entered";
             $("#myModal").modal();
         }else{
-        node_age_value = node_age.nodeValue;
+            node_age_value = node_age.nodeValue;
             regex = new RegExp('([0-9]+)|([WDMY]+)','g');
             splittedArray = node_age_value.match(regex);
 
@@ -1346,6 +1345,21 @@ div.dataTables_wrapper {
             }
         }
 
+
+        if(node_ltest == 'LNev' || node_ltest == 'L-'){
+            if(node_test_one == "-"){
+                if(node_result != "N-"){
+                    modalHeader.innerHTML = "Invalid Entry";
+                    modalText.innerHTML = "Combination of test results is not plausible";
+                    $("#myModal").modal();
+                }
+                if(node_test_one == "+" || node_test_two == "+"){
+                    if(age < 330 ){
+                        
+                    }
+                }
+            }
+        }
     }
 
            
