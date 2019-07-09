@@ -530,7 +530,7 @@ function addRow(){
 
     // Outcome Summary
     k=0;
-    var outcome = ["+","-", "--", "++","Disc"];
+    var outcome = ["-","+", "--", "++","Disc"];
     for (var i = 0; i < outcome.length; i++) {
         k++;
         var name = outcome[i];

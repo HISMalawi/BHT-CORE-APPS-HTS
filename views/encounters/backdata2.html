@@ -1345,6 +1345,56 @@ div.dataTables_wrapper {
         //     }
         // }
 
+        if(node_test_one != "-" ){
+            if(secondTest < 1){
+                    modalText.innerHTML = "HIV Rapid Test Outcomes must be entered";
+                    $("#myModal").modal();
+                }
+        }else 
+        if((node_test_one == "-" && node_test_two == "+") || (node_test_one == "+" && node_test_two == "-")){
+            thirdTest < 1  ? (
+                    modalText.innerHTML = "Confirmation tests must be entered",
+                $("#myModal").modal()
+                ) : (
+                    node_test_one = node_test_three
+                );
+
+                fourthTest < 1 ? (
+                    modalText.innerHTML = "HIV Rapid Test Outcomes must be entered",
+                    $("#myModal").modal()
+                ) : (
+                    node_test_two = node_test_four
+                );
+        }
+
+        if(node_test_one == "-" && secondTest < 1){
+            if(node_outcome =! "-"){
+                modalHeader.innerHTML = "Invalid Entry";
+                    modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
+                    $("#myModal").modal();
+            }
+        }else  if(node_test_one == "+" && secondTest < 1){
+            if(node_outcome =! "+"){
+                modalHeader.innerHTML = "Invalid Entry";
+                    modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
+                    $("#myModal").modal();
+            }
+        }else  if(node_test_one == "-" && node_test_two == "-"){
+            if(node_outcome =! "--"){
+                modalHeader.innerHTML = "Invalid Entry";
+                    modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
+                    $("#myModal").modal();
+        }else  if(node_test_one == "+" && node_test_two == "+"){
+            if(node_outcome =! "++"){
+                modalHeader.innerHTML = "Invalid Entry";
+                    modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
+                    $("#myModal").modal();
+         }else  if((node_test_one == "-" && node_test_two == "+") || (node_test_one == "+" && node_test_two == "-")){
+            if(node_outcome =! "Disc"){
+                modalHeader.innerHTML = "Invalid Entry";
+                    modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
+                    $("#myModal").modal();
+         }
 
         if(node_ltest == 'LNev' || node_ltest == 'L-'){
             if((node_test_one == "-")  || (ode_test_one == "-" && node_test_two == "-")){
@@ -1370,13 +1420,84 @@ div.dataTables_wrapper {
                 }   
                 }
                 if((node_test_one == "-" && node_test_two == "+") || (node_test_one == "+" && node_test_two == "-")){
+                    if(node_result != "NIN"){
+                    modalHeader.innerHTML = "Invalid Entry";
+                    modalText.innerHTML = "Combination of test results is not plausible";
+                    $("#myModal").modal();
+                    }       
+                }
+
+            }
+
+            if(node_ltest == "L+"){
+                if(node_test_one == "+" && node_test_two == "+"){
+                    if(age < 330 ){
+                    if(node_result != "NEx"){
+                    modalHeader.innerHTML = "Invalid Entry";
+                    modalText.innerHTML = "Combination of test results is not plausible";
+                    $("#myModal").modal();
+                    }
+                }else if(age > 330){
+                    if(node_result != "C+"){
+                    modalHeader.innerHTML = "Invalid Entry";
+                    modalText.innerHTML = "Combination of test results is not plausible";
+                    $("#myModal").modal();
+                }
+                }else   
+                if(node_test_one == "-" && node_test_two == "-"){
+                    if(node_result != "CIn"){
+                    modalHeader.innerHTML = "Invalid Entry";
+                    modalText.innerHTML = "Combination of test results is not plausible";
+                    $("#myModal").modal();
+                         }
+                }
+                else 
+                if((node_test_one == "-" && node_test_two == "+") || (node_test_one == "+" && node_test_two == "-")){
                     if(node_result != "CIn"){
                     modalHeader.innerHTML = "Invalid Entry";
                     modalText.innerHTML = "Combination of test results is not plausible";
                     $("#myModal").modal();
                     }       
                 }
+             }
+         }
+         if(node_ltest == "L+"){
+            if(node_test_one == "-" && node_test_two == "-"){
+                    if(node_result != "N-"){
+                    modalHeader.innerHTML = "Invalid Entry";
+                    modalText.innerHTML = "Combination of test results is not plausible";
+                    $("#myModal").modal();
+                    }
+            }else  if(node_test_one == "+" && node_test_two == "+"){
+                if(age < 330 ){
+                    if(node_result != "NEx"){
+                    modalHeader.innerHTML = "Invalid Entry";
+                    modalText.innerHTML = "Combination of test results is not plausible";
+                    $("#myModal").modal();
+                    }
+                }else if(age > 330){
+                    if(node_result != "N+"){
+                    modalHeader.innerHTML = "Invalid Entry";
+                    modalText.innerHTML = "Combination of test results is not plausible";
+                    $("#myModal").modal();
+                }
             }
+           }else if((node_test_one == "-" && node_test_two == "+") || (node_test_one == "+" && node_test_two == "-")){
+                    if(node_result != "NIN"){
+                    modalHeader.innerHTML = "Invalid Entry";
+                    modalText.innerHTML = "Combination of test results is not plausible";
+                    $("#myModal").modal();
+                    }       
+                }
+         }
+            if(node_client_risk == "Low"){
+                if(node_refferal_retesting != "NoT"){
+                    modalHeader.innerHTML = "Invalid Entry";
+                     modalText.innerHTML = "Combination of test results is not plausible";
+                     $("#myModal").modal();
+                }
+            }
+
     //    }
   //  }
 
