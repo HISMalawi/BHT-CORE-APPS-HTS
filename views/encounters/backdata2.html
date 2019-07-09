@@ -1127,75 +1127,75 @@ div.dataTables_wrapper {
                 max = 36500;
                 break;
         }
-        if(node_provider.nodeValue == ' '){
-            modalText.innerHTML != '' ? modalText.innerText += ",HTS provider ID" 
-            : modalText.innerHTML += "HTS provider ID";
-            count++;
-         }
+        // if(node_provider.nodeValue == ' '){
+        //     modalText.innerHTML != '' ? modalText.innerText += ",HTS provider ID" 
+        //     : modalText.innerHTML += "HTS provider ID";
+        //     count++;
+        //  }
 
-        if(gen < 1){
-            modalText.innerHTML != '' ? modalText.innerText += ",Sex/Pregnancy" 
-            : modalText.innerHTML += "Sex/Pregnancy";
-            count++;
-         }
-         if( node_age.nodeValue == ' ')
-        {
-            modalText.innerHTML != '' ? modalText.innerText += ",Age" 
-            : modalText.innerHTML += "Age";
-            count++;
-        }
-        if(ageGroup < 1){
-            modalText.innerHTML != '' ? modalText.innerText += ",Age group" 
-            : modalText.innerHTML += "Age group";
-            count++;
-        }
-        if(type < 1){
-                modalText.innerHTML != '' ? modalText.innerText += ",HTS Access Type" 
-                : modalText.innerHTML += "HTS Access Type";
-                count++;
-         }
-         if(hivTest < 1){
-               modalText.innerHTML != '' ? modalText.innerText += ",Last HIV Test" 
-                : modalText.innerHTML += "Last HIV Test";
-                count++;
-            }
+        // if(gen < 1){
+        //     modalText.innerHTML != '' ? modalText.innerText += ",Sex/Pregnancy" 
+        //     : modalText.innerHTML += "Sex/Pregnancy";
+        //     count++;
+        //  }
+        //  if( node_age.nodeValue == ' ')
+        // {
+        //     modalText.innerHTML != '' ? modalText.innerText += ",Age" 
+        //     : modalText.innerHTML += "Age";
+        //     count++;
+        // }
+        // if(ageGroup < 1){
+        //     modalText.innerHTML != '' ? modalText.innerText += ",Age group" 
+        //     : modalText.innerHTML += "Age group";
+        //     count++;
+        // }
+        // if(type < 1){
+        //         modalText.innerHTML != '' ? modalText.innerText += ",HTS Access Type" 
+        //         : modalText.innerHTML += "HTS Access Type";
+        //         count++;
+        //  }
+        //  if(hivTest < 1){
+        //        modalText.innerHTML != '' ? modalText.innerText += ",Last HIV Test" 
+        //         : modalText.innerHTML += "Last HIV Test";
+        //         count++;
+        //     }
 
-        if(partnerPresent < 1){
-            modalText.innerHTML != '' ? modalText.innerText += ",Partner present" 
-                : modalText.innerHTML += "Partner present";
-        }
-        if(firstTest < 1){
-                modalText.innerHTML != '' ? modalText.innerText += ",Test 1 result" 
-                : modalText.innerHTML += "Test 1 result";
-                count++;
-        }
+        // if(partnerPresent < 1){
+        //     modalText.innerHTML != '' ? modalText.innerText += ",Partner present" 
+        //         : modalText.innerHTML += "Partner present";
+        // }
+        // if(firstTest < 1){
+        //         modalText.innerHTML != '' ? modalText.innerText += ",Test 1 result" 
+        //         : modalText.innerHTML += "Test 1 result";
+        //         count++;
+        // }
 
-        if(outSummary < 1){
-            modalText.innerHTML != '' ? modalText.innerText += ",Outcome summary" 
-                : modalText.innerHTML += "Outcome summary";
-                count++;
-            }
-        if(resultGiven < 1){
-            modalText.innerHTML != '' ? modalText.innerText += ", Result given to client" 
-                : modalText.innerHTML += " Result given to client";
-                count++;
-        }
-        //Partner status
-        if(client < 1){
-            modalText.innerHTML != '' ? modalText.innerText += ",Client Risk Category" 
-                : modalText.innerHTML += "Client Risk Category";
-                count++;
-            } 
-        if(retesting < 1){
-            modalText.innerHTML != '' ? modalText.innerText += ",Referral for Re-Testing" 
-                : modalText.innerHTML += "Referral for Re-Testing";
-                count++;
-        }
+        // if(outSummary < 1){
+        //     modalText.innerHTML != '' ? modalText.innerText += ",Outcome summary" 
+        //         : modalText.innerHTML += "Outcome summary";
+        //         count++;
+        //     }
+        // if(resultGiven < 1){
+        //     modalText.innerHTML != '' ? modalText.innerText += ", Result given to client" 
+        //         : modalText.innerHTML += " Result given to client";
+        //         count++;
+        // }
+        // //Partner status
+        // if(client < 1){
+        //     modalText.innerHTML != '' ? modalText.innerText += ",Client Risk Category" 
+        //         : modalText.innerHTML += "Client Risk Category";
+        //         count++;
+        //     } 
+        // if(retesting < 1){
+        //     modalText.innerHTML != '' ? modalText.innerText += ",Referral for Re-Testing" 
+        //         : modalText.innerHTML += "Referral for Re-Testing";
+        //         count++;
+        // }
 
-        if(count > 1){
-            modalText.innerHTML += " must be entered";
-            $("#myModal").modal();
-        }else{
+        // if(count > 1){
+        //     modalText.innerHTML += " must be entered";
+        //     $("#myModal").modal();
+        // }else{
             node_age_value = node_age.nodeValue;
             regex = new RegExp('([0-9]+)|([WDMY]+)','g');
             splittedArray = node_age_value.match(regex);
@@ -1245,122 +1245,140 @@ div.dataTables_wrapper {
                     $("#myModal").modal();
                 break;
         }
-        if (age < min || age > max) {
-            modalText.innerHTML = "Age group does not match entered age";
-            $("#myModal").modal();
-         }
-         node_time_value = node_time.nodeValue;
-         if(node_ltest != "LNev"){
-            if(node_time_value == ' '){
-                modalText.innerHTML = "Time since last test must be entered";
-                $("#myModal").modal();
-            }else{
-            splittedTimeArray = node_time_value.match(regex);
-            time_text = splittedTimeArray[1];
-            time_num = splittedTimeArray[0];
-            switch (time_text) {
-                case 'W':
-                    timeValue = Math.round(time_num/52);            
-                    break;
-                case 'D':
-                    timeValue = Math.round(time_num/365);
-                    break;
-                case 'M':
-                   timeValue =  Math.round(time_num/12);
-                break;
-                case 'Y':
-                    timeValue = time_num;
-                    break;
-                default:
-                    modalText.innerHTML = "Expecting Time Since Last Test to be a number with a unit";
-                    $("#myModal").modal();
-                break;
-            }
-        }
-        }else{
-            if(node_time_value != ' '){
-                modalHeader.innerHTML = "Invalid Entry";
-                modalText.innerHTML = "Time Since Last Test must NOT be entered if never tested";
-                $("#myModal").modal();
-            }
-        } 
-        if(node_refferal_retesting == "ReT" || node_refferal_retesting == "CT"){
-            if(node_appointment.nodeValue == ' '){
-                modalText.innerHTML = "Appointment date must be entered";
-                $("#myModal").modal();
-            }else{
-                if(node_refferal_retesting == "ReT"){
-                    var weekDate = new Date(testYear, testMonth, testDay); 
-                    weekDate.toDateString();
-                    weekDate.setDate(weekDate.getDate() + 7);
+        // if (age < min || age > max) {
+        //     modalText.innerHTML = "Age group does not match entered age";
+        //     $("#myModal").modal();
+        //  }
+        //  node_time_value = node_time.nodeValue;
+        //  if(node_ltest != "LNev"){
+        //     if(node_time_value == ' '){
+        //         modalText.innerHTML = "Time since last test must be entered";
+        //         $("#myModal").modal();
+        //     }else{
+        //     splittedTimeArray = node_time_value.match(regex);
+        //     time_text = splittedTimeArray[1];
+        //     time_num = splittedTimeArray[0];
+        //     switch (time_text) {
+        //         case 'W':
+        //             timeValue = Math.round(time_num/52);            
+        //             break;
+        //         case 'D':
+        //             timeValue = Math.round(time_num/365);
+        //             break;
+        //         case 'M':
+        //            timeValue =  Math.round(time_num/12);
+        //         break;
+        //         case 'Y':
+        //             timeValue = time_num;
+        //             break;
+        //         default:
+        //             modalText.innerHTML = "Expecting Time Since Last Test to be a number with a unit";
+        //             $("#myModal").modal();
+        //         break;
+        //     }
+        // }
+        // }else{
+        //     if(node_time_value != ' '){
+        //         modalHeader.innerHTML = "Invalid Entry";
+        //         modalText.innerHTML = "Time Since Last Test must NOT be entered if never tested";
+        //         $("#myModal").modal();
+        //     }
+        // } 
+        // if(node_refferal_retesting == "ReT" || node_refferal_retesting == "CT"){
+        //     if(node_appointment.nodeValue == ' '){
+        //         modalText.innerHTML = "Appointment date must be entered";
+        //         $("#myModal").modal();
+        //     }else{
+        //         if(node_refferal_retesting == "ReT"){
+        //             var weekDate = new Date(testYear, testMonth, testDay); 
+        //             weekDate.toDateString();
+        //             weekDate.setDate(weekDate.getDate() + 7);
 
-                    var yearDate = new Date(testYear, testMonth, testDay); 
-                    yearDate.toDateString();
-                    yearDate.setDate(yearDate.getDate() + 365);
+        //             var yearDate = new Date(testYear, testMonth, testDay); 
+        //             yearDate.toDateString();
+        //             yearDate.setDate(yearDate.getDate() + 365);
 
-                    var appointmentDate = moment(node_appointment.nodeValue);
-                    var nextWeek = moment(weekDate);
-                    var nextYear = moment(yearDate);
+        //             var appointmentDate = moment(node_appointment.nodeValue);
+        //             var nextWeek = moment(weekDate);
+        //             var nextYear = moment(yearDate);
         
-                    if (!appointmentDate.isBetween(nextWeek, nextYear)) {
-                        modalText.innerHTML = "Appointment date for re-test must be between 1 week and 1 year from current test date.";
-                        $("#myModal").modal();
-                    }
-                }else if(node_refferal_retesting == "CT"){
-                    var threeMonthDate = moment(testing_date, 'DD-MM-YYYY').add('month', 3)
+        //             if (!appointmentDate.isBetween(nextWeek, nextYear)) {
+        //                 modalText.innerHTML = "Appointment date for re-test must be between 1 week and 1 year from current test date.";
+        //                 $("#myModal").modal();
+        //             }
+        //         }else if(node_refferal_retesting == "CT"){
+        //             var threeMonthDate = moment(testing_date, 'DD-MM-YYYY').add('month', 3)
 
-                    var appointmentDate = moment(node_appointment.nodeValue);
-                    var nextThreeMonth = moment(threeMonthDate);
-                    var testDate = moment(testing_date);
-                    if (!appointmentDate.isBetween(testDate, nextThreeMonth)) {
-                        modalText.innerHTML = "Appointment date for confirmatory test must be between same day and 3 months from current test date.";
-                        $("#myModal").modal();
-                    }
-                }
-            }
-             var FRS = node_family_slip.nodeValue;
-             if (FRS == ' '){
-                modalText.innerHTML = "Number of FRS given must be entered";
-                $("#myModal").modal();
-             }else if(FRS < 0 || FRS > 15){
-                modalText.innerHTML = "Number of FRS given should be 0 - 15";
-                $("#myModal").modal();
-             }
-            var maleCondoms = node_male_condom.nodeValue;
-            var femaleCondoms = node_female_condom.nodeValue;
-            if( maleCondoms == ' ' ){
-                modalText.innerHTML = "Number of male condoms given must be entered";
-                $("#myModal").modal();
-            } else if(maleCondoms < 0 || maleCondoms > 500){
-                modalText.innerHTML = "Number of male condoms given should be 0 - 500";
-                $("#myModal").modal();
-            }
+        //             var appointmentDate = moment(node_appointment.nodeValue);
+        //             var nextThreeMonth = moment(threeMonthDate);
+        //             var testDate = moment(testing_date);
+        //             if (!appointmentDate.isBetween(testDate, nextThreeMonth)) {
+        //                 modalText.innerHTML = "Appointment date for confirmatory test must be between same day and 3 months from current test date.";
+        //                 $("#myModal").modal();
+        //             }
+        //         }
+        //     }
+        //      var FRS = node_family_slip.nodeValue;
+        //      if (FRS == ' '){
+        //         modalText.innerHTML = "Number of FRS given must be entered";
+        //         $("#myModal").modal();
+        //      }else if(FRS < 0 || FRS > 15){
+        //         modalText.innerHTML = "Number of FRS given should be 0 - 15";
+        //         $("#myModal").modal();
+        //      }
+        //     var maleCondoms = node_male_condom.nodeValue;
+        //     var femaleCondoms = node_female_condom.nodeValue;
+        //     if( maleCondoms == ' ' ){
+        //         modalText.innerHTML = "Number of male condoms given must be entered";
+        //         $("#myModal").modal();
+        //     } else if(maleCondoms < 0 || maleCondoms > 500){
+        //         modalText.innerHTML = "Number of male condoms given should be 0 - 500";
+        //         $("#myModal").modal();
+        //     }
 
-            if( femaleCondoms == ' ' ){
-                modalText.innerHTML = "Number of female condoms given must be entered";
-                $("#myModal").modal();
-            }else if(femaleCondoms < 0 || femaleCondoms > 500){
-                modalText.innerHTML = "Number of female condoms given should be 0 - 500";
-                $("#myModal").modal();
-            }
-        }
+        //     if( femaleCondoms == ' ' ){
+        //         modalText.innerHTML = "Number of female condoms given must be entered";
+        //         $("#myModal").modal();
+        //     }else if(femaleCondoms < 0 || femaleCondoms > 500){
+        //         modalText.innerHTML = "Number of female condoms given should be 0 - 500";
+        //         $("#myModal").modal();
+        //     }
+        // }
 
 
         if(node_ltest == 'LNev' || node_ltest == 'L-'){
-            if(node_test_one == "-"){
+            if((node_test_one == "-")  || (ode_test_one == "-" && node_test_two == "-")){
                 if(node_result != "N-"){
                     modalHeader.innerHTML = "Invalid Entry";
                     modalText.innerHTML = "Combination of test results is not plausible";
                     $("#myModal").modal();
                 }
-                if(node_test_one == "+" || node_test_two == "+"){
-                    if(age < 330 ){
-                        
+            }
+            if(node_test_one == "+" && node_test_two == "+"){
+                if(age < 330 ){
+                    if(node_result != "NEx"){
+                    modalHeader.innerHTML = "Invalid Entry";
+                    modalText.innerHTML = "Combination of test results is not plausible";
+                    $("#myModal").modal();
                     }
+                }else if(age > 330){
+                    if(node_result != "N+"){
+                    modalHeader.innerHTML = "Invalid Entry";
+                    modalText.innerHTML = "Combination of test results is not plausible";
+                    $("#myModal").modal();
+                    }
+                }   
+                }
+                if((node_test_one == "-" && node_test_two == "+") || (node_test_one == "+" && node_test_two == "-")){
+                    if(node_result != "CIn"){
+                    modalHeader.innerHTML = "Invalid Entry";
+                    modalText.innerHTML = "Combination of test results is not plausible";
+                    $("#myModal").modal();
+                    }       
                 }
             }
-        }
-    }
+    //    }
+  //  }
 
            
 
