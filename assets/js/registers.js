@@ -95,8 +95,13 @@ function buildRegisterPage(){
     frame.appendChild(div);
 
     btn_one.onclick = function () { 
-        
+
         window.location.href = "add_register.html";
+
+    }
+    btn_two.onclick = function () { 
+        
+        window.location.href = "close_register.html";
 
     }
 }

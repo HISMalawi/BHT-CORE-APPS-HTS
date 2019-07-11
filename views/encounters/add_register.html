@@ -63,20 +63,9 @@
             </select>
             
             <select id="register_type" name="register_type"  helpText="Register Type" tt_onLoad="showCategory2('Add Register');">
-                <option>VCT/Other</option>>
-            </select>
-                <input type="text" name="test_date"
-                id="test_date" field_type="date"
-                key="test_date" helpText="Time since last Test"
-                tt_pageStyleClass="date" allowFreeText="true"
-                tt_onLoad=" showCategory2('HTS Visit'); changeNextButtonValidation();"
-                tt_onUnLoad = "$('last_hiv_test').value != 'Never Tested'"  />
-            
-                    <input type="text" name="comment" 
-                    id="comment" field_type="comment" 
-                    key="comment" helpText="Comments"  
-                    allowFreeText="true" tt_onLoad="showCategory2('HTS Visit');changeNextButton();"/>
-  
+                <option>Regular</option>>
+                <option>Self-Test</option>>
+            </select>  
         </form>
 
     </div>
@@ -86,7 +75,7 @@
 <script>
         var patientID = sessionStorage.getItem("patientID");
         var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
-        var tt_cancel_destination = "/views/patient_dashboard.html?patient_id=" + patientID;
+        var tt_cancel_destination = "registers.html";
 
 
 </script>    
