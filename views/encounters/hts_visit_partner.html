@@ -1,0 +1,61 @@
+
+<script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
+<!--script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/standard.js" defer="true"></script-->
+<script type="text/javascript" src="/assets/js/jquery.min.js"></script>
+
+<script type="text/javascript" src="/assets/js/yes_no_ctrls.js"></script>
+<link rel="stylesheet" href="/assets/css/yes_no_ctrls.css" type="text/css">
+<script type="text/javascript" src="/assets/js/post_parameters.js"></script>
+<script type="text/javascript" src="/assets/js/generic_ajaxrequest.js"></script>
+<script type="text/javascript" src="/assets/js/alertifyjs/alertify.js"></script>
+<script type="text/javascript" src="/assets/js/does_connection_exist.js"></script>
+<script type="text/javascript" src="/assets/js/moment.js"></script>
+<script type="text/javascript" src="/apps/HTS/assets/js/common.js"></script>
+<script type="text/javascript" src="/apps/HTS/assets/js/hts_visit_partner.js"></script>
+<link rel="stylesheet" href="/assets/css/alertifyjs/css/alertify.css" type="text/css">
+
+<style>
+
+    .inputFrameClass {
+        width: 96% !important;
+    }
+
+    .active{
+        background-color: #ffc579 !important;
+    }
+    .btn-yellow {
+    min-height: 40px;
+    margin: 0px;
+        margin-bottom: 0px;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+    background-color: #ffc579;
+    color: #FFF;
+    font-weight: normal;
+    border: 5px outset #000;
+    padding: 9px;
+    cursor: pointer;
+    background: url(/assets/images/btn_yellow.png) right repeat;
+    -moz-user-select: none;
+    -moz-user-focus: disabled;
+    border-radius: 12px;
+    pointer-events: none;
+}
+</style>
+<body id="mateme">
+<div id="container">
+    <div id="content">
+
+        <form style="width:50%;" >
+                   
+                    <input type="text" name="summary" id="test_result_one"
+                    tt_onLoad="__$('keyboard').style.display = 'none';showCategory2('HTS Visit');buildSplit();"
+                    tt_pageStyleClass= "NoControls" helpText="" optional="true"/>
+                    
+  
+        </form>
+
+    </div>
+</div>
+</body>
+

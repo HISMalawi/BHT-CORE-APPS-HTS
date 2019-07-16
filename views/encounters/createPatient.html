@@ -1,0 +1,936 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+    <script type="text/javascript" src="/assets/js/alertifyjs/alertify.js"></script>
+    <script type="text/javascript" src="/assets/js/does_connection_exist.js"></script>
+    <script type="text/javascript" src="/assets/js/generic_ajaxrequest.js"></script>
+    <link rel="stylesheet" href="/assets/css/alertifyjs/css/alertify.css" type="text/css">
+    <link rel="stylesheet" href="/assets/css/tt_tabs.css" type="text/css">
+
+    <script type="text/javascript" src="/assets/js/add.locations.js"></script>
+    <script language="javascript">
+        tstUsername = "";
+        tstUserKeyboardPref = "qwerty";
+
+        var d = new Date();
+        d.toDateString();
+        var programID = sessionStorage.programID;
+
+        function getInput() {
+            key = $('touchscreenInput' + tstCurrentPage).getAttribute("key");
+            value = $('touchscreenInput' + tstCurrentPage).value
+            sessionStorage.setItem(key, value);
+            var d = new Date();
+            sessionStorage.setItem("date_created", d.toDateString());
+        }
+
+        function changeFinishBtn() {
+            var finishButton = __$("nextButton");
+            finishButton.setAttribute('onmousedown', "createClient();");
+            finishButton.setAttribute('onclick', "");
+        }
+
+        function resetFinishBtn() {
+            var finishButton = __$("nextButton");
+            finishButton.setAttribute('onmousedown', "gotoNextPage();");
+            finishButton.setAttribute('onclick', "");
+        }
+
+        function createClient() {
+            var summary_table = document.getElementsByClassName('summary-table')[0];
+            var rows = summary_table.getElementsByTagName('tr');
+
+            var parametersPassed = {
+                given_name: null, family_name: null,
+                gender: null, birthdate: null, birthdate_estimated: null,
+                home_district: null, home_traditional_authority: null, home_village: null,
+                current_district: null, current_traditional_authority: null, current_village: null,
+                landmark: null, cell_phone_number: null, relationship: null, patient_type: null, facility_name: null
+            }
+
+            for (var i = 0; i < rows.length; i++) {
+                var title = rows[i].getElementsByTagName('th')[0].innerHTML.trim();
+                var data = rows[i].getElementsByTagName('td')[0].innerHTML.trim();
+
+                if (title.match(/Given name/i)) {
+                    parametersPassed.given_name = data;
+                } else if (title.match(/Family name/i)) {
+                    parametersPassed.family_name = data;
+                } else if (title.match(/Gender/i)) {
+                    parametersPassed.gender = data[0];
+                } else if (title.match(/Birthdate Estimated/i)) {
+                    parametersPassed.birthdate_estimated = data;
+                } else if (title.match(/Birthdate/i)) {
+                    parametersPassed.birthdate = data;
+                } else if (title.match(/Home District/i)) {
+                    parametersPassed.home_district = data;
+                } else if (title.match(/Home TA/i)) {
+                    parametersPassed.home_traditional_authority = (data || 'Unknown');
+                } else if (title.match(/Home Village/i)) {
+                    parametersPassed.home_village = (data || 'Unknown');
+                } else if (title.match(/Current District/i)) {
+                    parametersPassed.current_district = (data || 'Unknown');
+                } else if (title.match(/Current TA/i)) {
+                    parametersPassed.current_traditional_authority = data;
+                } else if (title.match(/Current Village/i)) {
+                    parametersPassed.current_village = (data || 'Unknown');
+                } else if (title.match(/Landmark/i)) {
+                    parametersPassed.landmark = data;
+                } else if (title.match(/Cell phone/i)) {
+                    parametersPassed.cell_phone_number = data;
+                } else if (title.match(/Register guardian/i)) {
+                    parametersPassed.relationship = data;
+                } else if (title.match(/Patient Type/i)) {
+                    parametersPassed.patient_type = (showTypeOfPatient() == true ? data : 'New');
+                } else if (title.match(/Facility name/i)) {
+                    parametersPassed.facility_name = data;
+                }
+            }
+
+            postClientParamaters(parametersPassed);
+        }
+
+        function changeNextButton() {
+            __$("nextButton").removeAttribute("onmousedown")
+            __$("nextButton").onmousedown = function () {
+                confirm_password = $('touchscreenInput' + tstCurrentPage).value;
+                if (sessionStorage.getItem("password") === confirm_password) {
+                    window.location.href = "show.html";
+                }
+                else {
+                    //  alert("passwords do not match");
+
+                }
+            }
+        }
+
+        function calBirthdateFromEstimetedYear(age) {
+            var currYear = new Date().getFullYear();
+            estYear = (currYear - parseInt(age));
+            return (estYear + "-07-01");
+        }
+
+
+        function disablebutton() {
+            addButton();
+        }
+        
+        function resetButtons() {
+            var nextbtn = document.getElementById("nextButton");
+            nextbtn.setAttribute("onmousedown","gotoNextPage();");
+            nextbtn.setAttribute("class","button navButton green");
+            nextbtn.innerHTML = "<span>Next</span>";
+            var footer = document.getElementById('buttons');
+            footer.removeChild(document.getElementById('newBtn')); 
+        }
+        
+        
+    function setDOCID(doc_id) {
+		var nextbtn = document.getElementById("nextButton");
+		nextbtn.setAttribute("onmousedown","importPatient('"+doc_id+"')");
+		nextbtn.setAttribute("class","button navButton green");
+		nextbtn.innerHTML = "<span>Select</span>";
+    }
+   
+    function importPatient(doc_id) {
+        url = apiProtocol + '://' + apiURL + ':' + apiPort + '/api/v1/dde/patients/import_by_doc_id?doc_id='+doc_id;
+        url = url + "&program_id=" + sessionStorage.programID;
+        var req = new XMLHttpRequest();
+        req.onreadystatechange = function(){
+        
+            if (this.readyState == 4) {
+            if (this.status == 200) {
+                var results = JSON.parse(this.responseText);
+                window.location.href = "/views/confirm.html?person_id=" + results.patient_id;
+                }
+            }
+        };
+        try {
+        req.open('GET', url, true);
+        req.setRequestHeader('Authorization',sessionStorage.getItem('authorization'));
+        req.send(null);
+        } catch (e) {
+        
+        }
+    }
+    function addButton() {
+        if(document.getElementById("newBtn") == null) {
+            var footer = document.getElementById('buttons');
+            var newbutton = document.createElement('button');
+            newbutton.setAttribute('id', 'newBtn');
+            newbutton.setAttribute('onmousedown', 'gotoNextPage();');
+            newbutton.innerHTML="<span>Not a duplicate</span>";
+        footer.appendChild(newbutton);
+        }else if(document.getElementById("newBtn").style.display != "block") {
+           document.getElementById("newBtn").style.display = "block";
+        }
+            
+    }
+     function removeDuplicatesButton() {
+           document.getElementById("newBtn").style.display = "none";
+    }   
+
+    function importID(reassign_link) {
+    var http = new XMLHttpRequest();
+    url = apiProtocol + '://' + apiURL + ':' + apiPort + '/api/v1/dde/patients/import_by_npid?npid='+patient_id;
+    http.open('GET', reassign_link, true);
+    http.setRequestHeader('Content-type', 'application/json');
+    http.onreadystatechange = function () { //Call a function when the state changes.
+    if (http.readyState == 4) {
+        if (http.status == 201 || http.status == 200) {
+                var v = JSON.parse(http.responseText);
+                window.location.href = "/views/confirm.html?person_id=" + v.patient_id;
+            } else if (http.status == 409) {
+                alert('Username already exists');
+            } else {
+                alert('error' + http.status);
+            }
+    }
+    }
+    http.setRequestHeader('Authorization', sessionStorage.getItem('authorization'));
+    http.send();
+}
+    function removeClear() {
+            document.getElementById("clearButton").style.display = "none"; 
+    }
+    function addClear() {
+            document.getElementById("clearButton").style.display = "block"; 
+    }
+    </script>
+
+    <script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js"
+            defer="true"></script>
+    <!-- <script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/standard.js" defer="true"></script> -->
+    <script type="text/javascript" src="/assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/js/core.js"></script>
+    <script type="text/javascript" src="/assets/js/generic_ajaxrequest.js"></script>
+    <script type="text/javascript" src="/assets/js/moment.js"></script>
+    <script type="text/javascript" src="/assets/js/demographics.js"></script>
+    <script type="text/javascript" src="/assets/js/post_parameters.js"></script>
+    <script type="text/javascript" src="/assets/js/tt_tabs.js"></script>
+
+</head>
+<body id="mateme">
+<div id="container">
+    <div id="content">
+        <style>
+
+            .tt_controls_year_of_birth #qwerty {
+                display: none;
+            }
+
+            .tt_controls_age_estimate #qwerty {
+                display: none;
+            }
+
+            .tt_controls_cell_phone_number #qwerty {
+                display: none;
+            }
+
+            .tt_controls_ground_phone_number #qwerty {
+                display: none;
+            }
+
+            .tt_controls_office_phone_number #qwerty {
+                display: none;
+            }
+
+            .tt_controls_year_of_birth #Unknown {
+                display: block;
+            }
+
+            .tt_controls_age_estimate #Unknown {
+                display: none;
+            }
+
+            .tt_controls_ground_phone_number #Unknown {
+                display: block;
+            }
+
+            .tt_controls_region_of_origin .keyboard {
+                display: none;
+            }
+
+            .tt_controls_current_region .keyboard {
+                display: none;
+            }
+
+            .tt_controls_month_of_birth .keyboard {
+                display: none;
+            }
+
+            #tt_page_month_of_birth .options {
+                height: 570px;
+            }
+
+            #tt_page_month_of_birth .options li {
+                font-size: 30px;
+            }
+
+            .tt_controls_home_village #space, #apostrophe {
+                display: inline;
+            }
+
+            .tt_controls_current_traditional_authority_ta #space {
+                display: inline;
+            }
+
+            .tt_controls_current_village_residence #space {
+                display: inline;
+            }
+
+            .tt_controls_cell_phone_number #num, #plus, #apostrophe, #star, #char, #abc, #date, #slash, #minus, #comma, #percent, #decimal {
+                display: none;
+            }
+
+            .tt_controls_guardian_cell_phone_number #num, #plus, #apostrophe, #star, #char, #abc, #date, #slash, #minus, #comma, #percent, #decimal {
+                display: none;
+            }
+
+            .tt_controls_home_phone_number #num, #plus, #apostrophe, #star, #abc, #date, #slash, #minus, #comma, #percent, #decimal {
+                display: none;
+            }
+
+            .tt_controls_office_phone_number #num, #plus, #apostrophe, #star, #abc, #date, #slash, #minus, #comma, #percent, #decimal {
+                display: none;
+            }
+
+            .tt_controls_occupation .keyboard {
+                display: none;
+            }
+
+            #tt_page_occupation .options {
+                height: 500px;
+            }
+
+            #tt_page_occupation .options li {
+                font-size: 30px;
+            }
+
+            #space {
+                display: inline;
+            }
+
+            .nota #na {
+                display: block;
+            }
+
+            #num {
+                display: block;
+            }
+
+            #char {
+                display: none;
+            }
+
+            #apostrophe {
+                display: inline;
+            }
+
+            .tt_controls_current_district #num {
+                display: none;
+            }
+
+            .tt_controls_current_city_place_or_area_of_residence #num {
+                display: block;
+            }
+
+            .tt_controls_current_city_place_or_area_of_residence #char {
+                display: block;
+            }
+
+            .tt_controls_closest_landmark_or_plot_number #num {
+                display: block;
+            }
+
+            .tt_controls_closest_landmark_or_plot_number #char {
+                display: block;
+            }
+
+            .azButton .numericKeyboard #char {
+                display: block;
+            }
+
+            .tt_controls_home_district #viewport {
+                display: inline;
+            }
+
+            .tt_controls_home_district #num {
+                display: none;
+            }
+
+            #tt_page_home_district #viewport {
+                display: inline !important;
+            }
+
+            #tt_page_home_ta #viewport {
+                display: inline !important;
+            }
+
+            #tt_page_home_village #viewport {
+                display: inline !important;
+            }
+
+            #tt_page_current_district #viewport {
+                display: inline !important;
+            }
+
+            #tt_page_current_ta #viewport {
+                display: inline !important;
+                height: 55%;
+            }
+
+            #tt_page_home_ta .inputFrameClass {
+                height: 50%;
+                overflow: auto;
+            }
+
+            #tt_page_home_village .inputFrameClass {
+                height: 50%;
+                overflow: auto;
+            }
+
+            #tt_page_current_ta .inputFrameClass {
+                height: 50%;
+                overflow: auto;
+            }
+
+            #tt_page_current_village .inputFrameClass {
+                height: 50%;
+                overflow: auto;
+            }
+
+            .summary-table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .summary-table th {
+                border-style: solid;
+                border-width: 0px 0px 1px 0px;
+                text-align: left;
+                padding-left: 5px 0px 10px 0px;
+                width: 20%;
+                height: 30px;
+            }
+
+            .summary-table td {
+                border-style: solid;
+                border-width: 0px 0px 1px 0px;
+                text-align: left;
+                padding-left: 5px 0px 10px 0px;
+                height: 30px;
+            }
+
+            .tt_controls_month_of_birth .keyboard {
+                display: none !important;
+            }
+
+            .tt_controls_birth_day #qwerty {
+                display: none;
+            }
+
+        </style>
+
+        <script type="text/javascript">
+            var tt_cancel_destination = "/"
+            var date_diff = "2008-08-31"
+            var birth_estimated;
+            function validateDate() {
+                selectYear = parseInt(document.getElementsByName('person[birth_year]')[0].value);
+                selectDay = parseInt(document.getElementsByName('person[birth_day]')[0].value);
+                date = new Date
+                currYear = date.getFullYear();
+                currDay = date.getDate();
+                availableMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+                if (selectYear == currYear) {
+                    currentMonth = [];
+                    numOfloops = ((new Date).getMonth() + 1);
+                    for (var i = 0; i < numOfloops; i++) {
+                        currentMonth.push(availableMonths[i]);
+                    }
+                    rule = currentMonth.join("|");
+                    rule = rule + "|Unknown";
+                    return $('touchscreenInput' + tstCurrentPage).setAttribute('validationRule', rule);
+                }
+                if (selectYear != currYear) {
+                    rule = availableMonths.join("|");
+                    rule = rule + "|Unknown";
+                    return $('touchscreenInput' + tstCurrentPage).setAttribute('validationRule', rule);
+                }
+            }
+
+            function setAbsoluteMaxBirthYear() {
+                if(sessionStorage.programID === "12"){
+                    var element = document.getElementById('touchscreenInput' + tstCurrentPage);
+                    element.setAttribute("absoluteMax", (new Date().getFullYear() - 13));
+                    element.setAttribute("min", (new Date().getFullYear() - 100));
+                    element.setAttribute("absoluteMin", (new Date().getFullYear() - 100));
+                } else{
+                    var element = document.getElementById('touchscreenInput' + tstCurrentPage);
+                    element.setAttribute("absoluteMax", (new Date().getFullYear()));
+                    element.setAttribute("min", (new Date().getFullYear() - 100));
+                    element.setAttribute("absoluteMin", (new Date().getFullYear() - 120));
+                }
+            }
+
+            function validateYear() {
+                selectYear = parseInt(document.getElementsByName('person[birth_year]')[0].value);
+                selectDay = parseInt(document.getElementsByName('person[birth_day]')[0].value);
+                date = new Date
+                currYear = date.getFullYear();
+                currDay = date.getDate();
+
+                abMax = parseInt(date_diff.split("-")[0]) - 10;
+
+                jQuery('#touchscreenInput' + tstCurrentPage).attr("absoluteMax", date_diff.split("-")[0]);
+
+            }
+
+            function updateMonthAbsMax() {
+                var month = jQuery('#person_birth_month').val();
+                var year = jQuery('#person_birth_year').val();
+
+                if ((parseInt(year) == parseInt(date_diff.split("-")[0])) && (parseInt(month) > parseInt(date_diff.split("-")[1]))) {
+                    var message = "Month selected is greater than Current Month";
+                    setTimeout(function () {
+                        gotoPage(tstCurrentPage - 1, false, true);
+                        showMessage(message, null, 30000);
+                    }, 10);
+                }
+            }
+
+            function updateDayAbsMax() {
+                var month = jQuery('#person_birth_month').val();
+                var year = jQuery('#person_birth_year').val();
+                if ((parseInt(year) == parseInt(date_diff.split("-")[0])) && (parseInt(month) == parseInt(date_diff.split("-")[1]))) {
+                    jQuery('#touchscreenInput' + tstCurrentPage).attr("absoluteMax", date_diff.split("-")[2]);
+                }
+            }
+
+            function validateMonth() {
+                var nextBtn = __$("nextButton");
+                nextBtn.setAttribute('onmousedown', "validateBirthYearMonth();");
+                nextBtn.setAttribute('onclick', "");
+            }
+
+            function validateBirthYearMonth() {
+                setYear = parseInt(document.getElementById('person_birth_year').value);
+                if (setYear == (new Date().getFullYear())) {
+                    var element = document.getElementById('touchscreenInput' + tstCurrentPage);
+                    var selectedMonth = parseInt(element.getAttribute('tstValue'));
+                    var currMonth = parseInt(new Date().getMonth() + 1);
+                    if (selectedMonth > currMonth) {
+                        showMessage("Selected month is greater than current month");
+                        return;
+                    }
+                }
+
+                gotoNextPage();
+            }
+
+            function validateDay() {
+                date = new Date
+                currYear = date.getFullYear();
+                currDay = date.getDate();
+                currMonth = date.getMonth() + 1;
+                selected_month = parseInt(document.getElementsByName('person[birth_month]')[0].value)
+                selectYear = parseInt(document.getElementsByName('person[birth_year]')[0].value);
+                if (selectYear == currYear) {
+                    if (selected_month == currMonth) {
+                        return $('touchscreenInput' + tstCurrentPage).setAttribute('absoluteMax', currDay);
+                    }
+                }
+            }
+
+            function buildSetDate(date_str) {
+
+                date_arr = date_str.split('-');
+                intyear = parseInt(date_arr[0]);
+                intmonth = parseInt(date_arr[1]);
+                intday = parseInt(date_arr[2]);
+
+
+                return new Date(intyear, intmonth, (intday + 1));
+            }
+
+            function set_ajaxURL_for_suggestions(url, filter_value) {
+                $('touchscreenInput' + tstCurrentPage).setAttribute('ajaxURL', url + filter_value + "&page_size=1000&name=");
+                listSuggestions(tstCurrentPage);
+            }
+
+            var dob_year = null;
+            var dob_month = null;
+            dob_day = null;
+            var set_dob = null;
+
+            function setUpPageForDateValidation() {
+                var nextBtn = __$("nextButton");
+                nextBtn.setAttribute('onmousedown', "validateDOB();");
+                nextBtn.setAttribute('onclick', "");
+            }
+
+            function validateDOB() {
+                setDOB();
+                var valid_date = validateEnteredDate(set_dob);
+
+                if (!valid_date) {
+                    showMessage("Invalid Date");
+                    return;
+                }
+
+                currDate = new Date();
+                currDate = new Date(currDate.getFullYear() + "-" + (currDate.getMonth() + 1) + "-" + currDate.getDate());
+                setDate = new Date(set_dob);
+
+                if (setDate > currDate) {
+                    showMessage("Birthdate more than the current date");
+                    return;
+                }
+                console.log(set_dob);
+
+                createClient();
+            }
+
+            function addMaxValue(){
+                if (sessionStorage.programID === "12"){
+                    $("person_age_estimate").setAttribute('absoluteMin', 13);
+                }else{
+                    $("person_age_estimate").setAttribute('absoluteMin', 1);
+                }
+            }
+
+            function setDOB() {
+                try {
+                    dob_year = document.getElementById('person_birth_year').value; //getElementsByTagName("input")[0].value
+                } catch (e) {
+                    dob_year = dob_year
+                }
+                try {
+                    dob_month = document.getElementById('person_birth_month').value; //getElementsByTagName("input")[0].getAttribute('tstvalue')
+                    if (dob_month.length == 1)
+                        dob_month = 0 + dob_month
+                } catch (e) {
+                    dob_month = dob_month
+                }
+                try {
+                    dob_day = document.getElementById('person_birth_day').value; //getElementsByTagName("input")[0].value
+                    if (dob_day.length < 1)
+                        dob_day = document.getElementById('touchscreenInput' + tstCurrentPage).value; //getElementsByTagName("input")[0].value
+
+                    if (dob_day.length == 1)
+                        dob_day = 0 + dob_day
+                } catch (e) {
+                    dob_day = dob_day
+                }
+
+                set_dob = (dob_year + '-' + dob_month + '-' + dob_day)
+            }
+
+            function setOverFow() {
+                var element = document.getElementById("inputFrame" + tstCurrentPage);
+                element.style = "overflow: auto;";
+            }
+            var potential_duplicates_arr = [];
+            
+            function duplicatesAvailable() {
+                return (potential_duplicates_arr.length > 0);
+            }
+
+
+ function culBirthdate() {
+    if(__$('person_birth_year').value.match(/Unknown/i)){
+      var birth_year = __$('person_birth_year').value;
+      var age_estimate = document.getElementById('touchscreenInput'+tstCurrentPage).value;
+      var age = document.getElementById("person_age_estimate").value;
+      var cur_year = new Date().getFullYear();
+      birth_year = (cur_year - age_estimate); 
+      birth_estimated = birth_year + "-07-01";
+      createClient();
+    }
+
+    if(__$('person_birth_month').value.match(/Unknown/i)){
+      var birth_year = parseInt(__$('person_birth_year').value);
+      var cur_year = new Date().getFullYear();
+      birth_year = (cur_year - birth_year); 
+      return [birth_year + "-07-01", 1];
+    }
+
+    if(__$('person_birth_day').value.match(/Unknown/i)){
+      var birth_year = parseInt(__$('person_birth_year').value);
+      var birth_month = parseInt(__$('person_birth_month').value);
+      if(birth_month < 10)
+        birth_month = "0" + birth_month;
+
+      return [birth_year + "-" + birth_month + "-15", 1];
+    }
+
+    var birth_month = parseInt(__$('person_birth_month').value);
+    var birth_day   = parseInt(__$('person_birth_day').value);
+    var birth_year  = parseInt(__$('person_birth_year').value);
+      
+    if(birth_month < 10)
+      birth_month = "0" + birth_month;
+
+    if(birth_day < 10)
+      birth_day = "0" + birth_day;
+
+   // return [(birth_year + "-" + birth_month + "-" + birth_day), 0];
+  }
+function changeNextButtonBirthdate(){
+
+    var nextButton =  document.getElementById('nextButton');
+        nextButton.setAttribute("onmousedown","culBirthdate();");
+}
+      
+        </script>
+
+        <form action="" method="POST">            
+
+            <input type="text" name="person[birth_year]" id="person_birth_year" helpText="Year of Birth"
+                   field_type="number"
+                   absoluteMin="1900" min="1900" tt_onLoad="setAbsoluteMaxBirthYear(); addMaxValue();"
+                   tt_pageStyleClass="Numeric NumbersOnly"/>
+
+            <select name="person[birth_month]" id="person_birth_month" helpText="Month of Birth"
+                    condition="$('person_birth_year').value.toLowerCase() != 'unknown'"
+                    validationMessage="Please enter a valid date" tt_onUnLoad="resetFinishBtn();"
+                    tt_onLoad=" validateMonth();__$(keyboard).style.display = none;">
+                <option value=""></option>
+                <option value="1">Jan</option>
+                <option value="2">Feb</option>
+                <option value="3">Mar</option>
+                <option value="4">Apr</option>
+                <option value="5">May</option>
+                <option value="6">Jun</option>
+                <option value="7">Jul</option>
+                <option value="8">Aug</option>
+                <option value="9">Sep</option>
+                <option value="10">Oct</option>
+                <option value="11">Nov</option>
+                <option value="12">Dec</option>
+                <option value="Unknown">Unknown</option>
+            </select>
+            <input type="text" name="person[age_estimate]" id="person_age_estimate" helpText="Age Estimate"
+                   absoluteMax="120" field_type="number"
+                   condition="$('person_birth_year').value == 'Unknown';"
+                   tt_onLoad="changeNextButtonBirthdate();" tt_pageStyleClass="Numeric NumbersOnly"/>
+
+            <input type="text" name="person[birth_day]"
+                   id="person_birth_day"
+                   field_type="number" helpText="Birth Day"
+                   condition="($('person_birth_year').value != 'Unknown') && ($('person_birth_month').value != 'Unknown')"
+                   tt_onLoad="getDayOfMonthPicker($('person_birth_year').value, $('person_birth_month').value);setUpPageForDateValidation();"
+                   tt_onUnLoad="resetFinishBtn();"/>
+
+        </form>
+
+        <div id="footer">
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+
+var answers_hash = {
+    patient_type: ""
+}
+
+
+var patient_type_map = {
+    "New patient": 7572,
+    "External consultation": 9684
+}
+
+
+function validateEnteredDate(inputText) {
+        // Match the date format through regular expression
+        if (inputText.match(/-/i)) {
+
+            //Test which seperator is used '/' or '-'
+            var pdate = inputText.split('-');
+
+            var dd = parseInt(pdate[2]);
+            var mm = parseInt(pdate[1]);
+            var yy = parseInt(pdate[0]);
+
+            if (dd == 0) {
+                return false;
+            }
+
+            // Create list of days of a month [assume there is no leap year by default]
+            var ListofDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            if (mm == 1 || mm > 2) {
+                if (dd > ListofDays[mm - 1]) {
+                    //alert('Invalid date format!');
+                    return false;
+                }
+            }
+
+            if (mm == 2) {
+                var lyear = false;
+                if ((!(yy % 4) && yy % 100) || !(yy % 400)) {
+                    lyear = true;
+                }
+
+                if ((lyear == false) && (dd >= 29)) {
+                    //alert('Invalid date format!');
+                    return false;
+                }
+
+                if ((lyear == true) && (dd > 29)) {
+                    //alert('Invalid date format!');
+                    return false;
+                }
+            }
+        } else {
+            //alert("Invalid date format!");
+            //document.form1.text1.focus();
+            return false;
+        }
+
+        return true;
+    }
+
+   
+
+function createClient() {
+    var url_string = window.location;
+        var url = new URL(url_string);
+        locale = "en-us";
+        var gender = url.searchParams.get("gender");
+    var parametersPassed = {
+        given_name: "Dummy", family_name: "Patient",
+        gender: gender, birthdate: set_dob, birthdate_estimated: birth_estimated,
+        home_district: "N/A", home_traditional_authority: "N/A", home_village: "N/A",
+        current_district: "N/A", current_traditional_authority: "N/A", current_village: "N/A",
+        landmark: "N/A", cell_phone_number: "N/A", relationship: "N/A", patient_type: "N/A", facility_name: "N/A"
+    }
+
+
+    postClientParamaters(parametersPassed);
+}
+
+function postClientParamaters(parametersPassed) {
+      
+
+        var url = apiProtocol + '://' + apiURL + ':' + apiPort + '/api/v1/people';
+        if (parametersPassed.birthdate_estimated === "Yes") {
+            parametersPassed.birthdate_estimated = 1;
+        }else {
+            parametersPassed.birthdate_estimated = 0;
+        }
+        var parametersPassed = JSON.stringify(parametersPassed);
+        showStatus();
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 201) {
+                var obj = JSON.parse(this.responseText);
+                createPatient(obj['person_id']);
+            }
+        };
+        xhttp.open("POST", url, true);
+        xhttp.setRequestHeader('Authorization', sessionStorage.getItem("authorization"));
+        xhttp.setRequestHeader('Content-type', "application/json");
+        xhttp.send(parametersPassed);
+
+    }
+
+
+function createPatient(person_id) {
+    var url = apiProtocol + '://' + apiURL + ':' + apiPort + '/api/v1/patients';
+    var parametersPassed = JSON.stringify({person_id: person_id, program_id: sessionStorage.programID});
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 201) {
+            var obj = JSON.parse(this.responseText);
+                enrollPatient(person_id);
+        }
+    };
+    xhttp.open("POST", url, true);
+    xhttp.setRequestHeader('Authorization', sessionStorage.getItem("authorization"));
+    xhttp.setRequestHeader('Content-type', "application/json");
+    xhttp.send(parametersPassed);
+}
+
+function enrollPatient(person_id) {
+    sessionStorage.patientID = person_id;
+    var http = new XMLHttpRequest();
+    var url = 'http://' + apiURL + ':' + apiPort + '/api/v1/patients/' + person_id + "/programs/";
+    var params = JSON.stringify({
+        program_id: sessionStorage.programID,
+        date_enrolled: moment(sessionStorage.sessionDate).format("YYYY-MM-DD")
+    });
+    http.open('POST', url, true);
+
+    //Send the proper header information along with the request
+    http.setRequestHeader('Content-type', 'application/json');
+    http.onreadystatechange = function () { 
+        //Call a function when the state changes.
+        if (http.readyState == 4) {
+            if (http.status == 201) {
+                var v = JSON.parse(http.responseText);
+                submitPatienttype(person_id);
+
+            } else if (http.status == 409) {
+                alert('Username already exists');
+            } else {
+                alert('error' + http.status);
+            }
+        }
+    }
+    http.setRequestHeader('Authorization', sessionStorage.getItem('authorization'));
+    http.send(params);
+}
+
+function showTypeOfPatient() {
+    return sessionStorage.programID == '1' ? true : false;
+  }
+
+
+  function submitPatienttype(patient_id) {
+    var currentTime = moment().format(' HH:mm:ss');
+    var encounter_datetime = moment(sessionStorage.sessionDate).format('YYYY-MM-DD');
+    encounter_datetime += currentTime;
+
+    var encounter = {
+        encounter_type_name: 'REGISTRATION',
+        encounter_type_id: 5,
+        patient_id: patient_id,
+        program_id: sessionStorage.programID,
+        encounter_datetime: encounter_datetime
+    }
+
+    submitParameters(encounter, "/encounters", "postPatienttypeObs");
+}
+
+function postPatienttypeObs(encounter) {
+    if(showTypeOfPatient() == true) {
+      var patient_type = $('patient_type');
+      var ans = patient_type_map[patient_type.value];
+    }else{
+      var ans = 'New patient';
+      ans = patient_type_map[ans];
+    }
+
+    var obs = {
+        encounter_id: encounter.encounter_id,
+        observations: [
+            {concept_id: 3289, value_coded: ans}
+        ]
+    };
+    submitParameters(obs, "/observations", "savePatienttypeThenRedirect");
+}
+
+function savePatienttypeThenRedirect(obs) {
+    document.location = "/views/patient/print.html?person_id=" + obs[0].person_id;
+}
+
+
+</script>

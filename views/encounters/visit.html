@@ -1,0 +1,100 @@
+
+        <form>  
+
+            <select id="hts_access_type" name="hts_access_type"  helpText="HTS Access Type" tt_onLoad="showCategory2('HTS Visit');changeNextButtonValidation();">
+                <option>Routine HTS (PITC) within Health Service</option>
+                <option>Comes with HTS Family Referral Slip</option>
+                <option>Other(VCR, etc)</option>
+            </select>
+            <select id="referred_slip" name="referred_slip" helpText="Who referred slip" tt_pageStyleClass="NoKeyboard" tt_onLoad="howCategory2('HTS Visit');changeNextButtonValidation();" 
+            condition = "__$('hts_access_type').value == 'Comes with HTS Family Referral Slip'">
+                <option></option>
+                <option>Spouse/Sexual Partner</option>
+                <option>Parent</option>
+                <option>Other</option>
+            </select>
+
+            <select id="last_hiv_test" name="last_hiv_test" helpText="Last HIV Test Result" tt_onLoad="showCategory2('HTS Visit');changeNextButtonValidation();"
+            condition = "__$('hts_access_type').value == 'Routine HTS (PITC) within Health Service'">
+                    <option>Never Tested</option>
+                    <option>Last Negative</option>
+                    <option>Last Positive</option>
+                    <option>Last Inconclusive</option>
+                    <option>Last Exposed Infant</option>
+                </select>
+
+                <input type="text" name="test_date"
+                id="test_date" field_type="date"
+                key="test_date" helpText="Time since last Test"
+                tt_pageStyleClass="date" allowFreeText="true"
+                tt_onLoad=" showCategory2('HTS Visit'); changeNextButtonValidation();"
+                tt_onUnLoad = "$('last_hiv_test').value != 'Never Tested'"  />
+            
+
+                <select id="client_risk" name="client_risk" helpText="Client risk category" tt_pageStyleClass="NoKeyboard"  tt_onLoad=" showCategory2('HTS Visit'); changeNextButtonValidation();"
+                condition = "__$('last_hiv_test').value != 'Never Tested'" >
+                        <option>Low Risk</option>
+                        <option>On-going Risk</option>
+                        <option>High Risk Event in Last 3 months</option>
+                        <option>Risk assessment Not Done</option>
+                 </select>
+                 <select id="pregnant" name="pregnant" helpText="Pregnant?" tt_pageStyleClass="NoKeyboard" tt_onLoad="showCategory2('HTS Visit'); changeNextButtonValidation();" >
+                        <option></option>
+                        <option>No</option>
+                        <option>Yes</option>
+                    </select>
+           
+                 <select id="client_consent" name="client_consent" helpText="Client gives consent to be tested?" tt_pageStyleClass="NoKeyboard" tt_onLoad="showCategory2('HTS Visit');changeNextButtonConsent();" >
+                        <option></option>
+                        <option>No</option>
+                        <option>Yes</option>
+                    </select>
+                   
+
+                    <input type="text" name="summary" id="test_result_one"
+                    tt_onLoad="__$('keyboard').style.display = 'none';showCategory2('HTS Visit');buildTest();"
+                    tt_pageStyleClass= "NoControls" helpText="First Pass Test 1 Result" optional="true"/>
+                    
+                    <input type="text" name="summary" id="test_result_two"
+                    tt_onLoad="__$('keyboard').style.display = 'none';showCategory2('HTS Visit');buildTestTwo();"
+                    tt_pageStyleClass= "NoControls" helpText="First Pass Test 2 Result" optional="true"
+                    condition = " testResultOne == 'reactive'"/>
+    
+                    <input type="text" name="summary" id="parallel_test"
+                    tt_onLoad="__$('keyboard').style.display = 'none';showCategory2('HTS Visit');buildParallelTest();"
+                    tt_pageStyleClass= "NoControls" helpText="Immediate Parallel Repeat Test 1 & 2 Results" optional="true"
+                    condition = " testResultOne == 'reactive' && testResultTwo == 'Non reactive'"/>
+
+                    <input type="text" name="appointment_date"
+                    id="appointment_date" field_type="date"
+                    id="appointment_date" field_type="date"
+                     helpText="Appointment Date Given"
+                    tt_pageStyleClass="date" allowFreeText="true"
+                    tt_onLoad=" checkResult();showCategory2('HTS Visit');changeNextButtonValidation();"
+                    tt_onUnLoad = "" />
+
+                    <select id="partner_status" name="partner_status" helpText="Partner HIV Status" tt_pageStyleClass="NoKeyboard" tt_onLoad="showCategory2('HTS Visit');changeNextButtonValidation();" >
+                            <option></option>
+                            <option>No Partner</option>
+                            <option>HIV Unknown</option>
+                            <option>Partner Negative</option>
+                            <option>Partner Positive</option>
+                        </select>
+                    
+                    <input type="text" name="male_condoms" id="male_condoms"  helpText="Number of male condoms given" field_type="number"  tt_pageStyleClass="Numeric NumbersOnly"
+                    tt_onLoad="showCategory2('HTS Visit'); changeNextButtonValidation();"/>
+
+                    <input type="text" name="female_condoms" id="female_condoms"  helpText="Number of female condoms given" field_type="number"  tt_pageStyleClass="Numeric NumbersOnly"
+                    tt_onLoad="showCategory2('HTS Visit'); changeNextButtonValidation();"/>
+                    
+                    <input type="text" name="summary" id="referral_slips"
+                    tt_onLoad="__$('keyboard').style.display = 'none';showCategory2('HTS Visit');buildReferralSlips();"
+                    tt_pageStyleClass= "NoControls" helpText="HTS Family Referral Slips" optional="true"
+                    />
+                    
+                    <input type="text" name="comment" 
+                    id="comment" field_type="comment" 
+                    key="comment" helpText="Comments"  
+                    allowFreeText="true" tt_onLoad="showCategory2('HTS Visit');changeNextButton();"/>
+  
+        </form>
