@@ -4,27 +4,13 @@
       "available": true,
       "encountersName": "hts visit",
       "activitiesIcon": "/assets/images/anc.png",
-      "url": "/apps/HTS/views/encounters/hts_visit.html"
-    },
-    "art referral": {
-      "available": true,
-      "encountersName": "art referral",
-      "activitiesIcon": "/assets/images/anc.png",
-      "url": "/apps/HTS/views/encounters/art_referral.html"
-    },
-    "find record": {
-      "available": true,
-      "encountersName": "Find enterred record",
-      "activitiesIcon": "/assets/images/anc.png",
-      "url": "/apps/HTS/views/encounters/art_referral.html"
+      "url": "/apps/HTS/views/partner.html"
     }
   },
   "activities": {
-    "url": "/apps/MATERNITY/views/activities.html",
+    "url": "/apps/HTS/views/activities.html",
     "tasks": [
-      ["HTS Visit","hts visit"],
-      ["ART Referral","art referral"],
-      ["Find Record","find record"]
+      ["HTS Visit","hts visit"]
     ]
     
   },
