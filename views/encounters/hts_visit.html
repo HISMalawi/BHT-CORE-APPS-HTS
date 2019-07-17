@@ -49,7 +49,8 @@
 
         <form>  
 
-            <select id="hts_access_type" name="hts_access_type"  helpText="HTS Access Type" tt_onLoad="showCategory2('HTS Visit');changeNextButtonValidation();">
+            <select id="hts_access_type" name="hts_access_type"  helpText="HTS Access Type" tt_onLoad="showCategory2('HTS Visit');changeNextButtonValidation();"
+            >
                 <option>Routine HTS (PITC) within Health Service</option>
                 <option>Comes with HTS Family Referral Slip</option>
                 <option>Other(VCR, etc)</option>
@@ -455,5 +456,21 @@
        nextEncounter(sessionStorage.patientID, sessionStorage.programID);
 
     }
+
+// jQuery(document).ready(function(){
+
+// var checkExist = setInterval(function() {
+//   if (jQuery('#cancelButton').length) {
+//     jQuery('#cancelButton').click(function () {
+//       yesButton = jQuery("#messageBar button")[0];
+//       yesButton.onmousedown = function(){
+//         hideMessage();
+//         window.top.location.href = "/";        
+//       }
+//     });
+//     clearInterval(checkExist);
+//   }
+// }, 100); // check every 100ms
+// });
 
 </script>    

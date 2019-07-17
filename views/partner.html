@@ -41,6 +41,10 @@
   var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
   var tt_cancel_destination = "/";
   
+  if (top.location != location) {
+       // top.location.href = document.location.href ;
+      window.location.href = "encounters/hts_visit.html";
+   }
     function changeNextBTN() {
     var nextButton =  document.getElementById('nextButton');
     nextButton.setAttribute("onmousedown","checkPartner();");

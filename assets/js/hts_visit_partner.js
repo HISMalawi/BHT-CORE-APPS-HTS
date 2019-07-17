@@ -14,8 +14,8 @@ function buildSplit(){
 
     var ifrm = document.createElement('iframe');
     ifrm.setAttribute('id', 'ifrm'); // assign an id
-    ifrm.setAttribute('src', 'hts_visit.html');
-
+    ifrm.setAttribute('src', 'consent.html');
+    div.appendChild(ifrm);
 
     frame.appendChild(div);
     bildHTS();

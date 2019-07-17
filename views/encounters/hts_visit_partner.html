@@ -44,18 +44,30 @@
 </style>
 <body id="mateme">
 <div id="container">
-    <div id="content">
+    <div id="content" style="width:50%;  margin-right: 0%;">
 
-        <form style="width:50%;" >
-                   
-                    <input type="text" name="summary" id="test_result_one"
-                    tt_onLoad="__$('keyboard').style.display = 'none';showCategory2('HTS Visit');buildSplit();"
-                    tt_pageStyleClass= "NoControls" helpText="" optional="true"/>
-                    
-  
-        </form>
+        <iframe src="hts_visit.html" id="frame1" height="200" width="50%" onload="iframeclick()"></iframe> 
 
     </div>
+    <div id="content" style="width:50%; position: absolute; right:1;">
+    
+            <iframe src="consent.html" id="frame2" height="200" width="50%" onload="iframe2click()"></iframe> 
+    </div>
 </div>
-</body>
 
+<script>
+     var  $j = jQuery.noConflict();     
+
+    function iframeclick() {
+        document.getElementById("frame1").contentWindow.document.body.onclick = function() {
+            $j("#frame1").css("border", "2px solid red");
+            $j("#frame2").css("border", "0px solid #fff");
+            }
+    }
+    function iframe2click() {
+        document.getElementById("frame2").contentWindow.document.body.onclick = function() {
+            $j("#frame2").css("border", "2px solid red");
+            $j("#frame1").css("border", "0px solid #fff");
+            }
+    }
+</script>

@@ -22,7 +22,7 @@ function buildTest(){
     div.style.paddingLeft = "25%";
 
     var table = document.createElement("table");
-    table.style.marginLeft = "150px";
+    table.style.marginLeft = "120px";
 
     
     var tr = document.createElement("tr");

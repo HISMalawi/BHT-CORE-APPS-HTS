@@ -1,13 +1,17 @@
 
 <script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
+<!--script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/standard.js" defer="true"></script-->
+<script type="text/javascript" src="/assets/js/jquery.min.js"></script>
+
+<script type="text/javascript" src="/assets/js/yes_no_ctrls.js"></script>
+<link rel="stylesheet" href="/assets/css/yes_no_ctrls.css" type="text/css">
 <script type="text/javascript" src="/assets/js/post_parameters.js"></script>
 <script type="text/javascript" src="/assets/js/generic_ajaxrequest.js"></script>
 <script type="text/javascript" src="/assets/js/alertifyjs/alertify.js"></script>
-<script type="text/javascript" src="/assets/js/moment.js"></script>
 <script type="text/javascript" src="/assets/js/does_connection_exist.js"></script>
-<link rel="stylesheet" href="/assets/css/alertifyjs/css/alertify.css" type="text/css">
-<script type="text/javascript" src="/assets/js/jquery.min.js"></script>
-
+<script type="text/javascript" src="/assets/js/moment.js"></script>
+<script type="text/javascript" src="/apps/HTS/assets/js/common.js"></script>
+<script type="text/javascript" src="/apps/HTS/assets/js/hts_visit_partner.js"></script>
 <link rel="stylesheet" href="/assets/css/alertifyjs/css/alertify.css" type="text/css">
 
 <style>
@@ -22,7 +26,7 @@
   <div id="container">
     <div id="content">
       <form>
-         <select id="consent" name="consent" tt_onLoad="changeNextButtonConsent();" helpText="Client consents to be contacted"> 
+         <select id="consent" name="consent" tt_onLoad="showCategory2('Patient Registration');changeNextButtonConsent();" helpText="Client consents to be contacted"> 
           <option>No</option>
           <option>Yes</option>
           </select>
@@ -49,8 +53,6 @@
 
     if (consent == 'No') {
       window.location.href ="gender.html";
-    // window.location.href = "/views/patient/new.html?given_name=Dummy&family_name=Patient";
-
     } else if (consent == "Yes") {
       window.location.href = '/views/patient/search.html';
     }
