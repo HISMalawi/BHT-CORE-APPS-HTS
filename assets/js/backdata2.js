@@ -16,6 +16,88 @@
  gen = ageGroup = type = hivTest = partnerPresent = firstTest = secondTest = thirdTest = fourthTest = resultGiven = outSummary = client = retesting = partnerStatus = 0;
  var j = 0;
  var patientGender;
+ var conceptAnswers = [
+
+    /*Access type 1*/
+    {
+    "pitc": 9429,
+    "refferalSlip":9430,
+    "other": 6408
+    },      
+
+    {
+        "spouse": 5617,
+        "parent": 2173,
+        "other": 6408
+    },
+    /*Last HIV Test 2*/
+    {
+        "neverTested": 9432,
+        "lastNegative": 9433,
+        "lastPositive": 9434,
+        "lastInconclusive": 9436,
+        "lastInfant":9435
+    },
+    /*Client risk 3*/
+    {
+        "lowRisk": 9437,
+        "OngoingRisk": 9749,
+        "highRisk": 9438,
+        "riskAssess": 9439
+    },
+    
+     /*Partner status 4*/
+     {
+        "noPartner": 1914,
+        "hivUnknown": 9750,
+        "partnerNegative": 9751,
+        "partnerPositive": 5566           
+    }, 
+    /*Pregnant 5*/
+    {
+        "yes": 1065,
+        "no": 1066
+    },
+    /*Sex/Pregnancy 6*/
+    {
+        "male": 2843,
+        "female":2844           
+    },  
+    /*Age group 7*/
+    {
+        "elevenMonths": 9769,
+        "fourteenYears": 9770,
+        "twentyFourYears": 9768,
+        "twentyFiveYears": 9771
+    }, 
+     /*Hiv status 8*/
+     {
+        "negative": 664,
+        "positive": 703
+    },
+    // Outcome result 9
+    {
+        "negativeOneTwo": 9781,
+        "positiveOneTwo": 9782,
+        "discOneTwo": 9780
+    },
+    // Result  given to client
+    {
+        "newNegative": 9773,
+        "newPositive": 9774,
+        "newInconclusive": 9775,
+        "confPositive": 9776,
+        "inconclusive": 9777,
+        "newExposedInfant": 9783
+    },
+    // Refferal re testing
+    {
+        "NoT": 9778,
+        "ReT": 9762,
+        "CT":7877
+    }
+];
+
 function addRow(){
     var table = document.getElementById("backdata");
    
@@ -2494,8 +2576,7 @@ function postClientParamaters(parametersPassed) {
 
     }
 
-
-function createPatient(person_id) {
+    function createPatient(person_id) {
     var url = apiProtocol + '://' + apiURL + ':' + apiPort + '/api/v1/patients';
     var parametersPassed = JSON.stringify({person_id: person_id, program_id: sessionStorage.programID});
 
@@ -2588,3 +2669,51 @@ function savePatienttypeThenRedirect(obs) {
 function previousPage(){
     window.location.href = "backdata.html";
   }
+
+  function retrieveRecord(){
+    console.log("Hello People");
+    var currentTime = moment().format(' HH:mm:ss');
+    var encounter_datetime = node_date;
+    encounter_datetime += currentTime;
+
+    var url = apiProtocol + "://" + apiURL + ":" + apiPort;
+
+    url += "/api/v1/observations?/patient_id="+ sessionStorage.patientID + "obs_datetime="+encounter_datetime;
+
+    var xhttp = new XMLHttpRequest();
+    
+    xhttp.onreadystatechange = function() {
+      
+      if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
+        
+        var obj = JSON.parse(this.responseText);
+        console.log(obj);
+        var resultObject = search("1066", conceptAnswers);
+
+      }
+    
+    };
+    
+    xhttp.open("GET", url, true);
+    
+    xhttp.setRequestHeader('Authorization', sessionStorage.getItem("authorization"));
+    
+    xhttp.setRequestHeader('Content-type', "application/json");
+    
+    xhttp.send();
+  }
+
+  function getObs(){
+      
+  }
+  function search(nameKey, myArray){
+    for (var i=0; i < myArray.length; i++) {
+        var obj = myArray[i];
+        for ( var key in obj ) {
+            if(obj[key] == nameKey){
+                console.log("Found it"+key);
+                break;
+            }
+        }
+    }
+}

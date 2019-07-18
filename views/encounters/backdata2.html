@@ -745,6 +745,7 @@ div.dataTables_wrapper {
     var url = new URL(url_string);
     locale = "en-us";
     var testing_date = url.searchParams.get("testing_date");
+    var retrieve_value = url.searchParams.get("retrieve");
     var testDay, testMonth, testYear;
     var node_age_value, regex, splittedArray, splittedTimeArray, text, num, node_time_value, time_text, time_num,timeValue, ageValue;
     var min,max;
@@ -757,7 +758,88 @@ div.dataTables_wrapper {
     var month = dateObj.toLocaleString(locale, { month: "short" });
     var day = dateObj.getUTCDate();
     var year = dateObj.getUTCFullYear();
-    
+       var conceptAnswers = [
+
+            /*Access type 1*/
+            {
+            "pitc": 9429,
+            "refferalSlip":9430,
+            "other": 6408
+            },      
+     
+            {
+                "spouse": 5617,
+                "parent": 2173,
+                "other": 6408
+            },
+            /*Last HIV Test 2*/
+            {
+                "neverTested": 9432,
+                "lastNegative": 9433,
+                "lastPositive": 9434,
+                "lastInconclusive": 9436,
+                "lastInfant":9435
+            },
+            /*Client risk 3*/
+            {
+                "lowRisk": 9437,
+                "OngoingRisk": 9749,
+                "highRisk": 9438,
+                "riskAssess": 9439
+            },
+            
+             /*Partner status 4*/
+             {
+                "noPartner": 1914,
+                "hivUnknown": 9750,
+                "partnerNegative": 9751,
+                "partnerPositive": 5566           
+            }, 
+            /*Pregnant 5*/
+            {
+                "yes": 1065,
+                "no": 1066
+            },
+            /*Sex/Pregnancy 6*/
+            {
+                "male": 2843,
+                "female":2844           
+            },  
+            /*Age group 7*/
+            {
+                "elevenMonths": 9769,
+                "fourteenYears": 9770,
+                "twentyFourYears": 9768,
+                "twentyFiveYears": 9771
+            }, 
+             /*Hiv status 8*/
+             {
+                "negative": 664,
+                "positive": 703
+            },
+            // Outcome result 9
+            {
+                "negativeOneTwo": 9781,
+                "positiveOneTwo": 9782,
+                "discOneTwo": 9780
+            },
+            // Result  given to client
+            {
+                "newNegative": 9773,
+                "newPositive": 9774,
+                "newInconclusive": 9775,
+                "confPositive": 9776,
+                "inconclusive": 9777,
+                "newExposedInfant": 9783
+            },
+            // Refferal re testing
+            {
+                "NoT": 9778,
+                "ReT": 9762,
+                "CT":7877
+            }
+        ];
+
     if(testing_date == null){
          testDay = day;
          testMonth = month;
@@ -769,6 +851,10 @@ div.dataTables_wrapper {
          testYear = testing_date.split('-')[2];
         var month = moment().month(testMonth-1).format("MMM");
         var new_date = testDay + " " + month + " " + testYear;
+    }
+    console.log("Retrieve "+retrieve_value);
+    if(retrieve_value == 1){
+        retrieveRecord();
     }
 
     function postHtsVisit() {
@@ -1094,8 +1180,8 @@ div.dataTables_wrapper {
 
     }  
     function nextPage(){
-
-    window.location.href = "/apps/HTS/views/encounters/backdata2.html?testing_date = "+testing_date;
+    var retrieve = 1;
+    window.location.href = "/apps/HTS/views/encounters/backdata2.html?testing_date = "+testing_date+"&retrieve="+retrieve;
     }
 
 </script>
