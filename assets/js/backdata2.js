@@ -2687,6 +2687,19 @@ function previousPage(){
       if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
         
         var obj = JSON.parse(this.responseText);
+        var text,coded;
+        for(let i in obj) {
+            var  value_coded = obj['value_coded'];
+            var  value_text = obj['value_text'];
+
+            if(value_coded != null){
+                coded = value_coded;
+            }else if(value_text !=null){
+                text = value_text;
+            }
+            
+        }
+
         console.log(obj);
         var resultObject = search("1066", conceptAnswers);
 

@@ -37,13 +37,14 @@
             tt_onLoad="showCategory2('Backdata Entry'); changeNextTestingButton();"
            />
 
-            <select id="register_number" name="register_number" tt_onLoad="" helpText="Register Number (from cover)" tt_onLoad="showCategory2('Backdata Entry');"
-            tt_onUnLoad="loadBackdata();">
-                <option>1-VCT/Other (Health Facility)</option>
-                <option>3-VCT/Other (Health Facility)</option>
-                <option>4-VCT/Other (Health Facility)</option>
-            </select>
-
+           <input type="text" name="register_number"
+           id="register_number" field_type="date"
+           key="register_number"  objectType="register" ajaxURL="/registers/" helpText="Register Number (from cover)"
+           tt_pageStyleClass="number" allowFreeText="true"
+           tt_onLoad="showCategory2('Backdata Entry');"
+           tt_onUnLoad="loadBackdata();"
+          />
+          
             <input type="text" style ="display: none;" name="summary" id="referral_slips"
             tt_onLoad="__$('keyboard').style.display = 'none';"
             tt_pageStyleClass= "NoControls" helpText="HTS Family Referral Slips" optional="true"

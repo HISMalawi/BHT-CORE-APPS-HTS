@@ -49,8 +49,9 @@
 
         <form>  
             
-            <input type="text" name="register_num" id="register_num"  helpText="Register Number" field_type="number"  tt_pageStyleClass="Numeric NumbersOnly"
-            tt_onLoad="showCategory2('Add Register');" />
+            <input type="text" name="register_num" id="register_num"  helpText="Register Number" field_type="number"
+            objectType="register" ajaxURL="/registers/" helpText="Register Number (from cover)"  tt_pageStyleClass=""
+            tt_onLoad="changeNextButton();showCategory2('Close Register');" />
         </form>
 
     </div>
@@ -61,6 +62,37 @@
         var patientID = sessionStorage.getItem("patientID");
         var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
         var tt_cancel_destination = "registers.html";
+
+        function changeNextButton() {
+        var nextButton =  document.getElementById('nextButton');
+        nextButton.setAttribute("onmousedown","closeRegistry();")
+     }
+     function closeRegistry(){
+        var reg_id = $('touchscreenInput'+tstCurrentPage).value;
+        var url = apiProtocol + "://" + apiURL + ":" + apiPort;
+        url += "/api/v1/registers?";
+
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+
+        if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
+            
+            var obj = JSON.parse(this.responseText);
+            var text,coded;
+
+        }
+
+        };
+
+        xhttp.open("GET", url, true);
+
+        xhttp.setRequestHeader('Authorization', sessionStorage.getItem("authorization"));
+
+        xhttp.setRequestHeader('Content-type', "application/json");
+
+        xhttp.send();
+     }
 
 
 </script>    

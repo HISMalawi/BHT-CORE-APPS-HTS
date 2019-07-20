@@ -49,20 +49,19 @@
 
         <form>  
             
-            <input type="text" name="register_num" id="register_num"  helpText="Register Number" field_type="number"  tt_pageStyleClass="Numeric NumbersOnly"
+            <input type="text" name="register_num" id="register_num"  key="register" 
+            helpText="Register Number" field_type="number"  tt_pageStyleClass="Numeric NumbersOnly"
             tt_onLoad="showCategory2('Add Register');" />
 
-            <select id="location_type" name="location_type"  helpText="Location Type" tt_onLoad="showCategory2('Add Register');">
-                <option>Community</option>
-                <option>Health Facility</option>
-                <option>Standalone</option>
-            </select>
+            <input type="text" name="location_type" id="location_type" objectType="location_type" ajaxURL="/register_location_types/" 
+            key="register_location_types"  helpText="Location Type" field_type="number"  tt_pageStyleClass=""
+            tt_onLoad="showCategory2('Add Register');" />
 
-            <select id="delivery_point" name="delivery_point"  helpText="Service Delivery Point" tt_onLoad="showCategory2('Add Register');">
-                <option>VCT/Other</option>>
-            </select>
+            <input type="text" name="delivery_point" id="delivery_point"  objectType="service_point" ajaxURL="/register_service_delivery_points/"  
+            key="service_point"  helpText="Service Delivery Point" field_type="number"  tt_pageStyleClass=""
+            tt_onLoad="showCategory2('Add Register');" />
             
-            <select id="register_type" name="register_type"  helpText="Register Type" tt_onLoad="showCategory2('Add Register');">
+            <select id="register_type" name="register_type"  helpText="Register Type" tt_onLoad="showCategory2('Add Register');changeNextButton();">
                 <option>Regular</option>>
                 <option>Self-Test</option>>
             </select>  
@@ -76,6 +75,70 @@
         var patientID = sessionStorage.getItem("patientID");
         var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
         var tt_cancel_destination = "registers.html";
+        var servicePoint,serviceName, servicePointName;
+    
+        function changeNextButton() {
+        var nextButton =  document.getElementById('nextButton');
+        nextButton.setAttribute("onmousedown","getServicePoint();")
+     }
 
+    function getServicePoint(){
 
+    servicePoint = document.getElementById('delivery_point').value;
+    var url = apiProtocol + "://" + apiURL + ":" + apiPort;
+
+    url += "/api/v1/register_service_delivery_points";
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+    
+    if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
+        
+        var obj = JSON.parse(this.responseText);
+        var text,coded;
+        for(let i in obj) {
+            var regObj = obj[i];
+            for(let j in regObj){
+                
+            var service_id = regObj['id'];
+            if(service_id == servicePoint){
+                serviceName = regObj['name'];
+                postRegisters();
+                break;
+            }
+            }
+        }
+
+    }
+
+    };
+
+    xhttp.open("GET", url, true);
+
+    xhttp.setRequestHeader('Authorization', sessionStorage.getItem("authorization"));
+
+    xhttp.setRequestHeader('Content-type', "application/json");
+
+    xhttp.send();
+    }
+
+    function postRegisters(){
+        var register = document.getElementById('register_num').value;
+        var locationType = document.getElementById('location_type').value;
+        var registerType =  $('touchscreenInput'+tstCurrentPage).value;
+        var registerNum = register + "-" + serviceName;
+        var regs = {
+            "number": registerNum,
+            "service_delivery_point_id": servicePoint,
+            "location_type_id": locationType,
+            "register_type": locationType
+        }
+        submitParameters(regs, "/registers", "nextPage")
+    }
+    
+
+    function nextPage(){
+        window.location.href = "registers.html";
+    }
 </script>    
