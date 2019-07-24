@@ -122,7 +122,7 @@
                     tt_onLoad=" checkResult();showCategory2('HTS Visit');changeNextButtonValidation();"
                     tt_onUnLoad = "" />
 
-                    <select id="partner_status" name="partner_status" helpText="Partner HIV Status" tt_pageStyleClass="NoKeyboard" tt_onLoad="showCategory2('HTS Visit');changeNextButtonValidation();" >
+                    <select id="partner_status" name="partner_status" helpText="Partner HIV Status" tt_pageStyleClass="NoKeyboard" tt_onLoad="showCategory2('HTS Visit');checkPartnerStatus();changeNextButtonValidation();" >
                             <option></option>
                             <option>No Partner</option>
                             <option>HIV Unknown</option>
@@ -156,6 +156,12 @@
         var patientID = sessionStorage.getItem("patientID");
         var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
         var tt_cancel_destination = "/views/patient_dashboard.html?patient_id=" + patientID;
+
+
+    function checkPartnerStatus(){
+        
+    }
+
 
     function changeNextButtonConsent() {
     var nextButton =  document.getElementById('nextButton');

@@ -41,7 +41,7 @@ $j(document).ready(function(){
     
     var url = apiProtocol + "://" + apiURL + ":" + apiPort;
 
-    url += "/api/v1/programs/"+ sessionStorage.programID + "/reports/patients?name=find_all_patients&patient";
+    url += "/api/v1/programs/"+ sessionStorage.programID + "/reports/patients?name=patients&patient";
 
     url += "&start_date=" + start_date;
 
@@ -61,8 +61,8 @@ $j(document).ready(function(){
         
         for(let i in obj) {
              var  patient_obj = obj['patients'];
-            patient_num = obj['count'];
-            break;
+              pageEnd = obj['total_pages'];
+              break;
            }
            Object.size = function(patient_num) {
             var size = 0, key;
@@ -73,7 +73,6 @@ $j(document).ready(function(){
             };
             totalSize = Object.size(patient_num);
            addRows(patient_obj);
-           pageEnd = Math.round(totalSize/3);
            if(count == 0){
            buildPagination();
            }

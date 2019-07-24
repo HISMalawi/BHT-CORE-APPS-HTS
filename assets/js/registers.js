@@ -1,3 +1,6 @@
+var open=0;
+var close=0;
+
 function buildRegisterPage(){
     var frame = document.getElementById('inputFrame' + tstCurrentPage);
     frame.style.height = "90%";
@@ -35,7 +38,7 @@ function buildRegisterPage(){
     tr.appendChild(td);
 
     var td_two = document.createElement("td");
-    var node_td = document.createTextNode("4");
+    var node_td = document.createTextNode(open);
     td_two.appendChild(node_td);
 
     td_two.appendChild(node_td);
@@ -53,7 +56,7 @@ function buildRegisterPage(){
     tr_close.appendChild(td_close);
 
     var td_close_two = document.createElement("td");
-    var node_td_two = document.createTextNode("0");
+    var node_td_two = document.createTextNode(close);
     td_close_two.appendChild(node_td_two);
 
     tr_close.appendChild(td_close_two);
@@ -106,3 +109,42 @@ function buildRegisterPage(){
     }
 }
 
+
+
+function getRegistersCount(){
+
+    var url = apiProtocol + "://" + apiURL + ":" + apiPort;
+
+    url += "/api/v1/registers";
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+    
+    if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
+        
+        var obj = JSON.parse(this.responseText);
+        for(let i in obj) {
+            var register = obj[i];
+            var closed = register['closed'];
+               if(closed == false){
+                    open++;
+                }else{
+                    close++;
+                }
+
+         
+        }
+        buildRegisterPage();
+    }
+
+    };
+
+    xhttp.open("GET", url, true);
+
+    xhttp.setRequestHeader('Authorization', sessionStorage.getItem("authorization"));
+
+    xhttp.setRequestHeader('Content-type', "application/json");
+
+    xhttp.send();
+    }

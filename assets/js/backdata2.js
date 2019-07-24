@@ -2671,7 +2671,6 @@ function previousPage(){
   }
 
   function retrieveRecord(){
-    console.log("Hello People");
     var currentTime = moment().format(' HH:mm:ss');
     var encounter_datetime = node_date;
     encounter_datetime += currentTime;

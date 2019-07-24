@@ -40,10 +40,41 @@
   var patientID = sessionStorage.getItem("patientID");
   var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
   var tt_cancel_destination = "/";
-  
+
+
+  var url = sessionStorage.apiProtocol + '://' + apiURL + ':' + apiPort + '/api/v1/patients/' + sessionStorage.patientID;
+        var req = new XMLHttpRequest();
+        req.onreadystatechange = function () {
+
+            if (this.readyState == 4 && this.status == 200) {
+
+                var results = JSON.parse(this.responseText);
+                var age = results.person.birthdate;
+
+                sessionStorage.patientDOB = moment(age).format("DD/MMM/YYYY");
+            }
+        };
+
+      req.open('GET', url, true);
+      req.setRequestHeader('Authorization', sessionStorage.getItem("authorization"))
+      req.send(null);
+      var today_date = new Date();
+    today_year = today_date.getFullYear();
+
+    var DOB = sessionStorage.patientDOB;
+    var dobDay = DOB.split('/')[0];
+    var dobMonth = DOB.split('/')[1];
+    var dobYear = DOB.split('/')[2];
+    
+    var age = today_year - dobYear;
+    if(age < 14){
+      window.location.href ="encounters/hts_visit.html";
+    }
   if (top.location != location) {
-       // top.location.href = document.location.href ;
       window.location.href = "encounters/hts_visit.html";
+   }
+   if(sessionStorage.patientAge < 14){
+     console.log("Wassup");
    }
     function changeNextBTN() {
     var nextButton =  document.getElementById('nextButton');
@@ -58,5 +89,7 @@
     } else if (partner == "Yes") {
       window.location.href ="encounters/hts_visit_partner.html";
     }
-  }
+  }  
+
+
 </script>

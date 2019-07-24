@@ -1,6 +1,5 @@
 
 <script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
-<!--script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/standard.js" defer="true"></script-->
 <script type="text/javascript" src="/assets/js/jquery.min.js"></script>
 
 <script type="text/javascript" src="/assets/js/yes_no_ctrls.js"></script>
@@ -49,7 +48,7 @@
 
         <form>  
             
-            <input type="text" name="register_num" id="register_num"  helpText="Register Number" field_type="number"
+            <input type="text" name="register_num" id=""  helpText="Register Number" field_type="number"
             objectType="register" ajaxURL="/registers/" helpText="Register Number (from cover)"  tt_pageStyleClass=""
             tt_onLoad="changeNextButton();showCategory2('Close Register');" />
         </form>
@@ -68,24 +67,23 @@
         nextButton.setAttribute("onmousedown","closeRegistry();")
      }
      function closeRegistry(){
-        var reg_id = $('touchscreenInput'+tstCurrentPage).value;
+
+        var reg_id = $('touchscreenInput'+tstCurrentPage).getAttribute('tstvalue');
         var url = apiProtocol + "://" + apiURL + ":" + apiPort;
-        url += "/api/v1/registers?";
+        url += "/api/v1/registers/"+reg_id;
 
         var xhttp = new XMLHttpRequest();
 
         xhttp.onreadystatechange = function() {
 
         if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
-            
-            var obj = JSON.parse(this.responseText);
-            var text,coded;
 
         }
+        nextPage();
 
         };
 
-        xhttp.open("GET", url, true);
+        xhttp.open("DELETE", url, true);
 
         xhttp.setRequestHeader('Authorization', sessionStorage.getItem("authorization"));
 
@@ -94,5 +92,7 @@
         xhttp.send();
      }
 
-
+     function nextPage(){
+        window.location.href = "registers.html";
+    }
 </script>    

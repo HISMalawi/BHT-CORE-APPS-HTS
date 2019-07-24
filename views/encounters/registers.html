@@ -58,7 +58,7 @@
 
         <form>  
             <input type="text" name="summary" id="test_result_one"
-            tt_onLoad="__$('keyboard').style.display = 'none';showCategory2('Manage registers'); buildRegisterPage();"
+            tt_onLoad="__$('keyboard').style.display = 'none';showCategory2('Manage registers');changeNextButton();getRegistersCount();"
             tt_pageStyleClass= "NoControls" helpText="" optional="true"/>
                     
         </form>
@@ -74,6 +74,10 @@
 
     function changeNextButton() {
         var nextButton =  document.getElementById('nextButton');
-        nextButton.setAttribute("onmousedown","postHtsVisit();")
+        nextButton.setAttribute("onmousedown","nextPage();");
+    }
+
+    function nextPage(){
+        window.location.href = "/";
     }
 </script>    
