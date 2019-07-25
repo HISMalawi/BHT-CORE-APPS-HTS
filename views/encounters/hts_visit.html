@@ -47,7 +47,11 @@
     <div id="content">
 
 
-        <form>  
+        <form> 
+            <!-- <input type="hidden" name="age"
+            id="age" field_type="hidden"
+            key="age" tt_onLoad = "setAge();"
+             />  -->
 
             <select id="hts_access_type" name="hts_access_type"  helpText="HTS Access Type" tt_onLoad="showCategory2('HTS Visit');changeNextButtonValidation();"
             >
@@ -122,7 +126,7 @@
                     tt_onLoad=" checkResult();showCategory2('HTS Visit');changeNextButtonValidation();"
                     tt_onUnLoad = "" />
 
-                    <select id="partner_status" name="partner_status" helpText="Partner HIV Status" tt_pageStyleClass="NoKeyboard" tt_onLoad="showCategory2('HTS Visit');checkPartnerStatus();changeNextButtonValidation();" >
+                    <select id="partner_status" name="partner_status" helpText="Partner HIV Status" tt_pageStyleClass="NoKeyboard" tt_onLoad="showCategory2('HTS Visit');changeNextButtonValidation();" >
                             <option></option>
                             <option>No Partner</option>
                             <option>HIV Unknown</option>
@@ -131,10 +135,11 @@
                         </select>
                     
                     <input type="text" name="male_condoms" id="male_condoms"  helpText="Number of male condoms given" field_type="number"  tt_pageStyleClass="Numeric NumbersOnly"
-                    tt_onLoad="showCategory2('HTS Visit'); changeNextButtonValidation();"/>
+                    tt_onLoad="showCategory2('HTS Visit');checkAge();changeNextButtonValidation();"
+                    condition = "age > 13"  />
 
                     <input type="text" name="female_condoms" id="female_condoms"  helpText="Number of female condoms given" field_type="number"  tt_pageStyleClass="Numeric NumbersOnly"
-                    tt_onLoad="showCategory2('HTS Visit'); changeNextButtonValidation();"/>
+                    tt_onLoad="showCategory2('HTS Visit'); changeNextButtonValidation();"  condition = "age > 13" />
                     
                     <input type="text" name="summary" id="referral_slips"
                     tt_onLoad="__$('keyboard').style.display = 'none';showCategory2('HTS Visit');buildReferralSlips();"
@@ -156,10 +161,12 @@
         var patientID = sessionStorage.getItem("patientID");
         var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
         var tt_cancel_destination = "/views/patient_dashboard.html?patient_id=" + patientID;
+        var age = sessionStorage.patientAge;
+        document.getElementById("age").value = age;
 
-
-    function checkPartnerStatus(){
-        
+    function setAge(){
+        var age = sessionStorage.patientAge;
+        document.getElementById("age").value = age;
     }
 
 

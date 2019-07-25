@@ -2670,11 +2670,11 @@ function previousPage(){
     window.location.href = "backdata.html";
   }
 
-  function retrieveRecord(){
+function retrieveRecord(){
     var currentTime = moment().format(' HH:mm:ss');
     var encounter_datetime = node_date;
     encounter_datetime += currentTime;
-
+    var value_coded, value_text,ans;
     var url = apiProtocol + "://" + apiURL + ":" + apiPort;
 
     url += "/api/v1/observations?/patient_id="+ sessionStorage.patientID + "obs_datetime="+encounter_datetime;
@@ -2686,21 +2686,23 @@ function previousPage(){
       if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
         
         var obj = JSON.parse(this.responseText);
-        var text,coded;
         for(let i in obj) {
-            var  value_coded = obj['value_coded'];
-            var  value_text = obj['value_text'];
-
-            if(value_coded != null){
-                coded = value_coded;
-            }else if(value_text !=null){
-                text = value_text;
-            }
-            
+             var patient_obs = obj[i];
+             console.log(patient_obs);
+              value_coded = patient_obs['value_coded'];
+              value_text = patient_obs['value_text'];
+              Object.keys(obj).forEach(function(key) {
+                if(value_coded != null){
+                    ans = value_coded;
+                }else if(value_text !=null){
+                    ans = value_text;
+                }
+                console.log("EHE");
+                var resultObject = search(ans, conceptAnswers);
+              
+              });
+            break;
         }
-
-        console.log(obj);
-        var resultObject = search("1066", conceptAnswers);
 
       }
     
@@ -2715,9 +2717,6 @@ function previousPage(){
     xhttp.send();
   }
 
-  function getObs(){
-      
-  }
   function search(nameKey, myArray){
     for (var i=0; i < myArray.length; i++) {
         var obj = myArray[i];

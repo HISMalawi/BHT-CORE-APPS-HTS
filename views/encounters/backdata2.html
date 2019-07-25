@@ -1193,6 +1193,7 @@ div.dataTables_wrapper {
             var modalHeader = document.getElementById("modal_header");
             var age;
             var count = 0;
+            var save = 0;
             modalText.innerHTML = "";      
 
             switch (node_age_group) {
@@ -1281,8 +1282,10 @@ div.dataTables_wrapper {
         if(count > 1){
             modalText.innerHTML += " must be entered";
             $("#myModal").modal();
+            count = 0;
         }
         else{
+             
             node_age_value = node_age.nodeValue;
             regex = new RegExp('([0-9]+)|([WDMY]+)','g');
             splittedArray = node_age_value.match(regex);
@@ -1332,193 +1335,193 @@ div.dataTables_wrapper {
                     $("#myModal").modal();
                 break;
         }
-        if (age < min || age > max) {
-            modalText.innerHTML = "Age group does not match entered age";
-            $("#myModal").modal();
-         }
-         node_time_value = node_time.nodeValue;
-
-         if(node_ltest != "LNev"){
-            if(node_time_value == ' '){
-                modalText.innerHTML = "Time since last test must be entered";
+            if (age < min || age > max) {
+                modalText.innerHTML = "Age group does not match entered age";
                 $("#myModal").modal();
-            }else{
-            splittedTimeArray = node_time_value.match(regex);
-            time_text = splittedTimeArray[1];
-            time_num = splittedTimeArray[0];
-            switch (time_text) {
-                case 'W':
-                    timeValue = Math.round(time_num/52);            
-                    break;
-                case 'D':
-                    timeValue = Math.round(time_num/365);
-                    break;
-                case 'M':
-                   timeValue =  Math.round(time_num/12);
-                break;
-                case 'Y':
-                    timeValue = time_num;
-                    break;
-                default:
-                    modalText.innerHTML = "Expecting Time Since Last Test to be a number with a unit";
+            }
+            node_time_value = node_time.nodeValue;
+
+            if(node_ltest != "LNev"){
+                if(node_time_value == ' '){
+                    modalText.innerHTML = "Time since last test must be entered";
                     $("#myModal").modal();
-                break;
-            }
-        }
-        }else{
-            if(node_time_value != ' '){
-                modalHeader.innerHTML = "Invalid Entry";
-                modalText.innerHTML = "Time Since Last Test must NOT be entered if never tested";
-                $("#myModal").modal();
-            }
-        } 
-        if(node_refferal_retesting == "ReT" || node_refferal_retesting == "CT"){
-            if(node_appointment.nodeValue == ' '){
-                modalText.innerHTML = "Appointment date must be entered";
-                $("#myModal").modal();
-            }else{
-                if(node_refferal_retesting == "ReT"){
-                    var weekDate = new Date(testYear, testMonth, testDay); 
-                    weekDate.toDateString();
-                    weekDate.setDate(weekDate.getDate() + 7);
-
-                    var yearDate = new Date(testYear, testMonth, testDay); 
-                    yearDate.toDateString();
-                    yearDate.setDate(yearDate.getDate() + 365);
-
-                    var appointmentDate = moment(node_appointment.nodeValue);
-                    var nextWeek = moment(weekDate);
-                    var nextYear = moment(yearDate);
-        
-                    if (!appointmentDate.isBetween(nextWeek, nextYear)) {
-                        modalText.innerHTML = "Appointment date for re-test must be between 1 week and 1 year from current test date.";
+                }else{
+                splittedTimeArray = node_time_value.match(regex);
+                time_text = splittedTimeArray[1];
+                time_num = splittedTimeArray[0];
+                switch (time_text) {
+                    case 'W':
+                        timeValue = Math.round(time_num/52);            
+                        break;
+                    case 'D':
+                        timeValue = Math.round(time_num/365);
+                        break;
+                    case 'M':
+                    timeValue =  Math.round(time_num/12);
+                    break;
+                    case 'Y':
+                        timeValue = time_num;
+                        break;
+                    default:
+                        modalText.innerHTML = "Expecting Time Since Last Test to be a number with a unit";
                         $("#myModal").modal();
-                    }
-                }else if(node_refferal_retesting == "CT"){
-                    var threeMonthDate = moment(testing_date, 'DD-MM-YYYY').add('month', 3)
-
-                    var appointmentDate = moment(node_appointment.nodeValue);
-                    var nextThreeMonth = moment(threeMonthDate);
-                    var testDate = moment(testing_date);
-                    if (!appointmentDate.isBetween(testDate, nextThreeMonth)) {
-                        modalText.innerHTML = "Appointment date for confirmatory test must be between same day and 3 months from current test date.";
-                        $("#myModal").modal();
-                    }
+                    break;
                 }
             }
-             var FRS = node_family_slip.nodeValue;
-             if (FRS == ' '){
-                modalText.innerHTML = "Number of FRS given must be entered";
-                $("#myModal").modal();
-             }else if(FRS < 0 || FRS > 15){
-                modalText.innerHTML = "Number of FRS given should be 0 - 15";
-                $("#myModal").modal();
-             }
-            var maleCondoms = node_male_condom.nodeValue;
-            var femaleCondoms = node_female_condom.nodeValue;
-            if( maleCondoms == ' ' ){
-                modalText.innerHTML = "Number of male condoms given must be entered";
-                $("#myModal").modal();
-            } else if(maleCondoms < 0 || maleCondoms > 500){
-                modalText.innerHTML = "Number of male condoms given should be 0 - 500";
-                $("#myModal").modal();
-            }
-
-            if( femaleCondoms == ' ' ){
-                modalText.innerHTML = "Number of female condoms given must be entered";
-                $("#myModal").modal();
-            }else if(femaleCondoms < 0 || femaleCondoms > 500){
-                modalText.innerHTML = "Number of female condoms given should be 0 - 500";
-                $("#myModal").modal();
-            }
-        }
-        if(node_test_one != "-" ){
-            if(secondTest < 1){
-                    modalText.innerHTML = "HIV Rapid Test Outcomes must be entered";
+            }else{
+                if(node_time_value != ' '){
+                    modalHeader.innerHTML = "Invalid Entry";
+                    modalText.innerHTML = "Time Since Last Test must NOT be entered if never tested";
                     $("#myModal").modal();
                 }
-        }else 
-        if((node_test_one == "-" && node_test_two == "+") || (node_test_one == "+" && node_test_two == "-")){
-            thirdTest < 1  ? (
-                    modalText.innerHTML = "Confirmation tests must be entered",
-                $("#myModal").modal()
-                ) : (
-                    node_test_one = node_test_three
-                );
+            } 
+            if(node_refferal_retesting == "ReT" || node_refferal_retesting == "CT"){
+                if(node_appointment.nodeValue == ' '){
+                    modalText.innerHTML = "Appointment date must be entered";
+                    $("#myModal").modal();
+                }else{
+                    if(node_refferal_retesting == "ReT"){
+                        var weekDate = new Date(testYear, testMonth, testDay); 
+                        weekDate.toDateString();
+                        weekDate.setDate(weekDate.getDate() + 7);
 
-                fourthTest < 1 ? (
-                    modalText.innerHTML = "HIV Rapid Test Outcomes must be entered",
+                        var yearDate = new Date(testYear, testMonth, testDay); 
+                        yearDate.toDateString();
+                        yearDate.setDate(yearDate.getDate() + 365);
+
+                        var appointmentDate = moment(node_appointment.nodeValue);
+                        var nextWeek = moment(weekDate);
+                        var nextYear = moment(yearDate);
+            
+                        if (!appointmentDate.isBetween(nextWeek, nextYear)) {
+                            modalText.innerHTML = "Appointment date for re-test must be between 1 week and 1 year from current test date.";
+                            $("#myModal").modal();
+                        }
+                    }else if(node_refferal_retesting == "CT"){
+                        var threeMonthDate = moment(testing_date, 'DD-MM-YYYY').add('month', 3)
+
+                        var appointmentDate = moment(node_appointment.nodeValue);
+                        var nextThreeMonth = moment(threeMonthDate);
+                        var testDate = moment(testing_date);
+                        if (!appointmentDate.isBetween(testDate, nextThreeMonth)) {
+                            modalText.innerHTML = "Appointment date for confirmatory test must be between same day and 3 months from current test date.";
+                            $("#myModal").modal();
+                        }
+                    }
+                }
+                var FRS = node_family_slip.nodeValue;
+                if (FRS == ' '){
+                    modalText.innerHTML = "Number of FRS given must be entered";
+                    $("#myModal").modal();
+                }else if(FRS < 0 || FRS > 15){
+                    modalText.innerHTML = "Number of FRS given should be 0 - 15";
+                    $("#myModal").modal();
+                }
+                var maleCondoms = node_male_condom.nodeValue;
+                var femaleCondoms = node_female_condom.nodeValue;
+                if( maleCondoms == ' ' ){
+                    modalText.innerHTML = "Number of male condoms given must be entered";
+                    $("#myModal").modal();
+                } else if(maleCondoms < 0 || maleCondoms > 500){
+                    modalText.innerHTML = "Number of male condoms given should be 0 - 500";
+                    $("#myModal").modal();
+                }
+
+                if( femaleCondoms == ' ' ){
+                    modalText.innerHTML = "Number of female condoms given must be entered";
+                    $("#myModal").modal();
+                }else if(femaleCondoms < 0 || femaleCondoms > 500){
+                    modalText.innerHTML = "Number of female condoms given should be 0 - 500";
+                    $("#myModal").modal();
+                }
+            }
+            if(node_test_one != "-" ){
+                if(secondTest < 1){
+                        modalText.innerHTML = "HIV Rapid Test Outcomes must be entered";
+                        $("#myModal").modal();
+                    }
+            }else 
+            if((node_test_one == "-" && node_test_two == "+") || (node_test_one == "+" && node_test_two == "-")){
+                thirdTest < 1  ? (
+                        modalText.innerHTML = "Confirmation tests must be entered",
                     $("#myModal").modal()
-                ) : (
-                    node_test_two = node_test_four
-                );
-        }
+                    ) : (
+                        node_test_one = node_test_three
+                    );
+
+                    fourthTest < 1 ? (
+                        modalText.innerHTML = "HIV Rapid Test Outcomes must be entered",
+                        $("#myModal").modal()
+                    ) : (
+                        node_test_two = node_test_four
+                    );
+            }
 
 
-        if(node_test_one == "-" && secondTest < 1){
-            if(node_outcome =! "-"){
-                modalHeader.innerHTML = "Invalid Entry";
-                    modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
-                    $("#myModal").modal();
-            }
-        }else  if(node_test_one == "+" && secondTest < 1){
-            if(node_outcome =! "+"){
-                modalHeader.innerHTML = "Invalid Entry";
-                    modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
-                    $("#myModal").modal();
-            }
-        }else  if(node_test_one == "-" && node_test_two == "-"){
-            if(node_outcome =! "--"){
-                modalHeader.innerHTML = "Invalid Entry";
-                    modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
-                    $("#myModal").modal();
-        }
-        }else  if(node_test_one == "+" && node_test_two == "+"){
-            if(node_outcome =! "++"){
-                modalHeader.innerHTML = "Invalid Entry";
-                    modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
-                    $("#myModal").modal();
-         }}else  if((node_test_one == "-" && node_test_two == "+") || (node_test_one == "+" && node_test_two == "-")){
-            if(node_outcome =! "Disc"){
-                modalHeader.innerHTML = "Invalid Entry";
-                    modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
-                    $("#myModal").modal();
-         }
-        }
-        if(node_ltest == 'LNev' || node_ltest == 'L-'){
-            if((node_test_one == "-")  || (ode_test_one == "-" && node_test_two == "-")){
-                if(node_result != "N-"){
+            if(node_test_one == "-" && secondTest < 1){
+                if(node_outcome =! "-"){
                     modalHeader.innerHTML = "Invalid Entry";
-                    modalText.innerHTML = "Result given to client must be New Negative";
-                    $("#myModal").modal();
+                        modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
+                        $("#myModal").modal();
                 }
-            }
-            if(node_test_one == "+" && node_test_two == "+"){
-                if(age < 330 ){
-                    if(node_result != "NEx"){
+            }else  if(node_test_one == "+" && secondTest < 1){
+                if(node_outcome =! "+"){
                     modalHeader.innerHTML = "Invalid Entry";
-                    modalText.innerHTML = "Result given to client must be New Exposed Infant";
-                    $("#myModal").modal();
+                        modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
+                        $("#myModal").modal();
+                }
+            }else  if(node_test_one == "-" && node_test_two == "-"){
+                if(node_outcome =! "--"){
+                    modalHeader.innerHTML = "Invalid Entry";
+                        modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
+                        $("#myModal").modal();
+            }
+            }else  if(node_test_one == "+" && node_test_two == "+"){
+                if(node_outcome =! "++"){
+                    modalHeader.innerHTML = "Invalid Entry";
+                        modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
+                        $("#myModal").modal();
+            }}else  if((node_test_one == "-" && node_test_two == "+") || (node_test_one == "+" && node_test_two == "-")){
+                if(node_outcome =! "Disc"){
+                    modalHeader.innerHTML = "Invalid Entry";
+                        modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
+                        $("#myModal").modal();
+            }
+            }
+            if(node_ltest == 'LNev' || node_ltest == 'L-'){
+                if((node_test_one == "-")  || (node_test_one == "-" && node_test_two == "-")){
+                    if(node_result != "N-"){
+                        modalHeader.innerHTML = "Invalid Entry";
+                        modalText.innerHTML = "Result given to client must be New Negative";
+                        $("#myModal").modal();
                     }
-                }else if(age > 330){
-                    if(node_result != "N+"){
-                    modalHeader.innerHTML = "Invalid Entry";
-                    modalText.innerHTML = "Result given to client must be New Positive";
-                    $("#myModal").modal();
-                    }
-                }   
                 }
-                if((node_test_one == "-" && node_test_two == "+") || (node_test_one == "+" && node_test_two == "-")){
-                    if(node_result != "NIN"){
-                    modalHeader.innerHTML = "Invalid Entry";
-                    modalText.innerHTML = "Result given to client must be New Inconclusive";
-                    $("#myModal").modal();
-                    }       
-                }
-
-            }
-            if(node_ltest == "L+"){
                 if(node_test_one == "+" && node_test_two == "+"){
+                    if(age < 330 ){
+                        if(node_result != "NEx"){
+                        modalHeader.innerHTML = "Invalid Entry";
+                        modalText.innerHTML = "Result given to client must be New Exposed Infant";
+                        $("#myModal").modal();
+                        }
+                    }else if(age > 330){
+                        if(node_result != "N+"){
+                        modalHeader.innerHTML = "Invalid Entry";
+                        modalText.innerHTML = "Result given to client must be New Positive";
+                        $("#myModal").modal();
+                        }
+                    }   
+                    }
+                    if((node_test_one == "-" && node_test_two == "+") || (node_test_one == "+" && node_test_two == "-")){
+                        if(node_result != "NIN"){
+                        modalHeader.innerHTML = "Invalid Entry";
+                        modalText.innerHTML = "Result given to client must be New Inconclusive";
+                        $("#myModal").modal();
+                        }       
+                    }
+
+                }
+                if(node_ltest == "L+"){
+                    if(node_test_one == "+" && node_test_two == "+"){
                     if(age < 330 ){
                     if(node_result != "NEx"){
                     modalHeader.innerHTML = "Invalid Entry";
@@ -1579,17 +1582,18 @@ div.dataTables_wrapper {
                     $("#myModal").modal();
                     }       
                 }
+                save++;
          }
          if(node_client_risk == "Low"){
                 if(node_refferal_retesting != "NoT"){
                     modalHeader.innerHTML = "Invalid Entry";
                      modalText.innerHTML = "Combination of test results is not plausible";
                      $("#myModal").modal();
+                     
                 }
-            }
-        //End else
+                save++;      
         }
-        createClient();
+        }
       });
         $("#delete").click(function(){
             $("#deleteModal").modal();
@@ -1597,6 +1601,9 @@ div.dataTables_wrapper {
       });
       
 });
+ function savePatient(){
+     console.log("Really");
+ }
 function deleteRow(){
         $j('#backdata tr:last').remove();
         addRow();
