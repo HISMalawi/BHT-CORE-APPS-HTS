@@ -2688,7 +2688,7 @@ function retrieveRecord(){
         var obj = JSON.parse(this.responseText);
         for(let i in obj) {
              var patient_obs = obj[i];
-             console.log(patient_obs);
+             console.log(obj);
               value_coded = patient_obs['value_coded'];
               value_text = patient_obs['value_text'];
               Object.keys(obj).forEach(function(key) {

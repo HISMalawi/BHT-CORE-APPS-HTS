@@ -1256,7 +1256,6 @@ div.dataTables_wrapper {
                 : modalText.innerHTML += "Test 1 result";
                 count++;
         }
-
         if(outSummary < 1){
             modalText.innerHTML != '' ? modalText.innerText += ",Outcome summary" 
                 : modalText.innerHTML += "Outcome summary";
@@ -1278,13 +1277,12 @@ div.dataTables_wrapper {
                 : modalText.innerHTML += "Referral for Re-Testing";
                 count++;
         }
-
-        if(count > 1){
+        if(count >= 1){
             modalText.innerHTML += " must be entered";
             $("#myModal").modal();
-            count = 0;
-        }
-        else{
+            save++;
+        }else
+         if(count==0){
              
             node_age_value = node_age.nodeValue;
             regex = new RegExp('([0-9]+)|([WDMY]+)','g');
@@ -1300,6 +1298,7 @@ div.dataTables_wrapper {
                 }else{
                     modalText.innerHTML = "Number of weeks between 1 and 26 must be entered";
                     $("#myModal").modal();
+                    save++;
                 }           
                     break;
                 case 'D':
@@ -1309,6 +1308,7 @@ div.dataTables_wrapper {
                     }else{
                         modalText.innerHTML = "Number of days between 1 and 30 must be entered";
                         $("#myModal").modal();
+                        save++;
                     }             
                     break;
                 case 'M':
@@ -1318,6 +1318,7 @@ div.dataTables_wrapper {
                     }else{
                         modalText.innerHTML = "Number of months between 1 and 36 must be entered";
                         $("#myModal").modal();
+                        save++;
                     }   
                 break;
                 case 'Y':
@@ -1327,6 +1328,7 @@ div.dataTables_wrapper {
                     }else{
                         modalText.innerHTML = "Number of years between 1 and 110 must be entered";
                         $("#myModal").modal();
+                        save++;
                     }
                   break;
                 default:
@@ -1338,6 +1340,7 @@ div.dataTables_wrapper {
             if (age < min || age > max) {
                 modalText.innerHTML = "Age group does not match entered age";
                 $("#myModal").modal();
+                save++;
             }
             node_time_value = node_time.nodeValue;
 
@@ -1345,6 +1348,7 @@ div.dataTables_wrapper {
                 if(node_time_value == ' '){
                     modalText.innerHTML = "Time since last test must be entered";
                     $("#myModal").modal();
+                    save++;
                 }else{
                 splittedTimeArray = node_time_value.match(regex);
                 time_text = splittedTimeArray[1];
@@ -1365,6 +1369,7 @@ div.dataTables_wrapper {
                     default:
                         modalText.innerHTML = "Expecting Time Since Last Test to be a number with a unit";
                         $("#myModal").modal();
+                        save++;
                     break;
                 }
             }
@@ -1373,12 +1378,14 @@ div.dataTables_wrapper {
                     modalHeader.innerHTML = "Invalid Entry";
                     modalText.innerHTML = "Time Since Last Test must NOT be entered if never tested";
                     $("#myModal").modal();
+                    save++;
                 }
             } 
             if(node_refferal_retesting == "ReT" || node_refferal_retesting == "CT"){
                 if(node_appointment.nodeValue == ' '){
                     modalText.innerHTML = "Appointment date must be entered";
                     $("#myModal").modal();
+                    save++;
                 }else{
                     if(node_refferal_retesting == "ReT"){
                         var weekDate = new Date(testYear, testMonth, testDay); 
@@ -1396,6 +1403,7 @@ div.dataTables_wrapper {
                         if (!appointmentDate.isBetween(nextWeek, nextYear)) {
                             modalText.innerHTML = "Appointment date for re-test must be between 1 week and 1 year from current test date.";
                             $("#myModal").modal();
+                            save++;
                         }
                     }else if(node_refferal_retesting == "CT"){
                         var threeMonthDate = moment(testing_date, 'DD-MM-YYYY').add('month', 3)
@@ -1406,6 +1414,7 @@ div.dataTables_wrapper {
                         if (!appointmentDate.isBetween(testDate, nextThreeMonth)) {
                             modalText.innerHTML = "Appointment date for confirmatory test must be between same day and 3 months from current test date.";
                             $("#myModal").modal();
+                            save++;
                         }
                     }
                 }
@@ -1439,6 +1448,7 @@ div.dataTables_wrapper {
                 if(secondTest < 1){
                         modalText.innerHTML = "HIV Rapid Test Outcomes must be entered";
                         $("#myModal").modal();
+                        save++;
                     }
             }else 
             if((node_test_one == "-" && node_test_two == "+") || (node_test_one == "+" && node_test_two == "-")){
@@ -1452,10 +1462,12 @@ div.dataTables_wrapper {
                     fourthTest < 1 ? (
                         modalText.innerHTML = "HIV Rapid Test Outcomes must be entered",
                         $("#myModal").modal()
+                        
                     ) : (
                         node_test_two = node_test_four
                     );
-            }
+            
+                }
 
 
             if(node_test_one == "-" && secondTest < 1){
@@ -1463,29 +1475,35 @@ div.dataTables_wrapper {
                     modalHeader.innerHTML = "Invalid Entry";
                         modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
                         $("#myModal").modal();
+                        save++;
                 }
             }else  if(node_test_one == "+" && secondTest < 1){
                 if(node_outcome =! "+"){
                     modalHeader.innerHTML = "Invalid Entry";
                         modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
                         $("#myModal").modal();
+                        save++;
                 }
             }else  if(node_test_one == "-" && node_test_two == "-"){
                 if(node_outcome =! "--"){
                     modalHeader.innerHTML = "Invalid Entry";
                         modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
                         $("#myModal").modal();
+                        save++;
             }
             }else  if(node_test_one == "+" && node_test_two == "+"){
                 if(node_outcome =! "++"){
                     modalHeader.innerHTML = "Invalid Entry";
                         modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
                         $("#myModal").modal();
+                        save++;
+
             }}else  if((node_test_one == "-" && node_test_two == "+") || (node_test_one == "+" && node_test_two == "-")){
                 if(node_outcome =! "Disc"){
                     modalHeader.innerHTML = "Invalid Entry";
                         modalText.innerHTML = "Outcome summary does not match Test 1 / Test 2 results";
                         $("#myModal").modal();
+                        save++;
             }
             }
             if(node_ltest == 'LNev' || node_ltest == 'L-'){
@@ -1494,6 +1512,7 @@ div.dataTables_wrapper {
                         modalHeader.innerHTML = "Invalid Entry";
                         modalText.innerHTML = "Result given to client must be New Negative";
                         $("#myModal").modal();
+                        save++;
                     }
                 }
                 if(node_test_one == "+" && node_test_two == "+"){
@@ -1502,12 +1521,14 @@ div.dataTables_wrapper {
                         modalHeader.innerHTML = "Invalid Entry";
                         modalText.innerHTML = "Result given to client must be New Exposed Infant";
                         $("#myModal").modal();
+                        save++;
                         }
                     }else if(age > 330){
                         if(node_result != "N+"){
                         modalHeader.innerHTML = "Invalid Entry";
                         modalText.innerHTML = "Result given to client must be New Positive";
                         $("#myModal").modal();
+                        save++;
                         }
                     }   
                     }
@@ -1516,6 +1537,7 @@ div.dataTables_wrapper {
                         modalHeader.innerHTML = "Invalid Entry";
                         modalText.innerHTML = "Result given to client must be New Inconclusive";
                         $("#myModal").modal();
+                        save++;
                         }       
                     }
 
@@ -1527,12 +1549,14 @@ div.dataTables_wrapper {
                     modalHeader.innerHTML = "Invalid Entry";
                     modalText.innerHTML = "Result given to client must be New Exposed Infant";
                     $("#myModal").modal();
+                    save++;
                     }
                 }else if(age > 330){
                     if(node_result != "C+"){
                     modalHeader.innerHTML = "Invalid Entry";
                     modalText.innerHTML = "Result given to client must be Confirmed Positive";
                     $("#myModal").modal();
+                    save++;
                 }
                 }else   
                 if(node_test_one == "-" && node_test_two == "-"){
@@ -1540,6 +1564,7 @@ div.dataTables_wrapper {
                     modalHeader.innerHTML = "Invalid Entry";
                     modalText.innerHTML = "Result given to client must be Confirmed Inconclusive";
                     $("#myModal").modal();
+                    save++;
                          }
                 }
                 else 
@@ -1548,11 +1573,11 @@ div.dataTables_wrapper {
                     modalHeader.innerHTML = "Invalid Entry";
                     modalText.innerHTML = "Result given to client must be Confirmed Inconclusive";
                     $("#myModal").modal();
+                    save++;
                     }       
                 }
              }
          }
-
 
          if(node_ltest == "LIn"){
             if(node_test_one == "-" && node_test_two == "-"){
@@ -1560,6 +1585,7 @@ div.dataTables_wrapper {
                     modalHeader.innerHTML = "Invalid Entry";
                     modalText.innerHTML = "Invalid Result Given to Client";
                     $("#myModal").modal();
+                    save++;
                     }
             }else  if(node_test_one == "+" && node_test_two == "+"){
                 if(age < 330 ){
@@ -1567,12 +1593,14 @@ div.dataTables_wrapper {
                     modalHeader.innerHTML = "Invalid Entry";
                     modalText.innerHTML = "Combination of test results is not plausible";
                     $("#myModal").modal();
+                    save++;
                     }
                 }else if(age > 330){
                     if(node_result != "N+"){
                     modalHeader.innerHTML = "Invalid Entry";
                     modalText.innerHTML = "Combination of test results is not plausible";
                     $("#myModal").modal();
+                    save++;
                 }
             }
            }else if((node_test_one == "-" && node_test_two == "+") || (node_test_one == "+" && node_test_two == "-")){
@@ -1580,33 +1608,36 @@ div.dataTables_wrapper {
                     modalHeader.innerHTML = "Invalid Entry";
                     modalText.innerHTML = "Combination of test results is not plausible";
                     $("#myModal").modal();
+                    save++;
                     }       
-                }
-                save++;
+            }
          }
          if(node_client_risk == "Low"){
                 if(node_refferal_retesting != "NoT"){
                     modalHeader.innerHTML = "Invalid Entry";
                      modalText.innerHTML = "Combination of test results is not plausible";
                      $("#myModal").modal();
-                     
+                     save++;
                 }
-                save++;      
+               
         }
         }
-      });
-        $("#delete").click(function(){
+        
+        if(save == 0){
+           createClient();
+        }
+    
+    });
+      $("#delete").click(function(){
             $("#deleteModal").modal();
  
       });
       
-});
- function savePatient(){
-     console.log("Really");
- }
-function deleteRow(){
-        $j('#backdata tr:last').remove();
-        addRow();
-        $j('#deleteModal').modal('hide');
-      }
+    });
+
+    function deleteRow(){
+            $j('#backdata tr:last').remove();
+            addRow();
+            $j('#deleteModal').modal('hide');
+        }
  </script>
