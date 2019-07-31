@@ -7,17 +7,39 @@
  var node_provider;
  var node_age;
  var node_appointment,node_partner,node_test_three,node_test_four;
- var node_time,node_test_one,node_test_two,node_outcome,node_result,node_refferal_retesting;
+ var node_time,node_test_one,node_test_two,node_outcome,node_result,node_refferal_retesting,outcome_summary;
  var node_access_type,node_ltest,node_client_risk,node_partner_status,node_gender,node_age_group;
  var node_female_condom, node_male_condom, node_family_slip;
  var age,time,hts_date,appointment, provider,comment,family_slip,male,female;
  var gen, ageGroup, type, hivTest, partnerPresent, firstTest, secondTest, thirdTest, fourthTest, resultGiven, outSummary, client,retesting;
  var ageValue,outcome_date,node_outcome_date;
  gen = ageGroup = type = hivTest = partnerPresent = firstTest = secondTest = thirdTest = fourthTest = resultGiven = outSummary = client = retesting = partnerStatus = 0;
- var j = 0;
+ var j = 0;                                                                                           
+ var entryValue = dateValue = providerValue = ageValue = timeValue = appointmentValue = familyValue = femaleValue =  maleValue = " ";
  var patientGender;
+ var conceptIds = [
+    { concept_id: 8846}, 
+    { concept_id: 3467}, 
+    { concept_id: 9753}, 
+    { concept_id: 9428}, 
+    { concept_id: 9656}, 
+    { concept_id: 9765}, 
+    { concept_id: 9761}, 
+    { concept_id: 9754}, 
+    { concept_id: 9755}, 
+    { concept_id: 9785}, 
+    { concept_id: 9759},
+    { concept_id: 6538}, 
+    { concept_id: 9764},
+    { concept_id: 3082},      
+    { concept_id: 9427}, 
+    { concept_id: 9762}, 
+    { concept_id: 9758}, 
+    { concept_id: 7858}, 
+    { concept_id: 7859},
+    { concept_id: 6357}      
+ ];
  var conceptAnswers = [
-
     /*Access type 1*/
     {
     "pitc": 9429,
@@ -65,10 +87,10 @@
     },  
     /*Age group 7*/
     {
-        "elevenMonths": 9769,
-        "fourteenYears": 9770,
-        "twentyFourYears": 9768,
-        "twentyFiveYears": 9771
+        "ageGroup1": 9769,
+        "ageGroup2": 9770,
+        "ageGroup3": 9768,
+        "ageGroup4": 9771
     }, 
      /*Hiv status 8*/
      {
@@ -98,10 +120,13 @@
     }
 ];
 
+
 function addRow(){
+    console.log("Firsttttttttt");
     var table = document.getElementById("backdata");
    
     var new_row = document.createElement("tr");
+    new_row.id = "add_row";
     new_row.style.border = "4px solid orange";
     //Entry field
 
@@ -641,7 +666,7 @@ function addRow(){
                 $j('#outcome3').removeClass("circled");
                 $j('#outcome4').removeClass("circled");
                 $j('#outcome5').removeClass("circled");
-                node_outcome = "+";
+                outcome_summary = "-";
                 break;
                 case "outcome2":
                 $j('#outcome2').addClass("circled");
@@ -649,7 +674,7 @@ function addRow(){
                 $j('#outcome3').removeClass("circled");
                 $j('#outcome4').removeClass("circled");
                 $j('#outcome5').removeClass("circled");
-                node_outcome = "-";
+                outcome_summary = "+";
                 break;
                 case "outcome3":
                 $j('#outcome3').addClass("circled");
@@ -657,7 +682,7 @@ function addRow(){
                 $j('#outcome2').removeClass("circled");
                 $j('#outcome4').removeClass("circled");
                 $j('#outcome5').removeClass("circled");
-                node_outcome = "--";
+                outcome_summary = "--";
                     break;
                 case "outcome4":
                 $j('#outcome4').addClass("circled");
@@ -665,7 +690,7 @@ function addRow(){
                 $j('#outcome3').removeClass("circled");
                 $j('#outcome2').removeClass("circled");
                 $j('#outcome5').removeClass("circled");
-                node_outcome = "++";
+                outcome_summary = "++";
                 break;
                 case "outcome5":
                 $j('#outcome5').addClass("circled");
@@ -673,7 +698,7 @@ function addRow(){
                 $j('#outcome3').removeClass("circled");
                 $j('#outcome4').removeClass("circled");
                 $j('#outcome2').removeClass("circled");
-                node_outcome = "Disc";
+                outcome_summary = "Disc";
                     break;
                 default:
             } 
@@ -2677,7 +2702,7 @@ function retrieveRecord(){
     var value_coded, value_text,ans;
     var url = apiProtocol + "://" + apiURL + ":" + apiPort;
 
-    url += "/api/v1/observations?/patient_id="+ sessionStorage.patientID + "obs_datetime="+encounter_datetime;
+    url += "/api/v1/observations?paginate=false&person_id="+ sessionStorage.patientID + "obs_datetime="+encounter_datetime;
 
     var xhttp = new XMLHttpRequest();
     
@@ -2686,24 +2711,28 @@ function retrieveRecord(){
       if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
         
         var obj = JSON.parse(this.responseText);
+        console.log(obj);
         for(let i in obj) {
              var patient_obs = obj[i];
-             console.log(obj);
+        
               value_coded = patient_obs['value_coded'];
               value_text = patient_obs['value_text'];
-              Object.keys(obj).forEach(function(key) {
+              value_numeric = patient_obs['value_numeric'];
+              var concepts = patient_obs['concept'];
+              var concept_id = concepts['concept_id'];
+           //   console.log(concepts);
                 if(value_coded != null){
                     ans = value_coded;
                 }else if(value_text !=null){
                     ans = value_text;
+                }else if(value_numeric != null){
+                    ans = value_numeric;
                 }
-                console.log("EHE");
-                var resultObject = search(ans, conceptAnswers);
-              
-              });
-            break;
-        }
+                var resultObject = search(ans, conceptAnswers,concept_id);
 
+        }
+        buildPrevRow();
+       // addRow();
       }
     
     };
@@ -2717,14 +2746,616 @@ function retrieveRecord(){
     xhttp.send();
   }
 
-  function search(nameKey, myArray){
+  function search(nameKey, myArray,concept_id){
+    $j('#firstRow').remove();
+    $j('#add_row').remove();
+    var elem_id;
+  //  console.log("Helllo");
+   // console.log("NAMMMMME"+ nameKey);
     for (var i=0; i < myArray.length; i++) {
         var obj = myArray[i];
         for ( var key in obj ) {
             if(obj[key] == nameKey){
+                id = key;
                 console.log("Found it"+key);
                 break;
             }
         }
     }
+    switch (concept_id) {
+        case 8846:
+            var genderPresent = true;
+            break;
+        case 3467:
+            var agePresent = true;
+            ageValue = nameKey;
+        break;
+        case 9753:
+            var ageGroupPresent = true;
+            $j('#' + id).addClass("circled");
+        break;
+        case 9428:
+            var hivAccessPresent = true;
+        break;
+        case 9656:
+            var hivTestPresent = true;
+        break;
+        case 9765:
+            var timePresent = true;
+            timeValue = nameKey;
+        break;
+        case 9761:
+            var partnerPresent = true;
+        break;
+        case 9754:
+            var testOnePresent = true;
+        break;
+        case 9755:
+            var testTwoPresent = true;
+        break;
+        case 9785:
+        var testThreePresent = true;
+        break;
+        case 9759:
+        var testFourPresent = true;
+        break;
+        case 6538:
+        var outcomePresent = true;
+        break;
+        case 9764:
+        var resultPresent = true;
+        break;
+        case 3082:
+        var partnerStatusPresent = true;
+        break;
+        case 9762:
+        var retestingPresent = true;
+        break;
+        case 9758:
+        var familySlipPresent = true;
+        familyValue = nameKey;
+        break;
+        case 7858:
+        var maleCondomPresent = true;
+        maleValue = nameKey;
+        break;
+        case 7859:
+        var femaleCondomPresent = true;
+        femaleValue = nameKey;
+        break;
+        case 6357:
+        var commentPresent = true;
+        break;
+        case 6131:
+        var pregnancyPresent = true;
+        break;
+        case 5096:
+        var appointmentPresent = true;
+        appointmentValue = nameKey;
+        break;
+    }
+ 
 }
+
+function buildPrevRow(){
+    var table = document.getElementById("backdata");
+   
+    var new_row = document.createElement("tr");
+    new_row.style.border = "0px solid black";
+    //Entry field
+
+    var td_entry = document.createElement("td");
+    td_entry.className = "bdcell boldRight ";
+    td_entry.style.width = "150px";
+    td_entry.style.color = "color: rgb(197, 0, 0)";
+    td_entry.style.fontSize = "14px";
+    td_entry.style.textAlign = "center";
+    
+    var  span_entry = document.createElement("span");
+    var node_entry = document.createTextNode("");   
+    span_entry.appendChild(node_entry);
+    td_entry.appendChild(span_entry);
+    new_row.appendChild(td_entry);
+
+    // Date field
+    var td_date = document.createElement("td");
+    td_date.className = "bdcell boldRight";
+    td_date.id = "cell_0";
+
+    var div_date = document.createElement("div");
+    div_date.id = "cirle1_0";
+    div_date.style.color = "rgb(197, 0, 0)";
+    div_date.style.fontSize = "16px";
+    div_date.style.textAlign = "center"
+    div_date.style.backgroundColor = "#fff";
+    div_date.style.width = "130px";
+     node_date = document.createTextNode(new_date);   
+    div_date.appendChild(node_date);
+    td_date.appendChild(div_date);
+
+    new_row.appendChild(td_date);
+    //HTS Provider
+    var td_provider = document.createElement("td");
+    td_provider.className = "bdcell boldRight";
+    td_provider.id = "cell_1";
+
+    var div_provider = document.createElement("div");
+    div_provider.id = "circle_1";
+    div_provider.className ="inactive";
+    div_provider.style.color = "rgb(197, 0, 0)";
+    div_provider.style.fontSize = "16px";
+    div_provider.style.textAlign = "center";
+    div_provider.style.width = "70px";
+    node_provider = document.createTextNode(" ");
+    div_provider.appendChild(node_provider);
+    td_provider.appendChild(div_provider);
+    new_row.appendChild(td_provider);
+
+    //Sex/Pregnancy
+    
+    var gender = ["M","FNP","FP"];
+    var k =0;
+    for (var i = 0; i < gender.length; i++) {
+    k++;
+    var name = gender[i];
+    var td1_gender = document.createElement("td");
+
+    td1_gender.className = "bdcell";
+    if(gender[i] == "FP"){
+        td1_gender.className = "bdcell boldRight";
+    }
+    var div_gender = document.createElement("div");
+    div_gender.className = "normal";
+     node_gender = document.createTextNode(name);
+    div_gender.appendChild(node_gender);
+    td1_gender.appendChild(div_gender);
+    
+    new_row.appendChild(td1_gender);
+
+    div_gender.onclick = function () {  
+        gen = 1;
+        switch(this.id) {
+            case "sex1":
+             $j('#sex1').addClass("circled");
+             $j('#sex2').removeClass("circled");
+             $j('#sex3').removeClass("circled");
+             node_gender = "M";
+             patientGender = "Male";
+              break;
+            case "sex2":
+            $j('#sex2').addClass("circled");
+            $j('#sex1').removeClass("circled");
+            $j('#sex3').removeClass("circled");
+            node_gender = "FNP";
+            patientGender = "Female";
+              break;
+            case "sex3":
+            $j('#sex3').addClass("circled");
+            $j('#sex1').removeClass("circled");
+            $j('#sex2').removeClass("circled");
+            node_gender = "FP";
+            patientGender = "Female";
+                break;
+            default:
+          } 
+    };
+  }
+
+    //Age
+    var td_age = document.createElement("td");
+    td_age.className = "bdcell boldRight";
+    td_age.id = "cell_1";
+
+    var div_age = document.createElement("div");
+    div_age.id = "circle_1";
+    div_age.className ="inactive";
+    div_age.style.color = "rgb(197, 0, 0)";
+    div_age.style.fontSize = "16px";
+    div_age.style.textAlign = "center";
+    div_age.style.width = "70px";
+     node_age = document.createTextNode(ageValue);
+    div_age.appendChild(node_age);
+    td_age.appendChild(div_age);
+    new_row.appendChild(td_age);
+
+    //Age group
+    var age_group = ["A","B","C","D"];
+    var k =0;
+    for (var i = 0; i < age_group.length; i++) {
+    k++;
+    var name = age_group[i];
+    var td1_age_group = document.createElement("td");
+
+    td1_age_group.className = "bdcell";
+    td1_age_group.id = "cell_6";
+    if(age_group[i] == "D"){
+        td1_age_group.className = "bdcell boldRight";
+    }
+    var div_age_group = document.createElement("div");
+    div_age_group.className = "normal";
+     node_age_group = document.createTextNode(name);
+    div_age_group.appendChild(node_age_group);
+    td1_age_group.appendChild(div_age_group);
+    
+    new_row.appendChild(td1_age_group);
+      }  
+
+     //HTS ACCESS TYPE
+     var hts_type = ["PITC","FRS","Oth"];
+     var k =0;
+     for (var i = 0; i < hts_type.length; i++) {
+     k++;
+     var name = hts_type[i];
+     var td1_hts_type = document.createElement("td");
+ 
+     td1_hts_type.className = "bdcell";
+     if(hts_type[i] == "Oth"){
+         td1_hts_type.className = "bdcell boldRight";
+     }
+     var div_hts_type = document.createElement("div");
+     div_hts_type.className = "normal";
+      node_access_type = document.createTextNode(name);
+     div_hts_type.appendChild(node_access_type);
+     td1_hts_type.appendChild(div_hts_type);
+     
+     new_row.appendChild(td1_hts_type);
+ 
+ 
+     } 
+  //  console.log(node_access_type.nodeValue);
+     // LAst HIV Test
+     var ltest = ["LNev","L-", "L+", "LEx","LIn"];
+     var k =0;
+     for (var i = 0; i < ltest.length; i++) {
+        k++;
+        var name = ltest[i];
+        var td1_ltest = document.createElement("td");
+
+        td1_ltest.className = "bdcell";
+        td1_ltest.id = "cell_6";
+        if(ltest[i] == "LIn"){
+            td1_ltest.className = "bdcell boldRight";
+        }
+        var div_ltest = document.createElement("div");
+        div_ltest.className = "normal";
+         node_ltest = document.createTextNode(name);
+        div_ltest.appendChild(node_ltest);
+        td1_ltest.appendChild(div_ltest);
+    
+        new_row.appendChild(td1_ltest);
+        
+        }  
+
+      //Time since last test
+      var td_time = document.createElement("td");
+      td_time.className = "bdcell boldRight";
+      td_time.id = "cell_18";
+  
+      var div_time = document.createElement("div");
+      div_time.id = "circle_1";
+      div_time.className ="inactive";
+      div_time.style.color = "rgb(197, 0, 0)";
+      div_time.style.fontSize = "16px";
+      div_time.style.textAlign = "center";
+      div_time.style.width = "70px";
+       node_time = document.createTextNode(timeValue);
+      div_time.appendChild(node_time);
+      td_time.appendChild(div_time);
+      new_row.appendChild(td_time);
+  
+    // Partner present
+    var partner = ["N","Y"];
+    var k =0;
+    for (var i = 0; i < partner.length; i++) {
+    k++;
+    var name = partner[i];
+    var td1_partner = document.createElement("td");
+
+    td1_partner.className = "bdcell";
+    td1_partner.id = "cell_6";
+    if(partner[i] == "Y"){
+        td1_partner.className = "bdcell boldRight";
+    }
+    var div_partner = document.createElement("div");
+    div_partner.className = "normal";
+     node_partner = document.createTextNode(name);
+    div_partner.appendChild(node_partner);
+    td1_partner.appendChild(div_partner);
+    
+    new_row.appendChild(td1_partner);
+     }  
+
+    // Test 1
+    var test = ["-","+"];
+    var k =0;
+    for (var i = 0; i < test.length; i++) {
+    k++;
+    var name = test[i];
+    var td1_test = document.createElement("td");
+
+    td1_test.className = "bdcell";
+    td1_test.id = "cell_6";
+    if(test[i] == "+"){
+        td1_test.className = "bdcell boldRight";
+    }
+    var div_test = document.createElement("div");
+    div_test.className = "normal";
+     node_test_one = document.createTextNode(name);
+    div_test.appendChild(node_test_one);
+    td1_test.appendChild(div_test);
+    
+    new_row.appendChild(td1_test);
+
+     }  
+
+    // Test 2
+    var test_two = ["-","+"];
+    var k =0;
+    for (var i = 0; i < test_two.length; i++) {
+    k++;
+    var name = test_two[i];
+    var td1_test_two = document.createElement("td");
+
+    td1_test_two.className = "bdcell";
+    td1_test_two.id = "cell_6";
+    if(test_two[i] == "+"){
+        td1_test_two.className = "bdcell boldRight";
+    }
+    var div_test_two = document.createElement("div");
+    div_test_two.className = "normal";
+     node_test_two = document.createTextNode(name);
+    div_test_two.appendChild(node_test_two);
+    td1_test_two.appendChild(div_test_two);
+    
+    new_row.appendChild(td1_test_two);
+
+     }  
+
+    // Test 3
+    var test_three = ["-","+"];
+    var k =0;
+    for (var i = 0; i < test_three.length; i++) {
+    k++;
+    var name = test_three[i];
+    var td1_test_three = document.createElement("td");
+
+    td1_test_three.className = "bdcell";
+    td1_test_three.id = "cell_6";
+    if(test_three[i] == "+"){
+        td1_test_three.className = "bdcell boldRight";
+    }
+    var div_test_three = document.createElement("div");
+    div_test_three.className = "normal";
+     node_test_three = document.createTextNode(name);
+    div_test_three.appendChild(node_test_three);
+    td1_test_three.appendChild(div_test_three);
+    
+    new_row.appendChild(td1_test_three);
+    }  
+
+    // Test 4
+    k=0;
+    for (var i = 0; i < test_three.length; i++) {
+    k++;
+    var name = test_three[i];
+    var td1_test_four = document.createElement("td");
+
+    td1_test_four.className = "bdcell";
+    td1_test_four.id = "cell_6";
+    if(test_three[i] == "+"){
+        td1_test_four.className = "bdcell boldRight";
+    }
+    var div_test_four = document.createElement("div");
+    div_test_four.className = "normal";
+     node_test_four = document.createTextNode(name);
+    div_test_four.appendChild(node_test_four);
+    td1_test_four.appendChild(div_test_four);
+    
+    new_row.appendChild(td1_test_four);
+
+    }  
+
+    // Outcome Summary
+    k=0;
+    var outcome = ["-","+", "--", "++","Disc"];
+    for (var i = 0; i < outcome.length; i++) {
+        k++;
+        var name = outcome[i];
+        var td1_outcome = document.createElement("td");
+
+        td1_outcome.className = "bdcell";
+        td1_outcome.id = "cell_6";
+        if(outcome[i] == "Disc"){
+            td1_outcome.className = "bdcell boldRight";
+        }
+        var div_outcome = document.createElement("div");
+        div_outcome.className = "normal";
+        node_outcome_new = document.createTextNode(name);
+        div_outcome.appendChild(node_outcome_new);
+        td1_outcome.appendChild(div_outcome);
+        
+        new_row.appendChild(td1_outcome);
+        
+       }  
+ // Results given to client
+    k=0;
+    var result = ["N-","N+", "NEx", "NIN","C+", "CIn"];
+    for (var i = 0; i < result.length; i++) {
+        k++;
+        var name = result[i];
+        var td1_result = document.createElement("td");
+
+        td1_result.className = "bdcell";
+        td1_result.id = "cell_6";
+        if(result[i] == "CIn"){
+            td1_result.className = "bdcell boldRight";
+        }
+        var div_result = document.createElement("div");
+        div_result.className = "normal";
+         node_result = document.createTextNode(name);
+        div_result.appendChild(node_result);
+        td1_result.appendChild(div_result);
+        
+        new_row.appendChild(td1_result);
+        
+          } 
+
+ 
+    //Partner hiv status
+    var partner_status = ["NoP","P?","P-","P+"];
+    var k =0;
+    for (var i = 0; i < partner_status.length; i++) {
+    k++;
+    var name = partner_status[i];
+    var td1_partner_status = document.createElement("td");
+
+    td1_partner_status.className = "bdcell";
+    td1_partner_status.id = "cell_6";
+    if(partner_status[i] == "P+"){
+        td1_partner_status.className = "bdcell boldRight";
+    }
+    var div_partner_status = document.createElement("div");
+    div_partner_status.className = "normal";
+     node_partner_status = document.createTextNode(name);
+    div_partner_status.appendChild(node_partner_status);
+    td1_partner_status.appendChild(div_partner_status);
+    
+    new_row.appendChild(td1_partner_status);
+
+    }  
+
+    //Client risk
+      var client_risk = ["Low","Ong","HI","ND"];
+      var k =0;
+      for (var i = 0; i < client_risk.length; i++) {
+      k++;
+      var name = client_risk[i];
+      var td1_client_risk = document.createElement("td");
+  
+      td1_client_risk.className = "bdcell";
+      td1_client_risk.id = "cell_6";
+      if(client_risk[i] == "ND"){
+        td1_client_risk.className = "bdcell boldRight";
+      }
+      var div_client_risk = document.createElement("div");
+      div_client_risk.className = "normal";
+     node_client_risk = document.createTextNode(name);
+      div_client_risk.appendChild(node_client_risk);
+      td1_client_risk.appendChild(div_client_risk);
+      
+      new_row.appendChild(td1_client_risk);
+    }  
+
+      //Referral for retesting
+      var referral = ["NoT","ReT","CT"];
+      var k =0;
+      for (var i = 0; i < referral.length; i++) {
+      k++;
+      var name = referral[i];
+      var td1_refferal = document.createElement("td");
+  
+      td1_refferal.className = "bdcell";
+      td1_refferal.id = "cell_6";
+      if(referral[i] == "CT"){
+        td1_refferal.className = "bdcell boldRight";
+      }
+      var div_refferal = document.createElement("div");
+      div_refferal.className = "normal";
+      div_refferal.id = "refferal"+k;
+       node_refferal_retesting = document.createTextNode(name);
+      div_refferal.appendChild(node_refferal_retesting);
+      td1_refferal.appendChild(div_refferal);
+      
+      new_row.appendChild(td1_refferal);
+   
+    }  
+
+      //Appointment given
+      var td_appointment = document.createElement("td");
+      td_appointment.className = "bdcell boldRight";
+      td_appointment.id = "cell_1";
+  
+      var div_appointment = document.createElement("div");
+      div_appointment.id = "circle_1";
+      div_appointment.className ="inactive";
+      div_appointment.style.color = "rgb(197, 0, 0)";
+      div_appointment.style.fontSize = "16px";
+      div_appointment.style.textAlign = "center";
+      div_appointment.style.width = "100px";
+      node_appointment = document.createTextNode(appointmentValue);
+      div_appointment.appendChild(node_appointment);
+      td_appointment.appendChild(div_appointment
+        );
+      new_row.appendChild(td_appointment);
+  
+
+      //family slips
+      var td_family_slip = document.createElement("td");
+      td_family_slip.className = "bdcell boldRight";
+     /// td_family_slip.id = "cell_1";
+  
+      var div_family_slip = document.createElement("div");
+      div_family_slip.id = "circle_1";
+      div_family_slip.className ="inactive";
+      div_family_slip.style.color = "rgb(197, 0, 0)";
+      div_family_slip.style.fontSize = "16px";
+      div_family_slip.style.textAlign = "center";
+      node_family_slip = document.createTextNode(familyValue);
+      div_family_slip.appendChild(node_family_slip);
+      td_family_slip.appendChild(div_family_slip
+        );
+      new_row.appendChild(td_family_slip);
+        
+      //Male condoms
+      var td_male_condom = document.createElement("td");
+      td_male_condom.className = "bdcell";
+      //td_male_condoms.id = "cell_";
+  
+      var div_male_condom = document.createElement("div");
+      div_male_condom.id = "circle_1";
+      div_male_condom.className ="inactive";
+      div_male_condom.style.color = "rgb(197, 0, 0)";
+      div_male_condom.style.fontSize = "16px";
+      div_male_condom.style.textAlign = "center";
+      node_male_condom = document.createTextNode(maleValue);
+      div_male_condom.appendChild(node_male_condom);
+      td_male_condom.appendChild(div_male_condom
+        );
+     new_row.appendChild(td_male_condom);
+
+       //Female condoms
+       var td_female_condom = document.createElement("td");
+       td_female_condom.className = "bdcell boldRight";
+       //td_male_condoms.id = "cell_";
+   
+       var div_female_condom = document.createElement("div");
+       div_female_condom.id = "circle_1";
+       div_female_condom.className ="inactive";
+       div_female_condom.style.color = "rgb(197, 0, 0)";
+       div_female_condom.style.fontSize = "16px";
+       div_female_condom.style.textAlign = "center";
+       node_female_condom = document.createTextNode(femaleValue);
+       div_female_condom.appendChild(node_female_condom);
+       td_female_condom.appendChild(div_female_condom
+         );
+      new_row.appendChild(td_female_condom);
+
+       //Comments
+       var td_comment = document.createElement("td");
+       td_comment.className = "bdcell boldRight";
+       //td_male_condoms.id = "cell_";
+   
+       var div_comment = document.createElement("div");
+       div_comment.id = "circle_1";
+       div_comment.className ="inactive";
+       div_comment.style.color = "rgb(197, 0, 0)";
+       div_comment.style.fontSize = "16px";
+       div_comment.style.textAlign = "center";
+       node_comment = document.createTextNode(" ");
+       div_comment.appendChild(node_comment);
+       td_comment.appendChild(div_comment
+         );
+      new_row.appendChild(td_comment);
+
+      table.appendChild(new_row);
+    }
