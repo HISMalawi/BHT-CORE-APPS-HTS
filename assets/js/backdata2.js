@@ -15,36 +15,16 @@
  var ageValue,outcome_date,node_outcome_date;
  gen = ageGroup = type = hivTest = partnerPresent = firstTest = secondTest = thirdTest = fourthTest = resultGiven = outSummary = client = retesting = partnerStatus = 0;
  var j = 0;                                                                                           
- var entryValue = dateValue = providerValue = ageValue = timeValue = appointmentValue = familyValue = femaleValue =  maleValue = " ";
+ var entryValue = dateValue = providerValue = ageValue = timeValue = appointmentValue = familyValue = femaleValue =  maleValue = commentValue = " ";
  var patientGender;
+ var coded_values = [];
+
  var conceptIds = [
-    { concept_id: 8846}, 
-    { concept_id: 3467}, 
-    { concept_id: 9753}, 
-    { concept_id: 9428}, 
-    { concept_id: 9656}, 
-    { concept_id: 9765}, 
-    { concept_id: 9761}, 
-    { concept_id: 9754}, 
-    { concept_id: 9755}, 
-    { concept_id: 9785}, 
-    { concept_id: 9759},
-    { concept_id: 6538}, 
-    { concept_id: 9764},
-    { concept_id: 3082},      
-    { concept_id: 9427}, 
-    { concept_id: 9762}, 
-    { concept_id: 9758}, 
-    { concept_id: 7858}, 
-    { concept_id: 7859},
-    { concept_id: 6357}      
- ];
- var conceptAnswers = [
     /*Access type 1*/
     {
-    "pitc": 9429,
-    "refferalSlip":9430,
-    "other": 6408
+    "access1": 9429,
+    "access2":9430,
+    "access3": 6408
     },      
 
     {
@@ -54,26 +34,26 @@
     },
     /*Last HIV Test 2*/
     {
-        "neverTested": 9432,
-        "lastNegative": 9433,
-        "lastPositive": 9434,
-        "lastInconclusive": 9436,
-        "lastInfant":9435
+        "lhiv1": 9432,
+        "lhiv2": 9433,
+        "lhiv3": 9434,
+        "lhiv4": 9436,
+        "lhiv5":9435
     },
     /*Client risk 3*/
     {
-        "lowRisk": 9437,
-        "OngoingRisk": 9749,
-        "highRisk": 9438,
-        "riskAssess": 9439
+        "client1": 9437,
+        "client2": 9749,
+        "client3": 9438,
+        "client4": 9439
     },
     
      /*Partner status 4*/
      {
-        "noPartner": 1914,
-        "hivUnknown": 9750,
-        "partnerNegative": 9751,
-        "partnerPositive": 5566           
+        "status1": 1914,
+        "status2": 9750,
+        "status3": 9751,
+        "status4": 5566           
     }, 
     /*Pregnant 5*/
     {
@@ -82,15 +62,15 @@
     },
     /*Sex/Pregnancy 6*/
     {
-        "male": 2843,
-        "female":2844           
+        "personGender1": 2843,
+        "personGender2":2844           
     },  
     /*Age group 7*/
     {
-        "ageGroup1": 9769,
-        "ageGroup2": 9770,
-        "ageGroup3": 9768,
-        "ageGroup4": 9771
+        "age1": 9769,
+        "age2": 9770,
+        "age3": 9768,
+        "age4": 9771
     }, 
      /*Hiv status 8*/
      {
@@ -99,30 +79,29 @@
     },
     // Outcome result 9
     {
-        "negativeOneTwo": 9781,
-        "positiveOneTwo": 9782,
-        "discOneTwo": 9780
+        "outcomeSummary1": 9781,
+        "outcomeSummary2": 9782,
+        "outcomeSummary3": 9780
     },
     // Result  given to client
     {
-        "newNegative": 9773,
-        "newPositive": 9774,
-        "newInconclusive": 9775,
-        "confPositive": 9776,
-        "inconclusive": 9777,
-        "newExposedInfant": 9783
+        "resultGiven1": 9773,
+        "resultGiven2": 9774,
+        "resultGiven3": 9775,
+        "resultGiven4": 9776,
+        "resultGiven5": 9777,
+        "resultGiven6": 9783
     },
     // Refferal re testing
     {
-        "NoT": 9778,
-        "ReT": 9762,
-        "CT":7877
+        "referralTesting1": 9778,
+        "referralTesting2": 9762,
+        "referralTesting3":7877
     }
 ];
 
 
 function addRow(){
-    console.log("Firsttttttttt");
     var table = document.getElementById("backdata");
    
     var new_row = document.createElement("tr");
@@ -2720,7 +2699,6 @@ function retrieveRecord(){
               value_numeric = patient_obs['value_numeric'];
               var concepts = patient_obs['concept'];
               var concept_id = concepts['concept_id'];
-           //   console.log(concepts);
                 if(value_coded != null){
                     ans = value_coded;
                 }else if(value_text !=null){
@@ -2728,12 +2706,12 @@ function retrieveRecord(){
                 }else if(value_numeric != null){
                     ans = value_numeric;
                 }
-                var resultObject = search(ans, conceptAnswers,concept_id);
+                var resultObject = search(ans, conceptIds,concept_id);
 
         }
         buildPrevRow();
-       // addRow();
-      }
+        circleIds();
+             }
     
     };
     
@@ -2749,89 +2727,117 @@ function retrieveRecord(){
   function search(nameKey, myArray,concept_id){
     $j('#firstRow').remove();
     $j('#add_row').remove();
-    var elem_id;
-  //  console.log("Helllo");
-   // console.log("NAMMMMME"+ nameKey);
     for (var i=0; i < myArray.length; i++) {
         var obj = myArray[i];
         for ( var key in obj ) {
             if(obj[key] == nameKey){
                 id = key;
-                console.log("Found it"+key);
                 break;
             }
         }
     }
     switch (concept_id) {
         case 8846:
-            var genderPresent = true;
-            break;
+            coded_values.push(id);
+         break;
         case 3467:
-            var agePresent = true;
             ageValue = nameKey;
         break;
         case 9753:
-            var ageGroupPresent = true;
-            $j('#' + id).addClass("circled");
+            coded_values.push(id);
         break;
         case 9428:
-            var hivAccessPresent = true;
+            coded_values.push(id);
         break;
         case 9656:
-            var hivTestPresent = true;
+            coded_values.push(id);
         break;
         case 9765:
-            var timePresent = true;
             timeValue = nameKey;
         break;
         case 9761:
-            var partnerPresent = true;
+        if(id == "no"){
+            id = "partnerPresent1";
+            coded_values.push(id);
+        }else{
+            id = "partnerPresent2";
+            coded_values.push(id);
+        }   
         break;
         case 9754:
-            var testOnePresent = true;
+            if(id == "negative"){
+                id = "testOne1";
+                coded_values.push(id);
+            }else{
+                id = "testOne2";
+                coded_values.push(id);
+            }   
         break;
         case 9755:
-            var testTwoPresent = true;
+        if(id == "negative"){
+            id = "secondTest1";
+            coded_values.push(id);
+        }else{
+            id = "secondTest2";
+            coded_values.push(id);
+        }   
         break;
         case 9785:
-        var testThreePresent = true;
+        if(id == "negative"){
+            id = "testThree1";
+            coded_values.push(id);
+        }else{
+            id = "testThree2";
+            coded_values.push(id);
+        }   
         break;
         case 9759:
-        var testFourPresent = true;
+        if(id == "negative"){
+            id = "testFour1";
+            coded_values.push(id);
+        }else{
+            id = "testFour2";
+            coded_values.push(id);
+        }   
         break;
         case 6538:
-        var outcomePresent = true;
+            coded_values.push(id);
         break;
         case 9764:
-        var resultPresent = true;
+            coded_values.push(id);
         break;
         case 3082:
-        var partnerStatusPresent = true;
+            coded_values.push(id);
         break;
         case 9762:
-        var retestingPresent = true;
+            coded_values.push(id);
         break;
         case 9758:
-        var familySlipPresent = true;
-        familyValue = nameKey;
+            familyValue = nameKey;
         break;
         case 7858:
-        var maleCondomPresent = true;
-        maleValue = nameKey;
+             maleValue = nameKey;
         break;
         case 7859:
-        var femaleCondomPresent = true;
-        femaleValue = nameKey;
+             femaleValue = nameKey;
         break;
         case 6357:
-        var commentPresent = true;
+            commentValue = nameKey;
         break;
-        case 6131:
-        var pregnancyPresent = true;
+        case 6131: 
+            if(id == "no"){
+                id = "personGender2";
+                coded_values.push(id);
+            }else{
+                id = "personGender3";
+                coded_values.push(id);
+            }   
         break;
+        case 9427:
+        coded_values.push(id);
+         break;
         case 5096:
-        var appointmentPresent = true;
-        appointmentValue = nameKey;
+            appointmentValue = nameKey;
         break;
     }
  
@@ -2906,39 +2912,12 @@ function buildPrevRow(){
     }
     var div_gender = document.createElement("div");
     div_gender.className = "normal";
+    div_gender.id = "personGender"+k;
      node_gender = document.createTextNode(name);
     div_gender.appendChild(node_gender);
     td1_gender.appendChild(div_gender);
     
     new_row.appendChild(td1_gender);
-
-    div_gender.onclick = function () {  
-        gen = 1;
-        switch(this.id) {
-            case "sex1":
-             $j('#sex1').addClass("circled");
-             $j('#sex2').removeClass("circled");
-             $j('#sex3').removeClass("circled");
-             node_gender = "M";
-             patientGender = "Male";
-              break;
-            case "sex2":
-            $j('#sex2').addClass("circled");
-            $j('#sex1').removeClass("circled");
-            $j('#sex3').removeClass("circled");
-            node_gender = "FNP";
-            patientGender = "Female";
-              break;
-            case "sex3":
-            $j('#sex3').addClass("circled");
-            $j('#sex1').removeClass("circled");
-            $j('#sex2').removeClass("circled");
-            node_gender = "FP";
-            patientGender = "Female";
-                break;
-            default:
-          } 
-    };
   }
 
     //Age
@@ -2973,6 +2952,7 @@ function buildPrevRow(){
     }
     var div_age_group = document.createElement("div");
     div_age_group.className = "normal";
+    div_age_group.id = "age"+k;
      node_age_group = document.createTextNode(name);
     div_age_group.appendChild(node_age_group);
     td1_age_group.appendChild(div_age_group);
@@ -2994,6 +2974,7 @@ function buildPrevRow(){
      }
      var div_hts_type = document.createElement("div");
      div_hts_type.className = "normal";
+     div_hts_type.id = "access"+k;
       node_access_type = document.createTextNode(name);
      div_hts_type.appendChild(node_access_type);
      td1_hts_type.appendChild(div_hts_type);
@@ -3018,6 +2999,7 @@ function buildPrevRow(){
         }
         var div_ltest = document.createElement("div");
         div_ltest.className = "normal";
+        div_ltest.id = "lhiv"+k;
          node_ltest = document.createTextNode(name);
         div_ltest.appendChild(node_ltest);
         td1_ltest.appendChild(div_ltest);
@@ -3058,6 +3040,7 @@ function buildPrevRow(){
     }
     var div_partner = document.createElement("div");
     div_partner.className = "normal";
+    div_partner.id = "partnerPresent"+k;
      node_partner = document.createTextNode(name);
     div_partner.appendChild(node_partner);
     td1_partner.appendChild(div_partner);
@@ -3080,6 +3063,7 @@ function buildPrevRow(){
     }
     var div_test = document.createElement("div");
     div_test.className = "normal";
+    div_test.id = "testOne"+k;
      node_test_one = document.createTextNode(name);
     div_test.appendChild(node_test_one);
     td1_test.appendChild(div_test);
@@ -3103,6 +3087,7 @@ function buildPrevRow(){
     }
     var div_test_two = document.createElement("div");
     div_test_two.className = "normal";
+    div_test_two.id = "secondTest"+k;
      node_test_two = document.createTextNode(name);
     div_test_two.appendChild(node_test_two);
     td1_test_two.appendChild(div_test_two);
@@ -3126,6 +3111,7 @@ function buildPrevRow(){
     }
     var div_test_three = document.createElement("div");
     div_test_three.className = "normal";
+    div_test_three.id = "testThree"+k;
      node_test_three = document.createTextNode(name);
     div_test_three.appendChild(node_test_three);
     td1_test_three.appendChild(div_test_three);
@@ -3147,6 +3133,7 @@ function buildPrevRow(){
     }
     var div_test_four = document.createElement("div");
     div_test_four.className = "normal";
+    div_test_four.id = "testFour"+k;
      node_test_four = document.createTextNode(name);
     div_test_four.appendChild(node_test_four);
     td1_test_four.appendChild(div_test_four);
@@ -3170,6 +3157,7 @@ function buildPrevRow(){
         }
         var div_outcome = document.createElement("div");
         div_outcome.className = "normal";
+        div_outcome.id = "outcomeSummary"+k;
         node_outcome_new = document.createTextNode(name);
         div_outcome.appendChild(node_outcome_new);
         td1_outcome.appendChild(div_outcome);
@@ -3192,6 +3180,7 @@ function buildPrevRow(){
         }
         var div_result = document.createElement("div");
         div_result.className = "normal";
+        div_result.id = "resultGiven"+k;
          node_result = document.createTextNode(name);
         div_result.appendChild(node_result);
         td1_result.appendChild(div_result);
@@ -3216,6 +3205,7 @@ function buildPrevRow(){
     }
     var div_partner_status = document.createElement("div");
     div_partner_status.className = "normal";
+    div_partner_status.id = "status"+k;
      node_partner_status = document.createTextNode(name);
     div_partner_status.appendChild(node_partner_status);
     td1_partner_status.appendChild(div_partner_status);
@@ -3239,6 +3229,7 @@ function buildPrevRow(){
       }
       var div_client_risk = document.createElement("div");
       div_client_risk.className = "normal";
+      div_client_risk.id = "client"+k;
      node_client_risk = document.createTextNode(name);
       div_client_risk.appendChild(node_client_risk);
       td1_client_risk.appendChild(div_client_risk);
@@ -3261,7 +3252,7 @@ function buildPrevRow(){
       }
       var div_refferal = document.createElement("div");
       div_refferal.className = "normal";
-      div_refferal.id = "refferal"+k;
+      div_refferal.id = "referralTesting"+k;
        node_refferal_retesting = document.createTextNode(name);
       div_refferal.appendChild(node_refferal_retesting);
       td1_refferal.appendChild(div_refferal);
@@ -3351,11 +3342,19 @@ function buildPrevRow(){
        div_comment.style.color = "rgb(197, 0, 0)";
        div_comment.style.fontSize = "16px";
        div_comment.style.textAlign = "center";
-       node_comment = document.createTextNode(" ");
+       node_comment = document.createTextNode(commentValue);
        div_comment.appendChild(node_comment);
        td_comment.appendChild(div_comment
          );
       new_row.appendChild(td_comment);
 
       table.appendChild(new_row);
+    }
+
+    function circleIds(){
+        console.log(coded_values);
+        for(var k=0; k < coded_values.length; k++){
+            $j('#' + coded_values[k]).removeClass("normal");
+            $j('#' + coded_values[k]).addClass("circled"); 
+        }
     }

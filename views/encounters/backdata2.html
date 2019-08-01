@@ -260,7 +260,7 @@ div.dataTables_wrapper {
 
         
 </head>
-<body id="mateme" onload=" addRow();">
+<body id="mateme" onload="addRow();">
 <div id="container">
     <div id="content" class="main" style="width:100%; overflow-x: scroll;height: 735px;">
    <div class="mainContainer">
@@ -763,87 +763,6 @@ div.dataTables_wrapper {
     var month = dateObj.toLocaleString(locale, { month: "short" });
     var day = dateObj.getUTCDate();
     var year = dateObj.getUTCFullYear();
-       var conceptAnswers = [
-
-            /*Access type 1*/
-            {
-            "pitc": 9429,
-            "refferalSlip":9430,
-            "other": 6408
-            },      
-     
-            {
-                "spouse": 5617,
-                "parent": 2173,
-                "other": 6408
-            },
-            /*Last HIV Test 2*/
-            {
-                "neverTested": 9432,
-                "lastNegative": 9433,
-                "lastPositive": 9434,
-                "lastInconclusive": 9436,
-                "lastInfant":9435
-            },
-            /*Client risk 3*/
-            {
-                "lowRisk": 9437,
-                "OngoingRisk": 9749,
-                "highRisk": 9438,
-                "riskAssess": 9439
-            },
-            
-             /*Partner status 4*/
-             {
-                "noPartner": 1914,
-                "hivUnknown": 9750,
-                "partnerNegative": 9751,
-                "partnerPositive": 5566           
-            }, 
-            /*Pregnant 5*/
-            {
-                "yes": 1065,
-                "no": 1066
-            },
-            /*Sex/Pregnancy 6*/
-            {
-                "male": 2843,
-                "female":2844           
-            },  
-            /*Age group 7*/
-            {
-                "elevenMonths": 9769,
-                "fourteenYears": 9770,
-                "twentyFourYears": 9768,
-                "twentyFiveYears": 9771
-            }, 
-             /*Hiv status 8*/
-             {
-                "negative": 664,
-                "positive": 703
-            },
-            // Outcome result 9
-            {
-                "negativeOneTwo": 9781,
-                "positiveOneTwo": 9782,
-                "discOneTwo": 9780
-            },
-            // Result  given to client
-            {
-                "newNegative": 9773,
-                "newPositive": 9774,
-                "newInconclusive": 9775,
-                "confPositive": 9776,
-                "inconclusive": 9777,
-                "newExposedInfant": 9783
-            },
-            // Refferal re testing
-            {
-                "NoT": 9778,
-                "ReT": 9762,
-                "CT":7877
-            }
-        ];
 
     if(testing_date == null){
          testDay = day;
@@ -880,13 +799,13 @@ div.dataTables_wrapper {
     function postHtsVisitObs(encounter){
         var conceptAnswers = [
 
-            /*Access type 1*/
+            /*Access type 0*/
             {
             "pitc": 9429,
             "refferalSlip":9430,
             "other": 6408
             },      
-     
+            //1
             {
                 "spouse": 5617,
                 "parent": 2173,
@@ -943,7 +862,7 @@ div.dataTables_wrapper {
                 "positiveOneTwo": 9782,
                 "discOneTwo": 9780
             },
-            // Result  given to client
+            // Result  given to client 10
             {
                 "newNegative": 9773,
                 "newPositive": 9774,
@@ -952,7 +871,7 @@ div.dataTables_wrapper {
                 "inconclusive": 9777,
                 "newExposedInfant": 9783
             },
-            // Refferal re testing
+            // Refferal re testing 11
             {
                 "NoT": 9778,
                 "ReT": 9762,
@@ -1097,34 +1016,34 @@ div.dataTables_wrapper {
                 outcomeAnswer = conceptAnswers[8].negative;
                 break;
             case '--':
-                outcomeAnswer = conceptAnswers[9].twentyFourYears;
+                outcomeAnswer = conceptAnswers[9].negativeOneTwo;
             break;
             case '++':
-                outcomeAnswer = conceptAnswers[9].twentyFiveYears;
+                outcomeAnswer = conceptAnswers[9].positiveOneTwo;
                 break;
             case 'Disc':
-                outcomeAnswer = conceptAnswers[9].twentyFiveYears;
+                outcomeAnswer = conceptAnswers[9].discOneTwo;
             break;
         }
 
         switch (node_result) {
             case 'N-':
-                resultAnswer = conceptAnswers[8].positive;
+                resultAnswer = conceptAnswers[10].newNegative;
                 break;
             case 'N+':
-                resultAnswer = conceptAnswers[8].negative;
+                resultAnswer = conceptAnswers[10].newPositive;
                 break;
             case 'NEx':
-                resultAnswer = conceptAnswers[10].twentyFourYears;
+                resultAnswer = conceptAnswers[10].newExposedInfant;
             break;
             case 'NIN':
-                resultAnswer = conceptAnswers[10].twentyFiveYears;
+                resultAnswer = conceptAnswers[10].newInconclusive;
                 break;
             case 'C+':
-                resultAnswer = conceptAnswers[10].twentyFiveYears;
+                resultAnswer = conceptAnswers[10].confPositive;
             break;
             case 'CIn':
-                resultAnswer = conceptAnswers[10].twentyFiveYears;
+                resultAnswer = conceptAnswers[10].inconclusive;
             break;
         }
         switch (node_refferal_retesting) {
@@ -1147,7 +1066,6 @@ div.dataTables_wrapper {
                 partnerAnswer = conceptAnswers[5].yes;
                 break;
         }
-        console.log("Age value is "+ageValue);
         var obs = {
             encounter_id: encounter["encounter_id"],
             observations: [
@@ -1161,7 +1079,7 @@ div.dataTables_wrapper {
                 { concept_id: 9754, value_coded: testOne }, 
                 { concept_id: 6538, value_coded: outcomeAnswer}, 
                 { concept_id: 9764, value_coded: resultAnswer},
-                { concept_id: 3082, vlue_coded: partnerStatusAnswer},      
+                { concept_id: 3082, value_coded: partnerStatusAnswer},      
                 { concept_id: 9427, value_coded: clientRiskAnswer }, 
                 { concept_id: 9762, value_coded: reTestingAnswer}, 
                 { concept_id: 9758, value_text: node_family_slip.nodeValue }, 
@@ -1199,7 +1117,7 @@ div.dataTables_wrapper {
             obs.observations.push({ concept_id: 6357, value_text: node_comment.nodeValue });
         }
 
-      //  console.log(obs);
+      console.log(obs);
           submitParameters(obs, "/observations", "nextPage")
 
     }  
