@@ -751,6 +751,7 @@ div.dataTables_wrapper {
     var testing_date = url.searchParams.get("testing_date");
     var retrieve_value = url.searchParams.get("retrieve");
     var entryCode =  url.searchParams.get("entryCode");
+    var provider =  url.searchParams.get("provider");
     var testDay, testMonth, testYear;
     var node_age_value, regex, splittedArray, splittedTimeArray, text, num, node_time_value, time_text, time_num,timeValue, ageValue;
     var min,max;
@@ -1161,7 +1162,7 @@ div.dataTables_wrapper {
     }
     function nextPage(){
         var retrieve = 1;
-        window.location.href = "/apps/HTS/views/encounters/backdata2.html?testing_date = "+testing_date+"&retrieve="+retrieve+"&entryCode="+entry_code;
+        window.location.href = "/apps/HTS/views/encounters/backdata2.html?testing_date = "+testing_date+"&retrieve="+retrieve+"&entryCode="+entry_code+"&provider="+node_provider.nodeValue;
     }
     
     function callNextPage(){

@@ -2902,7 +2902,7 @@ function buildPrevRow(){
     div_provider.style.fontSize = "16px";
     div_provider.style.textAlign = "center";
     div_provider.style.width = "70px";
-    node_provider = document.createTextNode(" ");
+    node_provider = document.createTextNode(provider);
     div_provider.appendChild(node_provider);
     td_provider.appendChild(div_provider);
     new_row.appendChild(td_provider);
