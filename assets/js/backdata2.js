@@ -112,11 +112,11 @@ function addRow(){
     var td_entry = document.createElement("td");
     td_entry.className = "bdcell boldRight ";
     td_entry.style.width = "150px";
-    td_entry.style.color = "color: rgb(197, 0, 0)";
     td_entry.style.fontSize = "14px";
     td_entry.style.textAlign = "center";
     
     var  span_entry = document.createElement("span");
+    span_entry.style.color = "rgb(197, 0, 0)";
     var node_entry = document.createTextNode("");   
     span_entry.appendChild(node_entry);
     td_entry.appendChild(span_entry);
@@ -2801,8 +2801,17 @@ function retrieveRecord(){
         }   
         break;
         case 6538:
+        if(id == "negative"){
+            id = "outcomeSummary1";
             coded_values.push(id);
+        }else  if(id == "positive"){
+            id = "outcomeSummary2";
+            coded_values.push(id);
+        }else{   
+            coded_values.push(id);
+        }
         break;
+
         case 9764:
             coded_values.push(id);
         break;
@@ -2858,7 +2867,8 @@ function buildPrevRow(){
     td_entry.style.textAlign = "center";
     
     var  span_entry = document.createElement("span");
-    var node_entry = document.createTextNode("");   
+    span_entry.style.color = "rgb(197, 0, 0)";
+    var node_entry = document.createTextNode(entryCode);   
     span_entry.appendChild(node_entry);
     td_entry.appendChild(span_entry);
     new_row.appendChild(td_entry);

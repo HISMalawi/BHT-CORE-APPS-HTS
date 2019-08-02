@@ -709,7 +709,7 @@ div.dataTables_wrapper {
         <p style="font-size: 20px; text-align: center;" id="modal_text"></p>
         </div>
         <div class="modal-footer" style="text-align:center;">
-                <button type="button" class=" btn-secondary btnDelete" data-dismiss="modal">OK</button>
+                <button type="button" class=" btn-secondary btnDelete" data-dismiss="modal" onclick="callNextPage()">OK</button>
         </div>
       </div>
     </div>
@@ -750,13 +750,16 @@ div.dataTables_wrapper {
     locale = "en-us";
     var testing_date = url.searchParams.get("testing_date");
     var retrieve_value = url.searchParams.get("retrieve");
+    var entryCode =  url.searchParams.get("entryCode");
     var testDay, testMonth, testYear;
     var node_age_value, regex, splittedArray, splittedTimeArray, text, num, node_time_value, time_text, time_num,timeValue, ageValue;
     var min,max;
     var hivAccessAnswer, refferedSlipAnswer, hivTestAnswer,clientRiskAnswer, pregnantAnswer,partnerAnswer,partnerStatusAnswer,clientConscentAnswer;
     var ageGroupAnswer, outcomeAnswer, testOne, testTwo, testThree, testFour, resultAnswer, reTestingAnswer;
     var genderAnswer = ' ';
-    var new_date;
+    var new_date, entry_code;
+    var modalText = document.getElementById("modal_text");
+    var modalHeader = document.getElementById("modal_header");
     //current date
     var dateObj = new Date();
     locale = "en-us";
@@ -775,7 +778,6 @@ div.dataTables_wrapper {
          testYear = testing_date.split('-')[2];
         var month = moment().month(testMonth-1).format("MMM");
         new_date = testDay + " " + month + " " + testYear;
-        console.log(new_date);
     }
     if(retrieve_value == 1){
         retrieveRecord();
@@ -1116,15 +1118,58 @@ div.dataTables_wrapper {
             
             obs.observations.push({ concept_id: 6357, value_text: node_comment.nodeValue });
         }
-
-      console.log(obs);
-          submitParameters(obs, "/observations", "nextPage")
+          submitParameters(obs, "/observations", "getEntryRecord")
 
     }  
+    function getEntryRecord(){
+
+        var parameters = {
+        encounter_id: 163
+        };
+
+    var parametersPassed = JSON.stringify(parameters);
+
+
+        var url = apiProtocol + "://" + apiURL + ":" + apiPort;
+ 
+        url += "/api/v1/programs/"+ sessionStorage.programID + "/codes/entry_code";
+
+        var xhttp = new XMLHttpRequest();
+        
+        xhttp.onreadystatechange = function() {
+        
+        if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
+            
+            var obj = JSON.parse(this.responseText);
+             entry_code = obj['entry_code'];
+            modalHeader.innerText =  "Entry code";
+            modalText.innerText +=  entry_code;
+            $j("#myModal").modal();
+                
+        }
+        
+        };
+        
+        xhttp.open("POST", url, true);
+        
+        xhttp.setRequestHeader('Authorization', sessionStorage.getItem("authorization"));
+        
+        xhttp.setRequestHeader('Content-type', "application/json");
+        
+        xhttp.send(parametersPassed);
+
+    }
     function nextPage(){
-    var retrieve = 1;
-    console.log("Tessss"+testing_date);
-    window.location.href = "/apps/HTS/views/encounters/backdata2.html?testing_date = "+testing_date+"&retrieve="+retrieve;
+        var retrieve = 1;
+        window.location.href = "/apps/HTS/views/encounters/backdata2.html?testing_date = "+testing_date+"&retrieve="+retrieve+"&entryCode="+entry_code;
+    }
+    
+    function callNextPage(){
+        if(modalHeader.innerText ==  "Entry code"){
+            nextPage();
+        }else{
+            $j("#myModal").hide();
+        }
     }
 
 </script>
@@ -1132,8 +1177,7 @@ div.dataTables_wrapper {
 
     jQuery(document).ready(function($){
         $("#save").click(function(){
-            var modalText = document.getElementById("modal_text");
-            var modalHeader = document.getElementById("modal_header");
+
             var age;
             var count = 0;
             var save = 0;
@@ -1220,6 +1264,7 @@ div.dataTables_wrapper {
                 : modalText.innerHTML += "Referral for Re-Testing";
                 count++;
         }
+
         if(count >= 1){
             modalText.innerHTML += " must be entered";
             $("#myModal").modal();
@@ -1286,7 +1331,16 @@ div.dataTables_wrapper {
                 save++;
             }
             node_time_value = node_time.nodeValue;
-
+            if(min >= 5111){
+                if( node_female_condom.nodeValue == ' ')
+                    {
+                        modalText.innerHTML != 'Female condoms must be entered'
+                    }
+                if( node_male_condom.nodeValue == ' ')
+                {
+                    modalText.innerHTML != 'Male condoms must be entered'
+                }
+            }
             if(node_ltest != "LNev"){
                 if(node_time_value == ' '){
                     modalText.innerHTML = "Time since last test must be entered";
