@@ -330,7 +330,6 @@ function addRow(){
            } 
      }; 
      } 
-  //  console.log(node_access_type.nodeValue);
      // LAst HIV Test
      var ltest = ["LNev","L-", "L+", "LEx","LIn"];
      var k =0;
@@ -1474,9 +1473,7 @@ function displayKeyboard(id){
          }else if(art ==1){
             var str = node_art.nodeValue;
             node_art.nodeValue = str + v;
-            
-            console.log("art "+ node_art.nodeValue);
-         }else if(reg ==1){
+        }else if(reg ==1){
             var str = node_reg.nodeValue;
             node_reg.nodeValue = str + v;
          }
@@ -2493,11 +2490,12 @@ function decrementDay(){
 }
 function incrementYear(){
     var value = parseInt(__$("dateselector_year").value);
-    if(value < year){
     __$("dateselector_year").value = value + 0001;
-    }else{
-        __$("dateselector_year").value = value;
-    }
+    // if(value < year){
+    // __$("dateselector_year").value = value + 0001;
+    // }else{
+    //     __$("dateselector_year").value = value;
+    // }
 }
 var dob_months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 function decrementYear(){
@@ -2690,7 +2688,6 @@ function retrieveRecord(){
       if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
         
         var obj = JSON.parse(this.responseText);
-        console.log(obj);
         for(let i in obj) {
              var patient_obs = obj[i];
         
@@ -2993,7 +2990,6 @@ function buildPrevRow(){
  
  
      } 
-  //  console.log(node_access_type.nodeValue);
      // LAst HIV Test
      var ltest = ["LNev","L-", "L+", "LEx","LIn"];
      var k =0;
@@ -3362,7 +3358,6 @@ function buildPrevRow(){
     }
 
     function circleIds(){
-        console.log(coded_values);
         for(var k=0; k < coded_values.length; k++){
             $j('#' + coded_values[k]).removeClass("normal");
             $j('#' + coded_values[k]).addClass("circled"); 

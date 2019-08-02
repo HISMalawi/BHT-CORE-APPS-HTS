@@ -30,7 +30,10 @@
           <option>No</option>
           <option>Yes</option>
           </select>
-         
+          <select id="gender" name="gender" tt_onLoad="changeNextButtonGender();" helpText="Gender"> 
+              <option>Male</option>
+              <option>Female</option>
+              </select>
       </form>
 
    </div>
@@ -42,19 +45,50 @@
   var patientID = sessionStorage.getItem("patientID");
   var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
   var tt_cancel_destination = "/";
+  var url_string = window.location;
+  var url = new URL(url_string);
+  locale = "en-us";
+  var create = url.searchParams.get("create");
+
 
   function changeNextButtonConsent() {
     var nextButton =  document.getElementById('nextButton');
+    nextButton.innerHTML = "<span>Next</span>";
     nextButton.setAttribute("onmousedown","checkConsent();");
-        }
+    if(create == 1){
+      document.getElementById('touchscreenInput'+tstCurrentPage).value = "No";
+       gotoNextPage();
+    }
+  }
   
     function checkConsent() {
     consent = document.getElementById('touchscreenInput'+tstCurrentPage).value;
-
     if (consent == 'No') {
-      window.location.href ="gender.html";
+      gotoNextPage();
     } else if (consent == "Yes") {
       window.location.href = '/views/patient/search.html';
+    } else if (consent == "") {
+      showMessage("Client consent Select Yes or No");
     }
-}
+  }
+   function changeNextButtonGender() {
+    var nextButton =  document.getElementById('nextButton');
+    nextButton.innerHTML = "<span>Next</span>";
+    nextButton.setAttribute("onmousedown","getGender();");
+        }
+  
+    function getGender() {
+     var gender = document.getElementById('touchscreenInput'+tstCurrentPage).value;
+    
+    if(gender == "Female"){
+        gender = "F";
+        window.location.href = "createPatient.html?gender="+gender;
+    }else if(gender == "Male"){
+        male = "M";
+        window.location.href = "createPatient.html?gender="+gender;
+    }else if(gender == ""){
+      showMessage("You must enter a value to Continue");
+    }
+  
+    }
 </script>    

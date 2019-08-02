@@ -1,6 +1,5 @@
-
+<script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/standard.js" defer="true"></script>
 <script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
-<!--script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/standard.js" defer="true"></script-->
 <script type="text/javascript" src="/assets/js/jquery.min.js"></script>
 
 <script type="text/javascript" src="/assets/js/yes_no_ctrls.js"></script>
@@ -48,10 +47,6 @@
 
 
         <form> 
-            <!-- <input type="hidden" name="age"
-            id="age" field_type="hidden"
-            key="age" tt_onLoad = "setAge();"
-             />  -->
 
             <select id="hts_access_type" name="hts_access_type"  helpText="HTS Access Type" tt_onLoad="showCategory2('HTS Visit');changeNextButtonValidation();"
             >
@@ -81,7 +76,7 @@
                 key="test_date" helpText="Time since last Test"
                 tt_pageStyleClass="date" allowFreeText="true"
                 tt_onLoad=" showCategory2('HTS Visit'); changeNextButtonValidation();"
-                tt_onUnLoad = "$('last_hiv_test').value != 'Never Tested'"  />
+                condition = "$('last_hiv_test').value != 'Never Tested'"  />
             
 
                 <select id="client_risk" name="client_risk" helpText="Client risk category" tt_pageStyleClass="NoKeyboard"  tt_onLoad=" showCategory2('HTS Visit'); changeNextButtonValidation();"
@@ -91,7 +86,8 @@
                         <option>High Risk Event in Last 3 months</option>
                         <option>Risk assessment Not Done</option>
                  </select>
-                 <select id="pregnant" name="pregnant" helpText="Pregnant?" tt_pageStyleClass="NoKeyboard" tt_onLoad="showCategory2('HTS Visit'); changeNextButtonValidation();" >
+                 <select id="pregnant" name="pregnant" helpText="Pregnant?" tt_pageStyleClass="NoKeyboard" tt_onLoad="showCategory2('HTS Visit'); changeNextButtonValidation();" 
+                 condition = "age > 8">
                         <option></option>
                         <option>No</option>
                         <option>Yes</option>
@@ -155,19 +151,20 @@
 
     </div>
 </div>
+
 </body>
 
 <script>
-        var patientID = sessionStorage.getItem("patientID");
-        var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
-        var tt_cancel_destination = "/views/patient_dashboard.html?patient_id=" + patientID;
-        var age = sessionStorage.patientAge;
-        document.getElementById("age").value = age;
 
-    function setAge(){
-        var age = sessionStorage.patientAge;
-        document.getElementById("age").value = age;
-    }
+    var  $j = jQuery.noConflict();     
+    var patientID = sessionStorage.getItem("patientID");
+    var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
+    var tt_cancel_destination = "/views/patient_dashboard.html?patient_id=" + patientID;
+    var age = sessionStorage.patientAge;
+    document.getElementById("age").value = age;
+    var modalText = document.getElementById("modal_text");
+    var modalHeader = document.getElementById("modal_header");
+
 
 
     function changeNextButtonConsent() {
@@ -233,7 +230,6 @@
         var partnerStatus = document.getElementById('partner_status').value;
         var maleCondoms = document.getElementById('male_condoms').value;
         var femaleCondoms = document.getElementById('female_condoms').value;
-       // var refferalSlips = document.getElementById('referral_slips').value;
         var comment = $('touchscreenInput'+tstCurrentPage).value;
         //Test date
         var testDay = testDate.split('-')[0];
@@ -461,13 +457,71 @@
             obs.observations.push({ concept_id: 6357, value_text: comment });
         }
         
-        submitParameters(obs, "/observations", "nextPage")
+        submitParameters(obs, "/observations", "getEntryRecord")
     }
 
     function nextPage(){
 
        nextEncounter(sessionStorage.patientID, sessionStorage.programID);
 
+    }
+
+    function getEntryRecord(){
+
+        var parameters = {
+        encounter_id: 163
+        };
+
+        var parametersPassed = JSON.stringify(parameters);
+
+
+        var url = apiProtocol + "://" + apiURL + ":" + apiPort;
+
+        url += "/api/v1/programs/"+ sessionStorage.programID + "/codes/entry_code";
+
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+
+        if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
+            
+            var obj = JSON.parse(this.responseText);
+            entry_code = obj['entry_code'];
+            showMessage(entry_code,false,30000);
+            if( tstMessageBar.style.display = 'none'){
+                nextPage();
+               // console.log("Heyyy");
+            }else{
+                console.log("Wass");
+            }
+            
+            // var modalText = document.getElementById("modal_text");
+            // var modalHeader = document.getElementById("modal_header");
+            // modalHeader.innerText =  "Entry code";
+            // modalText.innerText +=  entry_code;
+            // $j("#myModal").modal();
+                
+        }
+
+        };
+
+        xhttp.open("POST", url, true);
+
+        xhttp.setRequestHeader('Authorization', sessionStorage.getItem("authorization"));
+
+        xhttp.setRequestHeader('Content-type', "application/json");
+
+        xhttp.send(parametersPassed);
+
+        }
+
+
+    function callNextPage(){
+        if(modalHeader.innerText ==  "Entry code"){
+            nextPage();
+        }else{
+            $j("#myModal").hide();
+        }
     }
 
 // jQuery(document).ready(function(){

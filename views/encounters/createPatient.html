@@ -216,7 +216,9 @@
 <div id="container">
     <div id="content">
         <style>
-
+            #backButton {
+            display: block;
+            }
             .tt_controls_year_of_birth #qwerty {
                 display: none;
             }
@@ -681,18 +683,25 @@
    // return [(birth_year + "-" + birth_month + "-" + birth_day), 0];
   }
 function changeNextButtonBirthdate(){
-
-    var nextButton =  document.getElementById('nextButton');
-        nextButton.setAttribute("onmousedown","culBirthdate();");
+      var nextButton =  document.getElementById('nextButton');
+      nextButton.setAttribute("onmousedown","culBirthdate();");
 }
-      
+function setBackButton(){
+  var backBtn = document.getElementById("backButton");
+  backBtn.style.display = "block";  
+  backBtn.setAttribute("onmousedown","goBack();");
+}
+function goBack(){
+    var create= 1;
+    window.location.href = "consent.html?create="+create;
+}
         </script>
 
         <form action="" method="POST">            
 
             <input type="text" name="person[birth_year]" id="person_birth_year" helpText="Year of Birth"
                    field_type="number"
-                   absoluteMin="1900" min="1900" tt_onLoad="setAbsoluteMaxBirthYear(); addMaxValue();"
+                   absoluteMin="1900" min="1900" tt_onLoad="setBackButton();setAbsoluteMaxBirthYear(); addMaxValue();"
                    tt_pageStyleClass="Numeric NumbersOnly"/>
 
             <select name="person[birth_month]" id="person_birth_month" helpText="Month of Birth"

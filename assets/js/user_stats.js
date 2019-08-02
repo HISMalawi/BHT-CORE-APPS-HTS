@@ -53,6 +53,6 @@ $j(document).ready(function(){
      
      xhttp.setRequestHeader('Content-type', "application/json");
      
-     xhttp.send();
+     xhttp.send();    
        
    }
