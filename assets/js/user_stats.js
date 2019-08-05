@@ -13,8 +13,10 @@ var apiProtocol = sessionStorage.apiProtocol;
 var apiPort = sessionStorage.apiPort;
 
 var apiURL = sessionStorage.apiURL;
-
+//
 var url = apiProtocol + "://" + apiURL + ":" + apiPort + "/api/v1";
+
+var userDate, firstName, lastName, username, total;
 
 $j(document).ready(function(){
 
@@ -42,6 +44,9 @@ $j(document).ready(function(){
          
          var obj = JSON.parse(this.responseText);
          console.log(obj);
+         for(let i in obj) {
+           getRow(obj[i]);
+         }
             
        }
      
@@ -55,4 +60,64 @@ $j(document).ready(function(){
      
      xhttp.send();    
        
+   } 
+
+   function getRow(data){
+    for(let i in data) {
+
+      userDate = data['date'];
+      lastName = data['family_name'];
+      firstName = data['given_name'];
+      total = data['total_visits'];
+      username = data['username'];
+    
+    }
+    populateRow();
+   }
+   function populateRow(){
+    var table = document.getElementById("user_stats");
+    
+    var new_row = document.createElement("tr");
+    new_row.style.fontSize = "14px";
+    new_row.style.fontWeight = "400px";
+    new_row.style.height = "55px";
+
+    var td_date = document.createElement("td");
+    td_date.style.width = "200px";
+  
+    var node_date = document.createTextNode(userDate);
+    td_date.appendChild(node_date);
+    new_row.appendChild(td_date);
+
+    var td_first = document.createElement("td");
+    td_first.style.width = "200px";
+
+    var node_first = document.createTextNode(firstName);
+    td_first.appendChild(node_first);
+    new_row.appendChild(td_first);
+
+    var td_last = document.createElement("td");
+    td_last.style.width = "200px";
+    
+    var node_last = document.createTextNode(lastName);
+    td_last.appendChild(node_last);
+    new_row.appendChild(td_last);
+
+    var td_user = document.createElement("td");
+    td_date.style.width = "200px";
+
+    var node_user = document.createTextNode(username);
+    td_user.appendChild(node_user);
+    new_row.appendChild(td_user);
+
+    var td_total = document.createElement("td");
+    td_total.style.width = "200px";
+    
+    var node_total = document.createTextNode(total);
+    td_total.appendChild(node_total);
+    new_row.appendChild(td_total);
+
+
+
+    table.appendChild(new_row);
    }
