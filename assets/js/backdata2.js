@@ -102,6 +102,7 @@
 
 
 function addRow(){
+    var avail = 1;
     var table = document.getElementById("backdata");
    
     var new_row = document.createElement("tr");
@@ -1021,7 +1022,10 @@ function addRow(){
       new_row.appendChild(td_comment);
  
 
-    table.appendChild(new_row);
+   
+    if(avail == 1){
+        table.appendChild(new_row);
+    }
     loadPopup(new_row);
 
     //onclick
@@ -3362,4 +3366,5 @@ function buildPrevRow(){
             $j('#' + coded_values[k]).removeClass("normal");
             $j('#' + coded_values[k]).addClass("circled"); 
         }
+        addRow();
     }

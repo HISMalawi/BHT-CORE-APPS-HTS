@@ -1119,17 +1119,46 @@ div.dataTables_wrapper {
             
             obs.observations.push({ concept_id: 6357, value_text: node_comment.nodeValue });
         }
-          submitParameters(obs, "/observations", "getEntryRecord")
+          submitParameters(obs, "/observations", "createEncounter")
 
     }  
-    function getEntryRecord(){
 
+    function createEncounter(){
         var parameters = {
-        encounter_id: 163
+        encounter_type_id: 163,
+        patient_id: sessionStorage.patientID
         };
 
-    var parametersPassed = JSON.stringify(parameters);
+        var parametersPassed = JSON.stringify(parameters);
 
+            var url = apiProtocol + "://" + apiURL + ":" + apiPort;
+ 
+        url += "/api/v1/encounters";
+        var xhttp = new XMLHttpRequest();
+        
+        xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
+            console.log("I get here");
+            var obj = JSON.parse(this.responseText);
+            console.log("Created en"+obj);          
+        }
+        };
+        
+        xhttp.open("POST", url, true);
+        
+        xhttp.setRequestHeader('Authorization', sessionStorage.getItem("authorization"));
+        
+        xhttp.setRequestHeader('Content-type', "application/json");
+        
+        xhttp.send(parametersPassed);
+    }
+
+    function getEntryRecord(){
+    var parameters = {
+    encounter_id: 163
+    };
+
+    var parametersPassed = JSON.stringify(parameters);
 
         var url = apiProtocol + "://" + apiURL + ":" + apiPort;
  
@@ -1140,9 +1169,10 @@ div.dataTables_wrapper {
         xhttp.onreadystatechange = function() {
         
         if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
-            
+            console.log("Entry doe3"+entry_code);
             var obj = JSON.parse(this.responseText);
-             entry_code = obj['entry_code'];
+            console.log(obj);
+            entry_code = obj['entry_code'];
             modalHeader.innerText =  "Entry code";
             modalText.innerText +=  entry_code;
             $j("#myModal").modal();
@@ -1324,6 +1354,7 @@ div.dataTables_wrapper {
                     
                      modalText.innerHTML = "Missing Units for Age";
                     $("#myModal").modal();
+                    save++;
                 break;
         }
             if (age < min || age > max) {
@@ -1332,7 +1363,7 @@ div.dataTables_wrapper {
                 save++;
             }
             node_time_value = node_time.nodeValue;
-            if(min >= 5111){
+            if(age >= 14){
                 if( node_female_condom.nodeValue == ' ')
                     {
                         modalText.innerHTML != 'Female condoms must be entered'
@@ -1420,9 +1451,11 @@ div.dataTables_wrapper {
                 if (FRS == ' '){
                     modalText.innerHTML = "Number of FRS given must be entered";
                     $("#myModal").modal();
+                    save++;
                 }else if(FRS < 0 || FRS > 15){
                     modalText.innerHTML = "Number of FRS given should be 0 - 15";
                     $("#myModal").modal();
+                    save++;
                 }
                 var maleCondoms = node_male_condom.nodeValue;
                 var femaleCondoms = node_female_condom.nodeValue;

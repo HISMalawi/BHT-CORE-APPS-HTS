@@ -2,7 +2,6 @@ var window_href = window.location.href;
 
 var  $j = jQuery.noConflict();     
 
-window_url = new URL(window_href);
 
 var start_date = window_url.searchParams.get("start_date");
 
@@ -17,17 +16,16 @@ var apiURL = sessionStorage.apiURL;
 var url = apiProtocol + "://" + apiURL + ":" + apiPort + "/api/v1";
 
 var userDate, firstName, lastName, username, total;
-var locationName = " ";
-
+var locationName = "";
+var populate = 0;
+var loc =0;
 $j(document).ready(function(){
 
     populateTable(start_date,end_date);
- 
+    
   });
  
- 
   function populateTable(start_date,end_date){
-     
 
      var url = apiProtocol + "://" + apiURL + ":" + apiPort;
  
@@ -42,13 +40,15 @@ $j(document).ready(function(){
      xhttp.onreadystatechange = function() {
        
        if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
-         
+         if(populate == 0){
          var obj = JSON.parse(this.responseText);
-         console.log(obj);
          for(let i in obj) {
-           getRow(obj[i]);
+           var patient_obj = obj[i];
+           getLocationName(obj[i]);
+                                                                                                                
          }
-            
+         populate++;
+         }      
        }
      
      };
@@ -64,20 +64,17 @@ $j(document).ready(function(){
    } 
 
    function getRow(data){
-    for(let i in data) {
-
+     var k =0;
       userDate = data['date'];
       lastName = data['family_name'];
       firstName = data['given_name'];
       total = data['total_visits'];
       username = data['username'];
-     var location_id = data['location_id'];
-     getLocationName(location_id);
-    }
-    populateRow();
+      populateRow();
    }
 
-   function getLocationName(location_id){
+   function getLocationName(data){
+    var location_id = data['location_id'];
     var url = apiProtocol + "://" + apiURL + ":" + apiPort + "/api/v1/locations/"+location_id;
 
     var xhttp = new XMLHttpRequest();
@@ -85,15 +82,14 @@ $j(document).ready(function(){
         if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
         var obj = JSON.parse(this.responseText);
         locationName = obj['name']; 
-        console.log(locationName);      
+        getRow(data);
         }
     };
     xhttp.open("GET", url, true);
     xhttp.setRequestHeader('Authorization', sessionStorage.getItem("authorization"));
     xhttp.setRequestHeader('Content-type', "application/json");
     xhttp.send();
-    
-}
+  }
 
 
   function populateRow(){
