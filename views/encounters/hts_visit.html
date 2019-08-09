@@ -78,11 +78,13 @@
                 key="test_date" helpText="Time since last Test"
                 tt_pageStyleClass="date" allowFreeText="true"
                 tt_onLoad=" showCategory2('HTS Visit'); changeNextButtonValidation();"
-                condition = "$('last_hiv_test').value == '' || $('last_hiv_test').value != 'Never Tested'"  />
+                condition = "$('last_hiv_test').value != ''" 
+                condition = "__$('last_hiv_test').value != 'Never Tested'" />
             
 
                 <select id="client_risk" name="client_risk" helpText="Client risk category" tt_pageStyleClass="NoKeyboard"  tt_onLoad=" showCategory2('HTS Visit'); changeNextButtonValidation();"
-                condition = "__$('last_hiv_test').value != 'Never Tested'" >
+                condition = "$('last_hiv_test').value != ''" 
+                condition = "__$('last_hiv_test').value != 'Never Tested'"  >
                         <option></option>
                         <option>Low Risk</option>
                         <option>On-going Risk</option>
