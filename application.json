@@ -3,7 +3,7 @@
     "hts visit": {
       "available": true,
       "encountersName": "hts visit",
-      "activitiesIcon": "/assets/images/anc.png",
+      "activitiesIcon": "/assets/images/hts.png",
       "url": "/apps/HTS/views/partner.html"
     }
   },

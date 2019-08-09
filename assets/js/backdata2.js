@@ -17,6 +17,7 @@
  var j = 0;                                                                                           
  var entryValue = dateValue = providerValue = ageValue = timeValue = appointmentValue = familyValue = femaleValue =  maleValue = commentValue = " ";
  var patientGender;
+ var art_input =  reg_input = outcome_input = count = 0;
  var coded_values = [];
 
  var conceptIds = [
@@ -1179,7 +1180,7 @@ function showDate(id){
       $j("#shield, #popup").css("display", "none");
       appointment = 0;
       hts_date =0;
-      
+      outcome_input = 0;
   };
 
   $j(cl).css({
@@ -1232,15 +1233,19 @@ function showDate(id){
 
         $j("#shield, #popup").css("display", "none");
     }else if(outcome_date == 1){
-        var new_date = __$("dateselector_day").value + " " + __$("dateselector_month").value + " " +__$("dateselector_year").value;
-        node_outcome_date.nodeValue= new_date;
+        new_date = __$("dateselector_day").value + " " + __$("dateselector_month").value + " " +__$("dateselector_year").value;
+            outcome_date.innerHTML = new_date;
+            $j("#shield, #popup").css("display", "none");
 
-        $j("#shield, #popup").css("display", "none");
+            
+            $j("#btnSave"+num).removeClass("gray_save");
+            $j("#btnSave"+num).addClass("blue");
+            $j("#spanSave"+num).removeClass("gray_save");
     }
 
     appointment = 0;
     hts_date =0;
-
+    outcome_input = 0;
   };
   $j("#popup").css({
 
@@ -1363,8 +1368,8 @@ function displayKeyboard(id){
         $j("#popup").html("");
         provider = 0;
         comment = 0;
-        reg = 0;
-        art = 0;
+        reg_input = 0;
+        art_input = 0;
     };
 
     $j(cl).css({
@@ -1398,8 +1403,14 @@ function displayKeyboard(id){
         $j("#popup").html("");
         comment = 0;
         provider = 0;
-        art = 0;
-        reg = 0;
+        if(reg_input > 0 || art_input > 0){
+            $j("#btnSave"+num).removeClass("gray_save");
+            $j("#btnSave"+num).addClass("blue");
+            $j("#spanSave"+num).removeClass("gray_save");
+  
+            reg_input = 0;
+            art_input = 0;
+        }
     }
     var holder = document.createElement("div");
 
@@ -1480,8 +1491,15 @@ function displayKeyboard(id){
         }else if(reg ==1){
             var str = node_reg.nodeValue;
             node_reg.nodeValue = str + v;
-         }
+         }else if(art_input ==1){
+            var v = this.innerHTML;
+            art.innerHTML += v;
 
+        }else if(reg_input){
+            var v = this.innerHTML;
+            reg.innerHTML += v;
+        }
+        
         }
 
         td1.appendChild(btn);
@@ -1526,7 +1544,14 @@ function displayKeyboard(id){
              }else if(reg ==1){
                 var str = node_reg.nodeValue;
                 node_reg.nodeValue = str + v;
-             }
+             }else if(art_input ==1){
+                var v = this.innerHTML;
+                    art.innerHTML += v;
+        
+                }else if(reg_input){
+                    var v = this.innerHTML;
+                    reg.innerHTML += v;
+                }
         }
 
         td2.appendChild(btn);
@@ -1571,7 +1596,14 @@ function displayKeyboard(id){
              }else if(reg ==1){
                 var str = node_reg.nodeValue;
                 node_reg.nodeValue = str + v;
-             }
+             }else if(art_input ==1){
+                var v = this.innerHTML;
+                 art.innerHTML += v;
+     
+               }else if(reg_input){
+                 var v = this.innerHTML;
+                 reg.innerHTML += v;
+               }
         }
 
         td3.appendChild(btn);
@@ -1680,6 +1712,40 @@ function displayKeyboard(id){
                     var str2 = node_reg.nodeValue;
                     node_reg.nodeValue = str2 + str;
                     }
+            } else if(art_input == 1){
+                switch(str){
+                    case "Clear":
+                    art.innerHTML = " ";
+                      break;
+                    case "Del":
+                    $j('#' + art_id).text(function (_,txt) {
+                      return txt.slice(0, -1);
+                    }); 
+                      break;
+                    case "Space":
+                    art.innerHTML += " "
+                    break;
+                    default:
+                    art.innerHTML += str;
+                    break;
+                    }
+            }else if(reg_input == 1){
+              switch(str){
+                case "Clear":
+                reg.innerHTML = " ";
+                  break;
+                case "Del":
+                $j('#' + reg_id).text(function (_,txt) {
+                  return txt.slice(0, -1);
+                });                
+                break;
+                case "Space":
+                reg.innerHTML += " "
+                break;
+                default:
+                reg.innerHTML += str;
+                break;
+                }
             }
             }
     

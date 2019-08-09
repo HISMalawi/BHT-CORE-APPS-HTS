@@ -50,6 +50,7 @@
 
             <select id="hts_access_type" name="hts_access_type"  helpText="HTS Access Type" tt_onLoad="showCategory2('HTS Visit');changeNextButtonValidation();"
             >
+                <option></option>
                 <option>Routine HTS (PITC) within Health Service</option>
                 <option>Comes with HTS Family Referral Slip</option>
                 <option>Other(VCR, etc)</option>
@@ -64,6 +65,7 @@
 
             <select id="last_hiv_test" name="last_hiv_test" helpText="Last HIV Test Result" tt_onLoad="showCategory2('HTS Visit');changeNextButtonValidation();"
             condition = "__$('hts_access_type').value == 'Routine HTS (PITC) within Health Service'">
+                    <option></option>
                     <option>Never Tested</option>
                     <option>Last Negative</option>
                     <option>Last Positive</option>
@@ -76,11 +78,12 @@
                 key="test_date" helpText="Time since last Test"
                 tt_pageStyleClass="date" allowFreeText="true"
                 tt_onLoad=" showCategory2('HTS Visit'); changeNextButtonValidation();"
-                condition = "$('last_hiv_test').value != 'Never Tested'"  />
+                condition = "$('last_hiv_test').value == '' || $('last_hiv_test').value != 'Never Tested'"  />
             
 
                 <select id="client_risk" name="client_risk" helpText="Client risk category" tt_pageStyleClass="NoKeyboard"  tt_onLoad=" showCategory2('HTS Visit'); changeNextButtonValidation();"
                 condition = "__$('last_hiv_test').value != 'Never Tested'" >
+                        <option></option>
                         <option>Low Risk</option>
                         <option>On-going Risk</option>
                         <option>High Risk Event in Last 3 months</option>
@@ -161,7 +164,6 @@
     var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
     var tt_cancel_destination = "/views/patient_dashboard.html?patient_id=" + patientID;
     var age = sessionStorage.patientAge;
-    document.getElementById("age").value = age;
     var modalText = document.getElementById("modal_text");
     var modalHeader = document.getElementById("modal_header");
 
@@ -184,7 +186,7 @@
            gotoNextPage();
         }
     }
-
+    //Check if consent is yes/no
     function checkConsent() {
         consent = document.getElementById('touchscreenInput'+tstCurrentPage).value;
 
@@ -230,12 +232,7 @@
         var partnerStatus = document.getElementById('partner_status').value;
         var maleCondoms = document.getElementById('male_condoms').value;
         var femaleCondoms = document.getElementById('female_condoms').value;
-        var comment = $('touchscreenInput'+tstCurrentPage).value;
-        //Test date
-        var testDay = testDate.split('-')[0];
-        var testMonth = testDate.split('-')[1];
-        var testYear = testDate.split('-')[2];
-        var testDateValue = testYear + '-' + testMonth + '-' + testDay;
+        var comment ='';
 
         //Appointment Date
         var appointmentDay = appointmentDate.split('-')[0];
@@ -395,16 +392,29 @@
             encounter_id: encounter["encounter_id"],
             observations: [
                 { concept_id: 9428, value_coded: hivAccessAnswer },
-                { concept_id: 9431, value_text: testDateValue },
-                { concept_id: 9427, value_coded: clientRiskAnswer },
-                { concept_id: 6131, value_coded: pregnantAnswer },
                 { concept_id: 9420, value_coded: clientConscentAnswer }
                     ]
         };
 
+        if(testDate !== '') {
+            //Changing format of Test date
+            var testDay = testDate.split('-')[0];
+            var testMonth = testDate.split('-')[1];
+            var testYear = testDate.split('-')[2];
+            var testDateValue = testYear + '-' + testMonth + '-' + testDay;
+            obs.observations.push({ concept_id: 9431, value_text: testDateValue });
+        }
+        if(pregnant !== '') {
+            
+            obs.observations.push({ concept_id: 6131, value_coded: pregnantAnswer });
+        }
+        if(clientRisk !== '') {
+            
+            obs.observations.push({ concept_id: 9427, value_coded: clientRiskAnswer });
+        }
         if(refferedSlip !== '') {
             //9752
-            obs.observations.push({ concept_id: 9430, value_coded: refferedSlipAnswer });
+            obs.observations.push({ concept_id: 9752, value_coded: refferedSlipAnswer });
         }
         if( lastHivTest !== '') {
 
@@ -435,6 +445,8 @@
         
         if( femaleCondoms !== '') {
             obs.observations.push({ concept_id: 7859, value_text: femaleCondoms });
+            var comment = $('touchscreenInput'+tstCurrentPage).value;
+
         }
 
         if( refferedSpouse.length <= 1){
@@ -456,13 +468,17 @@
         if( comment !== '') {
             obs.observations.push({ concept_id: 6357, value_text: comment });
         }
-        
-        submitParameters(obs, "/observations", "getEntryRecord")
+        console.log(obs);
+        if(clientConscent == "No"){
+        submitParameters(obs, "/observations", "nextPage")
+        }else{
+            submitParameters(obs, "/observations", "getEntryRecord")
+        }
     }
 
     function nextPage(){
 
-       nextEncounter(sessionStorage.patientID, sessionStorage.programID);
+       //nextEncounter(sessionStorage.patientID, sessionStorage.programID);
 
     }
 
