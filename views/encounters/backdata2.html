@@ -1119,10 +1119,11 @@ div.dataTables_wrapper {
             
             obs.observations.push({ concept_id: 6357, value_text: node_comment.nodeValue });
         }
-          submitParameters(obs, "/observations", "createEncounter")
+          submitParameters(obs, "/observations", "getEntryRecord")
 
     }  
 
+    //Creating encounter inorder to produce unique Visit entry
     function createEncounter(){
         var parameters = {
         encounter_type_id: 163,
@@ -1151,6 +1152,8 @@ div.dataTables_wrapper {
         xhttp.send(parametersPassed);
     }
 
+    //Displaying entry code after saving obs
+
     function getEntryRecord(){
     var parameters = {
     encounter_id: 163
@@ -1167,9 +1170,7 @@ div.dataTables_wrapper {
         xhttp.onreadystatechange = function() {
         
         if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
-            console.log("Entry doe3"+entry_code);
             var obj = JSON.parse(this.responseText);
-            console.log(obj);
             entry_code = obj['entry_code'];
             modalHeader.innerText =  "Entry code";
             modalText.innerText +=  entry_code;
