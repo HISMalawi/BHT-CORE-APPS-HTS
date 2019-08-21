@@ -700,13 +700,13 @@ function goBack(){
         <form action="" method="POST">            
 
             <input type="text" name="person[birth_year]" id="person_birth_year" helpText="Year of Birth"
-                   field_type="number"
+                   field_type="number" tt_onUnload="getInput();"
                    absoluteMin="1900" min="1900" tt_onLoad="setBackButton();setAbsoluteMaxBirthYear(); addMaxValue();"
                    tt_pageStyleClass="Numeric NumbersOnly"/>
 
             <select name="person[birth_month]" id="person_birth_month" helpText="Month of Birth"
                     condition="$('person_birth_year').value.toLowerCase() != 'unknown'"
-                    validationMessage="Please enter a valid date" tt_onUnLoad="resetFinishBtn();"
+                    validationMessage="Please enter a valid date" tt_onUnLoad="resetFinishBtn(); getInput()"
                     tt_onLoad=" validateMonth();__$(keyboard).style.display = none;">
                 <option value=""></option>
                 <option value="1">Jan</option>
@@ -724,8 +724,8 @@ function goBack(){
                 <option value="Unknown">Unknown</option>
             </select>
             <input type="text" name="person[age_estimate]" id="person_age_estimate" helpText="Age Estimate"
-                   absoluteMax="120" field_type="number"
-                   condition="$('person_birth_year').value == 'Unknown';"
+                   absoluteMax="120" field_type="number" tt_onUnload="getInput();"
+                   condition="$('person_birth_year').value == 'Unknown';" key="patientAge"
                    tt_onLoad="changeNextButtonBirthdate();" tt_pageStyleClass="Numeric NumbersOnly"/>
 
             <input type="text" name="person[birth_day]"
@@ -733,7 +733,7 @@ function goBack(){
                    field_type="number" helpText="Birth Day"
                    condition="($('person_birth_year').value != 'Unknown') && ($('person_birth_month').value != 'Unknown')"
                    tt_onLoad="getDayOfMonthPicker($('person_birth_year').value, $('person_birth_month').value);setUpPageForDateValidation();"
-                   tt_onUnLoad="resetFinishBtn();"/>
+                   tt_onUnLoad="resetFinishBtn(); getInput();"/>
 
         </form>
 
@@ -812,6 +812,7 @@ function createClient() {
         var url = new URL(url_string);
         locale = "en-us";
         var gender = url.searchParams.get("gender");
+        sessionStorage.gender = gender;
         var parametersPassed = {
         given_name: "Dummy", family_name: "Patient",
         gender: gender, birthdate: set_dob, birthdate_estimated: birth_estimated,

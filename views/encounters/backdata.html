@@ -23,87 +23,111 @@
 
   
 </style>
+
 <body id="mateme">
-<div id="container">
+  
+  <div id="container">
+    
     <div id="content">
+      
+      <form>
 
+        <input type="text" name="testing_date"
+          id="testing_date" field_type="date"
+          key="testing_date" helpText="Testing Date"
+          tt_pageStyleClass="date" allowFreeText="true"
+          tt_onLoad="showCategory2('Backdata Entry'); changeNextTestingButton();" />
 
-        <form>  
-            
-            <input type="text" name="testing_date"
-            id="testing_date" field_type="date"
-            key="testing_date" helpText="Testing Date"
-            tt_pageStyleClass="date" allowFreeText="true"
-            tt_onLoad="showCategory2('Backdata Entry'); changeNextTestingButton();"
-           />
-
-           <input type="text" name="register_number"
-           id="register_number" field_type="date"
-           key="register_number"  objectType="register" ajaxURL="/registers/" helpText="Register Number (from cover)"
-           tt_pageStyleClass="number" allowFreeText="true"
-           tt_onLoad="showCategory2('Backdata Entry');"
-           tt_onUnLoad="loadBackdata();"
-          />
+        <input type="text" name="register_number"
+          id="register_number" field_type="number"
+          key="register_number"  objectType="register" ajaxURL="/registers/" 
+          helpText="Register Number (from cover)"
+          tt_pageStyleClass="NumbersOnly" allowFreeText="true"
+          tt_onLoad="showCategory2('Backdata Entry'); changeNextButton();"/>
           
-            <input type="text" style ="display: none;" name="summary" id="referral_slips"
-            tt_onLoad="__$('keyboard').style.display = 'none';"
-            tt_pageStyleClass= "NoControls" helpText="HTS Family Referral Slips" optional="true"
-            />
-        </form>
+        <input type="text" style ="display: none;" name="summary" id="referral_slips"
+          tt_onLoad="__$('keyboard').style.display = 'none';"
+          tt_pageStyleClass= "NoControls" helpText="HTS Family Referral Slips" 
+          optional="true"/>
+
+      </form>
 
     </div>
-</div>
+  
+  </div>
 
 </body>
 
 <script>
-        var patientID = sessionStorage.getItem("patientID");
-        var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
-        var tt_cancel_destination = "http://127.0.0.1:8080" ;
-        function changeNextButtonConsent() {
-        var nextButton =  document.getElementById('nextButton');
-        nextButton.setAttribute("onmousedown","checkConsent();");
+  var patientID = sessionStorage.getItem("patientID");
+  var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
+  var tt_cancel_destination = "/" ;
+  
+  function changeNextButtonConsent() {
+    var nextButton =  document.getElementById('nextButton');
+    nextButton.setAttribute("onmousedown","checkConsent();");
+  }
+    
+  function changeNextTestingButton(){
+    var nextButton =  document.getElementById('nextButton');
+    nextButton.setAttribute("onmousedown","checkDate();");
+  }
+
+  function changeNextRegisterButton(){
+    var nextButton =  document.getElementById('nextButton');
+    nextButton.setAttribute("onmousedown","checkRegister();");
+  }
+
+  function checkRegister(){
+    var testDate = document.getElementById('touchscreenInput'+tstCurrentPage).value;
+  }
+
+  function checkDate(){
+    var testDate = document.getElementById('touchscreenInput'+tstCurrentPage).value;
+    var utc = moment(testDate, "DD-MM-YYYY", true);
+    var isUTC = utc.isValid();
+    
+    if(isUTC){
+
+      gotoNextPage();
+
+    }else{
+
+      showMessage("Enter valid date (day, month, year)");
+
     }
-    function changeNextTestingButton(){
-        var nextButton =  document.getElementById('nextButton');
-        nextButton.setAttribute("onmousedown","checkDate();");
+  }
+
+  function changeNextButton(){
+    var nextButton =  document.getElementById('nextButton');
+    nextButton.setAttribute("onmousedown","submit();");
+  }
+
+  function submit(){
+    var date = document.getElementById('testing_date').value;
+    register_number = document.getElementById('touchscreenInput' + tstCurrentPage).value
+
+    if (register_number == ""){
+      showMessage("Enter register number to continue.")
+      return;
     }
+    window.location.href = "/apps/HTS/views/encounters/backdata2.html?testing_date="+date;
+  }
 
-    function changeNextRegisterButton(){
-        var nextButton =  document.getElementById('nextButton');
-        nextButton.setAttribute("onmousedown","checkRegister();");
+  function checkConsent() {
+    consent = document.getElementById('touchscreenInput'+tstCurrentPage).value;
+
+    if (consent == 'No') {
+      window.location.href =  "/views/patient_dashboard.html?patient_id=" + patientID;
+
+    } else if (consent == "Yes") {
+      gotoNextPage();
     }
+  }
 
-    function checkRegister(){
-        var testDate = document.getElementById('touchscreenInput'+tstCurrentPage).value;
-    }
-
-    function checkDate(){
-        var testDate = document.getElementById('touchscreenInput'+tstCurrentPage).value;
-        var utc = moment(testDate, "DD-MM-YYYY", true);
-        var isUTC = utc.isValid();
-        if(isUTC){
-            gotoNextPage();
-        }else{
-            showMessage("Enter valid date (day, month, year)");
-        }
-    }
-
-
-    function checkConsent() {
-        consent = document.getElementById('touchscreenInput'+tstCurrentPage).value;
-
-        if (consent == 'No') {
-            window.location.href =  "/views/patient_dashboard.html?patient_id=" + patientID;
-
-        } else if (consent == "Yes") {
-           gotoNextPage();
-        }
-    }
-
-    function loadBackdata(){
-        var testing_date = document.getElementById('testing_date').value;
-        window.location.href = "/apps/HTS/views/encounters/backdata2.html?testing_date="+testing_date;
-    }
+  function loadBackdata(){
+    var testing_date = document.getElementById('testing_date').value;
+    window.location.href = "/apps/HTS/views/encounters/backdata2.html?testing_date="+testing_date;
+  }
 
 </script>    
