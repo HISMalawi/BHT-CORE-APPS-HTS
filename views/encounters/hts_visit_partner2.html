@@ -1,0 +1,131 @@
+
+<script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
+<!--script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/standard.js" defer="true"></script-->
+<script type="text/javascript" src="/assets/js/jquery.min.js"></script>
+
+<script type="text/javascript" src="/assets/js/yes_no_ctrls.js"></script>
+<link rel="stylesheet" href="/assets/css/yes_no_ctrls.css" type="text/css">
+<script type="text/javascript" src="/assets/js/post_parameters.js"></script>
+<script type="text/javascript" src="/assets/js/generic_ajaxrequest.js"></script>
+<script type="text/javascript" src="/assets/js/alertifyjs/alertify.js"></script>
+<script type="text/javascript" src="/assets/js/does_connection_exist.js"></script>
+<script type="text/javascript" src="/assets/js/moment.js"></script>
+<script type="text/javascript" src="/apps/HTS/assets/js/common.js"></script>
+<script type="text/javascript" src="/apps/HTS/assets/js/hts_visit_partner.js"></script>
+<link rel="stylesheet" href="/assets/css/alertifyjs/css/alertify.css" type="text/css">
+
+<style>
+
+    .inputFrameClass {
+        width: 96% !important;
+    }
+
+    .active{
+        background-color: #ffc579 !important;
+    }
+    .btn-yellow {
+    min-height: 40px;
+    margin: 0px;
+        margin-bottom: 0px;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+    background-color: #ffc579;
+    color: #FFF;
+    font-weight: normal;
+    border: 5px outset #000;
+    padding: 9px;
+    cursor: pointer;
+    background: url(/assets/images/btn_yellow.png) right repeat;
+    -moz-user-select: none;
+    -moz-user-focus: disabled;
+    border-radius: 12px;
+    pointer-events: none;
+}
+.messageBar {
+  left: 30% !important;
+}
+</style>
+<body id="mateme">
+  <div id="container">
+    <div id="content">
+      <form>
+        <input type="text" name="summary"
+          tt_onLoad="__$('keyboard').style.display = 'none'; 
+            __$('helpText'+tstCurrentPage).style.display = 'none';
+            splitPage(); changeNextButton();"
+          tt_pageStyleClass= "NoControls"/>
+      </form>
+    </div>
+  </div>
+        <!-- iframe src="hts_visit.html" id="frame1" height="200" width="50%" onload="iframeclick()"></iframe --> 
+</body>
+<script type="text/javascript">
+  var value = "";
+
+function splitPage(){
+  document.getElementById("inputFrame"+tstCurrentPage).height = "98%";
+  table = document.createElement('table');
+  table.style.height = "96%";
+  table.style.width = "98%";
+  tr = document.createElement('tr');
+  td1 = document.createElement('td');
+  td2 = document.createElement('td');
+
+  iframe1 = document.createElement('iframe');
+  iframe2 = document.createElement('iframe');
+
+  iframe1.src = "hts_visit2.html";
+  iframe1.id = "iframe1";
+  iframe1.style.height = "100%";
+
+  iframe2.src = "partner_consent.html";
+  iframe2.id = "iframe2";
+  iframe2.style.height = "100%";
+  
+  td1.appendChild(iframe1);
+  td2.appendChild(iframe2);
+
+  tr.appendChild(td1);
+  tr.appendChild(td2);
+
+  table.appendChild(tr);
+  __$('inputFrame'+tstCurrentPage).appendChild(table);
+}
+
+function changeNextButton(){
+  var nextButton =  document.getElementById('nextButton');
+  nextButton.innerHTML = "<span>Next</span>"
+  nextButton.setAttribute("onmousedown","goToNextPage();");
+}
+
+function goToNextPage(){
+  var iframe = document.getElementById("iframe1");
+  var textfield = iframe.contentDocument.getElementsByClassName("touchscreenTextInput")[0];
+
+  if(value === ""){
+    showMessage("You must enter value to continue.");
+  }else{
+    if (textfield.name === "client_consent"){
+      iframe.contentWindow.checkConsent();
+    }else if(textfield.name === "summary1"){
+      iframe.contentWindow.validateResultOne();
+    }else{
+      iframe.contentWindow.gotoNextPage();
+    }
+  }
+}
+
+setInterval(function(){
+  var iframe = document.getElementById("iframe1");
+  var iframe1document = iframe1.contentDocument;
+  var textfield = iframe1document.getElementsByClassName("touchscreenTextInput")[0];
+  
+  if (textfield.name === "summary1"){
+    value = iframe.contentWindow.testResultOne;
+  }else if (textfield.name === "summary2"){
+    value = iframe.contentWindow.testResultTwo;
+  }else{
+    value = textfield.value;
+  }
+},200)
+</script>

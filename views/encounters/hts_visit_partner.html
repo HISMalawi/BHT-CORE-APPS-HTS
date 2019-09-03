@@ -44,14 +44,14 @@
 </style>
 <body id="mateme">
 <div id="container">
-    <div id="content" style="width:50%;  margin-right: 0%;">
+    <div id="content" style="width:49.5%;  margin-right: 0%;">
 
-        <iframe src="hts_visit.html" id="frame1" height="200" width="50%" onload="iframeclick()"></iframe> 
+        <iframe src="hts_visit.html" id="frame1" height="200" width="99%" onload="iframeclick()"></iframe> 
 
     </div>
-    <div id="content" style="width:50%; position: absolute; right:1;">
+    <div id="content" style="width:49.5%; position: absolute; right:1;">
     
-            <iframe src="consent.html" id="frame2" height="200" width="50%" onload="iframe2click()"></iframe> 
+            <iframe src="consent.html" id="frame2" height="200" width="99%" onload="iframe2click()"></iframe> 
     </div>
 </div>
 
@@ -65,9 +65,11 @@
             }
     }
     function iframe2click() {
-        document.getElementById("frame2").contentWindow.document.body.onclick = function() {
+      frame2 = document.getElementById("frame2").contentWindow
+      frame2.document.body.onclick = function() {
             $j("#frame2").css("border", "2px solid red");
             $j("#frame1").css("border", "0px solid #fff");
             }
+      frame2.document.getElementById('buttons').style.display = "none";
     }
 </script>

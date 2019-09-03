@@ -1,0 +1,110 @@
+
+<script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
+<!--script type="text/javascript" src="/public/touchscreentoolkit/lib/javascripts/standard.js" defer="true"></script-->
+<script type="text/javascript" src="/assets/js/jquery.min.js"></script>
+
+<script type="text/javascript" src="/assets/js/yes_no_ctrls.js"></script>
+<link rel="stylesheet" href="/assets/css/yes_no_ctrls.css" type="text/css">
+<script type="text/javascript" src="/assets/js/post_parameters.js"></script>
+<script type="text/javascript" src="/assets/js/generic_ajaxrequest.js"></script>
+<script type="text/javascript" src="/assets/js/alertifyjs/alertify.js"></script>
+<script type="text/javascript" src="/assets/js/does_connection_exist.js"></script>
+<script type="text/javascript" src="/assets/js/moment.js"></script>
+<script type="text/javascript" src="/apps/HTS/assets/js/common.js"></script>
+<script type="text/javascript" src="/apps/HTS/assets/js/hts_visit_partner.js"></script>
+<link rel="stylesheet" href="/assets/css/alertifyjs/css/alertify.css" type="text/css">
+
+<style>
+
+#content {
+    margin-top: -320px !important;
+    margin-left: 0% !important;
+    width: 100% !important;
+}
+.buttonsDiv{
+    display: none !important;
+}
+.inputFrameClass {
+    font-size: 14px !important;
+    width: 95% !important;
+    height: 85% !important;
+    margin-left: 10px !important;
+}
+.helpTextClass {
+    font-size: 24px !important;
+}
+
+</style>
+
+<body id="mateme">
+  <div id="container">
+    <div id="content">
+      <form>
+         <select id="consent" name="consent" 
+          tt_onLoad="showCategory2('Partner Registration');changeNextButtonConsent();" 
+          helpText="Consent to be contacted"> 
+          <option>No</option>
+          <option>Yes</option>
+          </select>
+          <select id="gender" name="gender" tt_onLoad="changeNextButtonGender();" helpText="Gender"> 
+              <option>Male</option>
+              <option>Female</option>
+              </select>
+      </form>
+
+   </div>
+ </div>
+</body>
+
+<script>
+
+  var patientID = sessionStorage.getItem("patientID");
+  var tstCurrentDate = moment(tstCurrentDate).format("YYYY-MM-DD");
+  var tt_cancel_destination = "/";
+  var url_string = window.location;
+  var url = new URL(url_string);
+  locale = "en-us";
+  var create = url.searchParams.get("create");
+
+
+  function changeNextButtonConsent() {
+    var nextButton =  document.getElementById('nextButton');
+    nextButton.innerHTML = "<span>Next</span>";
+    nextButton.setAttribute("onmousedown","checkConsent();");
+    if(create == 1){
+      document.getElementById('touchscreenInput'+tstCurrentPage).value = "No";
+       gotoNextPage();
+    }
+  }
+  
+    function checkConsent() {
+    consent = document.getElementById('touchscreenInput'+tstCurrentPage).value;
+    if (consent == 'No') {
+      gotoNextPage();
+    } else if (consent == "Yes") {
+      window.location.href = '/views/patient/search.html';
+    } else if (consent == "") {
+      showMessage("Client consent Select Yes or No");
+    }
+  }
+   function changeNextButtonGender() {
+    var nextButton =  document.getElementById('nextButton');
+    nextButton.innerHTML = "<span>Next</span>";
+    nextButton.setAttribute("onmousedown","getGender();");
+        }
+  
+    function getGender() {
+     var gender = document.getElementById('touchscreenInput'+tstCurrentPage).value;
+    
+    if(gender == "Female"){
+        gender = "F";
+        window.location.href = "createPatient.html?gender="+gender;
+    }else if(gender == "Male"){
+        male = "M";
+        window.location.href = "createPatient.html?gender="+gender;
+    }else if(gender == ""){
+      showMessage("You must enter a value to Continue");
+    }
+  
+    }
+</script>    

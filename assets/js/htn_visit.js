@@ -19,10 +19,10 @@ function buildTest(){
     var div = document.createElement("div");
     div.height ="90%";
     div.style.paddingTop = "15%";
-    div.style.paddingLeft = "25%";
+    //div.style.paddingLeft = "25%";
 
     var table = document.createElement("table");
-    table.style.marginLeft = "120px";
+    table.style.marginLeft = "10px"; //rework
 
     
     var tr = document.createElement("tr");
@@ -36,7 +36,7 @@ function buildTest(){
 
     var td = document.createElement("td");
     var btn = document.createElement("button");
-    btn.appendChild(document.createTextNode("Non-Reactive"));
+    btn.appendChild(document.createTextNode("NR"));
     btn.className = "btn btn-success buttons";
     btn.id = "btnNonReactive";
     btn.style.border = "1px";
@@ -72,13 +72,20 @@ function buildTestTwo(){
     var frame = document.getElementById('inputFrame' + tstCurrentPage);
     frame.style.height = "90%";
     var div = document.createElement("div");
-    div.height ="90%";
-    div.style.paddingTop = "15%";
-    div.style.paddingLeft = "25%";
-
     var table = document.createElement("table");
-    table.style.marginLeft = "150px";
-
+    var non_reactive = document.createTextNode("Non Reactive");
+    
+    div.height ="90%";
+    
+    if (sessionStorage.partnerTest === "true"){
+        div.style.paddingTop = "15%";
+        table.style.marginLeft = "10px";
+        non_reactive = document.createTextNode("NR")
+    }else{
+        div.style.paddingTop = "15%";
+        div.style.paddingLeft = "15%";
+        table.style.marginLeft = "150px";
+    }
     
     var tr = document.createElement("tr");
 
@@ -91,7 +98,7 @@ function buildTestTwo(){
 
     var td = document.createElement("td");
     var btn = document.createElement("button");
-    btn.appendChild(document.createTextNode("Non-Reactive"));
+    btn.appendChild(non_reactive);
     btn.className = "btn btn-success buttons";
     btn.id = "btnNonReactive";
     btn.style.border = "1px";

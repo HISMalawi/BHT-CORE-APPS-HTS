@@ -42,6 +42,25 @@
     border-radius: 12px;
     pointer-events: none;
 }
+#content {
+    margin-top: -320px !important;
+    margin-left: 0% !important;
+}
+.buttonsDiv{
+    display: none !important;
+}
+.inputFrameClass {
+    font-size: 14px !important;
+    width: 95% !important;
+    height: 85% !important;
+    margin-left: 10px !important;
+}
+.helpTextClass {
+    font-size: 24px !important;
+}
+#calendar-table-cell-right {
+    display: none;
+}
 
 </style>
 <script>
@@ -55,6 +74,7 @@
     if (testResultOne === ""){
         showMessage("First Pass Test 1 Result must be entered.");
     }else{
+      console.log("Am in!000");
         gotoNextPage();
     }
   }
@@ -160,7 +180,7 @@
                         <option>Yes</option>
                     </select>
            
-                 <select id="client_consent" name="client_consent" helpText="Client gives consent to be tested?" 
+                 <select id="client_consent" name="client_consent" helpText="Consent to be tested?" 
                     tt_pageStyleClass="NoKeyboard" tt_onLoad="showCategory2('HTS Visit');changeNextButtonConsent();" >
                         <option></option>
                         <option>No</option>
@@ -168,13 +188,13 @@
                     </select>
                    
 
-                    <input type="text" name="summary" id="test_result_one" optional="true"
+                    <input type="text" name="summary1" id="test_result_one" optional="true"
                       tt_onLoad="__$('keyboard').style.display = 'none';showCategory2('HTS Visit'); 
                         testResultOne = '';  buildTest();changeNextButtonOnFirstTest();"
                       tt_pageStyleClass= "NoControls" helpText="First Pass Test 1 Result" 
                       condition="__$('last_hiv_test').value !== 'Last Positive';"/>
                     
-                    <input type="text" name="summary" id="test_result_two"
+                    <input type="text" name="summary2" id="test_result_two"
                     tt_onLoad="__$('keyboard').style.display = 'none';showCategory2('HTS Visit');
                         buildTestTwo(); changeNextButtonOnSecondTest();"
                     tt_pageStyleClass= "NoControls" helpText="First Pass Test 2 Result" optional="true"
