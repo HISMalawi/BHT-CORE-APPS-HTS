@@ -52,7 +52,7 @@
         <input type="text" name="summary"
           tt_onLoad="__$('keyboard').style.display = 'none'; 
             __$('helpText'+tstCurrentPage).style.display = 'none';
-            splitPage(); changeNextButton();"
+            splitPage(); changeNextButton(); setSession(); "
           tt_pageStyleClass= "NoControls"/>
       </form>
     </div>
@@ -60,37 +60,70 @@
         <!-- iframe src="hts_visit.html" id="frame1" height="200" width="50%" onload="iframeclick()"></iframe --> 
 </body>
 <script type="text/javascript">
+var  $j = jQuery.noConflict();
   var value = "";
 
-function splitPage(){
-  document.getElementById("inputFrame"+tstCurrentPage).height = "98%";
-  table = document.createElement('table');
-  table.style.height = "96%";
-  table.style.width = "98%";
-  tr = document.createElement('tr');
-  td1 = document.createElement('td');
-  td2 = document.createElement('td');
+  function setSession(){
+    sessionStorage.initialClientInProgress = true;
+  }
 
-  iframe1 = document.createElement('iframe');
-  iframe2 = document.createElement('iframe');
-
-  iframe1.src = "hts_visit2.html";
-  iframe1.id = "iframe1";
-  iframe1.style.height = "100%";
-
-  iframe2.src = "partner_consent.html";
-  iframe2.id = "iframe2";
-  iframe2.style.height = "100%";
+  function iframeclick() {
+    var iframe1 = document.getElementById("frame1").contentWindow
+    iframe1.document.body.onclick = function() {
+      $j("#frame1").css("border", "2px solid red");
+      $j("#frame2").css("border", "0px solid #fff");
+    }
+  }
   
-  td1.appendChild(iframe1);
-  td2.appendChild(iframe2);
+  function iframe2click() {
+    var iframe2 = document.getElementById("iframe2").contentWindow
+    iframe2.document.body.onclick = function() {
+      if (sessionStorage.initialClientInProgress === "true"){
+        showMessage("Continue with the first client!");
+        $j("#iframe1").css("border", "2px solid red");
+        $j("#iframe2").css("border", "0px solid #fff");
+        return;
+      }else{
+        $j("#iframe2").css("border", "2px solid red");
+        $j("#iframe1").css("border", "0px solid #fff");
+      }
+    }
+  }
 
-  tr.appendChild(td1);
-  tr.appendChild(td2);
+  function splitPage(){
+    document.getElementById("inputFrame"+tstCurrentPage).height = "98%";
+    table = document.createElement('table');
+    table.style.height = "96%";
+    table.style.width = "98%";
+    tr = document.createElement('tr');
+    td1 = document.createElement('td');
+    td2 = document.createElement('td');
 
-  table.appendChild(tr);
-  __$('inputFrame'+tstCurrentPage).appendChild(table);
-}
+    iframe1 = document.createElement('iframe');
+    iframe2 = document.createElement('iframe');
+
+    iframe1.src = "hts_visit2.html";
+    iframe1.id = "iframe1";
+    iframe1.style.height = "100%";
+
+    iframe2.src = "partner_consent.html";
+    iframe2.id = "iframe2";
+    iframe2.style.height = "100%";
+    iframe2.setAttribute("onload", "iframe2click()");
+    
+    td1.appendChild(iframe1);
+    td2.appendChild(iframe2);
+
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+
+    table.appendChild(tr);
+    __$('inputFrame'+tstCurrentPage).appendChild(table);
+  }
+  
+  function checkSession(){
+    alert("Am in here");
+  }
 
 function changeNextButton(){
   var nextButton =  document.getElementById('nextButton');
@@ -99,14 +132,22 @@ function changeNextButton(){
 }
 
 function goToNextPage(){
-  var iframe = document.getElementById("iframe1");
+  if(sessionStorage.initialClientInProgress === "true"){
+    var iframe = document.getElementById("iframe1");
+  }else if(sessionStorage.initialClientInProgress === "false"){
+    var iframe = document.getElementById("iframe2");
+  }
   var textfield = iframe.contentDocument.getElementsByClassName("touchscreenTextInput")[0];
 
   if(value === ""){
     showMessage("You must enter value to continue.");
   }else{
-    if (textfield.name === "client_consent"){
+    if (textfield.name === "client_consent" || textfield.name === "consent"){
       iframe.contentWindow.checkConsent();
+    }else if(textfield.name === "gender") {
+      iframe.contentWindow.getGender();
+    }else if(textfield.name === "partner_gender") {
+      iframe.contentWindow.submitSearchResults();
     }else if(textfield.name === "summary1"){
       iframe.contentWindow.validateResultOne();
     }else{
@@ -115,17 +156,162 @@ function goToNextPage(){
   }
 }
 
-setInterval(function(){
-  var iframe = document.getElementById("iframe1");
-  var iframe1document = iframe1.contentDocument;
-  var textfield = iframe1document.getElementsByClassName("touchscreenTextInput")[0];
-  
-  if (textfield.name === "summary1"){
-    value = iframe.contentWindow.testResultOne;
-  }else if (textfield.name === "summary2"){
-    value = iframe.contentWindow.testResultTwo;
-  }else{
-    value = textfield.value;
+function keyPress(pressedChar){
+  if(sessionStorage.initialClientInProgress === "true"){
+    var iframe = document.getElementById("iframe1");
+  }else if(sessionStorage.initialClientInProgress === "false"){
+    var iframe = document.getElementById("iframe2");
   }
+  //console.log("Am in two");
+  var iframe1document = iframe.contentDocument;
+  var textfield = iframe1document.getElementsByClassName("touchscreenTextInput")[0];
+
+  var now = new Date();
+    var diff = tstLastPressTime && now.getTime() - tstLastPressTime.getTime();
+
+    if (diff && diff < 80 ) {
+        return;
+    }
+
+    inputTarget = textfield;
+    var singleButtonMode = inputTarget.getAttribute("singleButtonMode");
+    if (singleButtonMode)
+        inputTarget.value = "";
+
+    var unknownClickedEarlier = inputTarget.value.toLowerCase();
+    if (unknownClickedEarlier == "unknown" || unknownClickedEarlier == "n/a")
+        inputTarget.value = "";
+
+    if (pressedChar.length == 1) {
+        inputTarget.value += getRightCaseValue(pressedChar);
+
+    } else {
+        switch (pressedChar) {
+            case 'backspace':
+                inputTarget.value = inputTarget.value.substring(0,inputTarget.value.length-1);
+                break;
+            case 'done':
+                touchScreenEditFinish(inputTarget);
+                break;
+            case 'space':
+                inputTarget.value += ' ';
+                break;
+            case 'whitespace':
+                inputTarget.value += ' ';
+                break;
+            case 'return':
+                inputTarget.value += "\n";
+                break;
+            case 'apostrophe':
+                inputTarget.value += "'";
+                break;
+            case 'na':
+                inputTarget.value = "N/A";
+                break;
+            case 'abc':
+                tstUserKeyboardPref = 'abc';
+                __$('keyboard').innerHTML = getPreferredKeyboard();
+                if (typeof(saveUserKeyboardPref) != 'undefined'){
+                    saveUserKeyboardPref('abc');
+                }
+                break;
+            case 'qwerty':
+                tstUserKeyboardPref = 'qwerty';
+                __$('keyboard').innerHTML = getPreferredKeyboard();
+                if (typeof(saveUserKeyboardPref) != 'undefined'){
+                    saveUserKeyboardPref('qwerty');
+                }
+                break;
+            case 'num':
+                __$('keyboard').innerHTML = getNumericKeyboard();
+                break;
+            case 'char':
+                __$('keyboard').innerHTML = getPreferredKeyboard();
+                if (typeof(saveUserKeyboardPref) != 'undefined'){
+                    saveUserKeyboardPref('abc');
+                }
+                break;
+            case 'date':
+                getDatePicker();
+                break;
+            case 'SHIFT':
+                toggleShift();
+                break;
+            case 'Unknown':
+                inputTarget.value = "Unknown";
+                break;
+
+            default:
+                if (tstShiftPressed) pressedChar = pressedChar.toUpperCase();
+                inputTarget.value += pressedChar;
+        }
+    }
+
+    if(doListSuggestions){
+        listSuggestions(inputTargetPageNumber);
+    }
+
+    tstLastPressTime = new Date();
+}
+
+function getRightCaseValue(aChar) {
+    var newChar = '';
+    var inputElement = tstInputTarget;
+    var fieldCase = inputElement.getAttribute("textCase");
+
+    switch (fieldCase) {
+        case "lower":
+            newChar = aChar.toLowerCase();
+            break;
+        case "upper":
+            newChar = aChar.toUpperCase();
+            break;
+        case "mixed":
+            if (tstShiftPressed)
+                newChar = aChar.toUpperCase();
+            else
+                newChar = aChar.toLowerCase();
+            break;
+        default:		// Capitalise First Letter
+            if (inputElement.value.length == 0 || tstShiftPressed)
+                newChar = aChar.toUpperCase();
+            else
+                newChar = aChar.toLowerCase();
+    }
+    return newChar;
+}
+
+setInterval(function(){
+  if(sessionStorage.initialClientInProgress === "true"){
+    var iframe = document.getElementById("iframe1");
+  }else if(sessionStorage.initialClientInProgress === "false"){
+    var iframe = document.getElementById("iframe2");
+  }
+  //console.log("Am in two");
+  var iframe1document = iframe.contentDocument;
+  var textfield = iframe1document.getElementsByClassName("touchscreenTextInput")[0];
+  try{
+    var keyboard = textfield.getAttribute('allowfreeText');
+    if(keyboard === "true"){
+      __$('keyboard').style.display = "inline";
+      keys = document.getElementsByClassName("keyboardButton");
+      for (var i = 0; i < keys.length; i++){
+        keys[i].setAttribute("onmousedown", "keyPress('"+ keys[i].id+"');");
+      }
+    }else{
+      __$('keyboard').style.display = "none";
+    }
+
+    if (textfield.name === "summary1"){
+      value = iframe.contentWindow.testResultOne;
+    }else if (textfield.name === "summary2"){
+      value = iframe.contentWindow.testResultTwo;
+    }else{
+      value = textfield.value;
+    }
+  }catch(e){
+
+  }
+  
 },200)
 </script>
