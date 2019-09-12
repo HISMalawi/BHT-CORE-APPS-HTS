@@ -471,6 +471,7 @@ function getMonthDates(current_date){
 }
 
 function selectDate(e) {
+  console.log(e);
   var selected_date;
 
   if (e === undefined){ //Do this to return to the system suggested date.

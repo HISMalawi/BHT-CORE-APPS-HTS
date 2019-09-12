@@ -13,6 +13,11 @@
 <script type="text/javascript" src="/apps/HTS/assets/js/common.js"></script>
 <script type="text/javascript" src="/apps/HTS/assets/js/hts_visit_partner.js"></script>
 <link rel="stylesheet" href="/assets/css/alertifyjs/css/alertify.css" type="text/css">
+<script>
+  tt_cancel_destination = "/";
+  tstCurrentDate = sessionStorage.sessionDate;
+
+</script>
 
 <style>
 
@@ -51,8 +56,8 @@
       <form>
         <input type="text" name="summary"
           tt_onLoad="__$('keyboard').style.display = 'none'; 
-            __$('helpText'+tstCurrentPage).style.display = 'none';
-            splitPage(); changeNextButton(); setSession(); "
+            __$('helpText'+tstCurrentPage).style.display = 'none'; displayBackButton();
+            splitPage(); changeNextButton(); changeClearButton(); setSession(); "
           tt_pageStyleClass= "NoControls"/>
       </form>
     </div>
@@ -125,10 +130,85 @@ var  $j = jQuery.noConflict();
     alert("Am in here");
   }
 
+function clearInputs(){
+  if(sessionStorage.initialClientInProgress === "true"){
+    var iframe = document.getElementById("iframe1");
+  }else if(sessionStorage.initialClientInProgress === "false"){
+    var iframe = document.getElementById("iframe2");
+  }
+  //console.log("Am in two");
+  var iframe1document = iframe.contentDocument;
+  var textfield = iframe1document.getElementsByClassName("touchscreenTextInput")[0];
+
+  textfield.value = "";
+
+  iframewindow = iframe.contentWindow
+  if(iframewindow.doListSuggestions){
+        iframewindow.listSuggestions(iframewindow.tstCurrentPage);
+    }
+    
+    if(iframewindow.tstFormElements[iframewindow.tstPages[iframewindow.tstCurrentPage]].tagName == "SELECT"){
+        if(iframe1document.getElementById("tt_currentUnorderedListOptions")){
+            var options = iframe1document.getElementById("tt_currentUnorderedListOptions").getElementsByTagName("li");
+            
+            if(iframewindow.tstFormElements[iframewindow.tstPages[iframewindow.tstCurrentPage]].getAttribute("multiple")){
+                for(var i = 0; i < options.length; i++){
+                    if(options[i].style.backgroundColor == "lightblue"){
+                        options[i].click();
+                    }
+                }
+            } else {
+                for(var i = 0; i < options.length; i++){
+                    if(options[i].style.backgroundColor == "lightblue"){
+                        options[i].style.backgroundColor = "";
+                        iframewindow.tstFormElements[iframewindow.tstPages[iframewindow.tstCurrentPage]].value = "";
+                        textfield.setAttribute("tstvalue", "");
+                    }
+                }
+            }
+        } else {
+            var controls = iframe1document.getElementById("options").getElementsByTagName("img");
+
+            for(var j = 0; j < controls.length; j++){
+                try{
+                    if(controls[j].getAttribute("src").match(/un/) == null){
+                        controls[j].click();
+                    }
+                } catch(e){
+                }
+            }
+        }
+    }
+
+}
+
 function changeNextButton(){
   var nextButton =  document.getElementById('nextButton');
   nextButton.innerHTML = "<span>Next</span>"
   nextButton.setAttribute("onmousedown","goToNextPage();");
+}
+
+function changeClearButton(){
+  var clearButton = document.getElementById("clearButton");
+  clearButton.setAttribute("onmousedown", "clearInputs();");
+}
+
+function displayBackButton(){
+  var backbutton = document.getElementById("backButton");
+  backbutton.setAttribute("onmousedown", "gotoPrevPage();")
+  backbutton.style.display = "block";
+}
+
+function gotoPrevPage(){
+  if(sessionStorage.initialClientInProgress === "true"){
+    var iframe = document.getElementById("iframe1");
+  }else if(sessionStorage.initialClientInProgress === "false"){
+    var iframe = document.getElementById("iframe2");
+  }
+  var current_page = iframe.contentWindow.tstCurrentPage;
+  var prev_page = parseInt(current_page) - 1;
+
+  iframe.contentWindow.gotoPage(prev_page, null, true);
 }
 
 function goToNextPage(){
@@ -255,8 +335,15 @@ function keyPress(pressedChar){
 }
 
 function getRightCaseValue(aChar) {
+  if(sessionStorage.initialClientInProgress === "true"){
+    var iframe = document.getElementById("iframe1");
+  }else if(sessionStorage.initialClientInProgress === "false"){
+    var iframe = document.getElementById("iframe2");
+  }
+  var iframe1document = iframe.contentDocument;
+  var textfield = iframe1document.getElementsByClassName("touchscreenTextInput")[0];
     var newChar = '';
-    var inputElement = tstInputTarget;
+    var inputElement = textfield;
     var fieldCase = inputElement.getAttribute("textCase");
 
     switch (fieldCase) {
@@ -292,12 +379,25 @@ setInterval(function(){
   var textfield = iframe1document.getElementsByClassName("touchscreenTextInput")[0];
   try{
     var keyboard = textfield.getAttribute('allowfreeText');
+    var field_type = textfield.getAttribute('field_type');
     if(keyboard === "true"){
-      __$('keyboard').style.display = "inline";
-      keys = document.getElementsByClassName("keyboardButton");
-      for (var i = 0; i < keys.length; i++){
-        keys[i].setAttribute("onmousedown", "keyPress('"+ keys[i].id+"');");
+      if (__$('keyboard').style.display === "none"){
+        __$('keyboard').style.display = "inline";
+        if (field_type === "date"){
+          getDatePicker();
+          textfield.value = tstInputTarget.value;
+        }
+
+        keys = document.getElementsByClassName("keyboardButton");
+        for (var i = 0; i < keys.length; i++){
+          keys[i].setAttribute("onmousedown", "keyPress('"+ keys[i].id+"');");
+        }
       }
+      if (field_type === "date"){
+          //getDatePicker();
+          textfield.value = tstInputTarget.value;
+        }
+
     }else{
       __$('keyboard').style.display = "none";
     }
