@@ -22,7 +22,7 @@ function buildTest(){
 
     var table = document.createElement("table");
 
-    if (sessionStorage.partnerTest === "true"){
+    if (sessionStorage.splitPage === "true"){
         div.style.paddingTop = "15%";
         table.style.marginLeft = "10px";
         non_reactive = document.createTextNode("NR")
@@ -36,14 +36,14 @@ function buildTest(){
 
     var td = document.createElement("td");
     var p = document.createElement("p");
-    var node = document.createTextNode("Determine HIiiV 1/2 Result - 15 Minutes");
+    var node = document.createTextNode("Determine HIV 1/2 Result - 15 Minutes");
     p.appendChild(node);
     td.appendChild(p);
     tr.appendChild(td)
 
     var td = document.createElement("td");
     var btn = document.createElement("button");
-    btn.appendChild(document.createTextNode(non_reactive));
+    btn.appendChild(non_reactive);
     btn.className = "btn btn-success buttons";
     btn.id = "btnNonReactive";
     btn.style.border = "1px";
@@ -84,7 +84,7 @@ function buildTestTwo(){
     
     div.height ="90%";
     
-    if (sessionStorage.partnerTest === "true"){
+    if (sessionStorage.splitPage === "true"){
         div.style.paddingTop = "15%";
         table.style.marginLeft = "10px";
         non_reactive = document.createTextNode("NR")
@@ -149,7 +149,7 @@ function buildParallelTest(){
     
     div.height ="90%";
     
-    if (sessionStorage.partnerTest === "true"){
+    if (sessionStorage.splitPage === "true"){
         div.style.paddingTop = "15%";
         table.style.marginLeft = "10px";
         non_reactive = document.createTextNode("NR")

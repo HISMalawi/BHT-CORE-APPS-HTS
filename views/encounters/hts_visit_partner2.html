@@ -16,6 +16,8 @@
 <script>
   tt_cancel_destination = "/";
   tstCurrentDate = sessionStorage.sessionDate;
+  sessionStorage.partnerID = null;
+  sessionStorage.initialClientInProgress = true;
 
 </script>
 
@@ -57,7 +59,7 @@
         <input type="text" name="summary"
           tt_onLoad="__$('keyboard').style.display = 'none'; 
             __$('helpText'+tstCurrentPage).style.display = 'none'; displayBackButton();
-            splitPage(); changeNextButton(); changeClearButton(); setSession(); "
+            splitPage(); changeNextButton(); changeClearButton(); "
           tt_pageStyleClass= "NoControls"/>
       </form>
     </div>
@@ -68,15 +70,18 @@
 var  $j = jQuery.noConflict();
   var value = "";
 
-  function setSession(){
-    sessionStorage.initialClientInProgress = true;
-  }
-
-  function iframeclick() {
-    var iframe1 = document.getElementById("frame1").contentWindow
+  function iframe1click() {
+    var iframe1 = document.getElementById("iframe1").contentWindow
     iframe1.document.body.onclick = function() {
-      $j("#frame1").css("border", "2px solid red");
-      $j("#frame2").css("border", "0px solid #fff");
+      if (sessionStorage.initialClientInProgress === "true"){
+        $j("#iframe1").css("border", "2px solid red");
+        $j("#iframe2").css("border", "0px solid #fff");
+        return;
+      }else{
+        showMessage("Continue with the second client!");
+        $j("#iframe2").css("border", "2px solid red");
+        $j("#iframe1").css("border", "0px solid #fff");
+      }
     }
   }
   
@@ -110,6 +115,7 @@ var  $j = jQuery.noConflict();
     iframe1.src = "hts_visit2.html";
     iframe1.id = "iframe1";
     iframe1.style.height = "100%";
+    iframe1.setAttribute("onload", "iframe1click()");
 
     iframe2.src = "partner_consent.html";
     iframe2.id = "iframe2";
@@ -230,11 +236,71 @@ function goToNextPage(){
       iframe.contentWindow.submitSearchResults();
     }else if(textfield.name === "summary1"){
       iframe.contentWindow.validateResultOne();
+    }else if(textfield.name === "person[id]"){
+      if (textfield.value.match(/Create a new person/)){
+        createNewClient(iframe);
+      }else{
+        selectClient(iframe, textfield.value);
+      }
     }else{
       iframe.contentWindow.gotoNextPage();
     }
   }
 }
+
+function selectClient(iframe, value){
+  //iframe.contentWindow.forms[0].action = "select";
+  iframe.contentWindow.clearFields();
+  var textfield = iframe.contentDocument.getElementsByClassName("touchscreenTextInput")[0]
+  search_redirect = value;
+  if (search_redirect.length > 0){
+    pid = textfield.getAttribute("tstvalue");
+    sessionStorage.setItem("patientID", pid);
+    iframe.src = "hts_visit2.html";
+  }else{
+    showMessage("Select value to continue");
+  }
+}
+
+function createNewClient(iframe){
+  var parameters = "?given_name=" + sessionStorage.given_name;
+  parameters += "&family_name=" + sessionStorage.family_name;
+  parameters += "&gender=" + sessionStorage.gender;
+
+  iframe.src = "new.html" + parameters;
+  
+}
+  /**
+        if (search_redirect.match(/Create a new/i)){
+          
+      }else if (search_redirect.length > 0){
+        if(people[pos]["person_type"] === "local" || people[pos]["person_type"] == undefined) {
+          window.location.href = "/views/confirm.html?person_id=" + people[pos]['Person ID'];
+          sessionStorage.setItem("patientID", people[pos]["Person ID"]);
+        }else {
+          window.location.href = "/views/confirm.html?patient_id=" + people[pos]['Person ID'];
+        }
+        // nextEncounter(people[pos]['Person ID'] , 1, sessionStorage.programID);
+      }else{
+          showMessage("Select value to continue");
+      }
+    }
+    */
+    /**
+      addFields();
+
+      try{
+        pos = parseInt(pos) + 1;
+        $('identifier').value = people[pos]['Patient National ID'];
+      }catch(e){
+        if(!pos && text.match(/New Patient/)){
+          $('identifier').value = "";
+        }else{
+          $('identifier').value = null;
+        }
+      }
+      */
+
 
 function keyPress(pressedChar){
   if(sessionStorage.initialClientInProgress === "true"){
@@ -379,13 +445,27 @@ setInterval(function(){
   var textfield = iframe1document.getElementsByClassName("touchscreenTextInput")[0];
   try{
     var keyboard = textfield.getAttribute('allowfreeText');
+    var show_keyboard = textfield.getAttribute('show_keyboard');
     var field_type = textfield.getAttribute('field_type');
-    if(keyboard === "true"){
+    if(keyboard === "true" || show_keyboard === "true"){
       if (__$('keyboard').style.display === "none"){
         __$('keyboard').style.display = "inline";
         if (field_type === "date"){
           getDatePicker();
           textfield.value = tstInputTarget.value;
+        }else if(field_type === "number"){
+          __$('keyboard').innerHTML = getNumericKeyboard();
+          __$('plus').style.display = "none";
+          __$('minus').style.display = "none";
+          __$('slash').style.display = "none";
+          __$('star').style.display = "none";
+          __$('char').style.display = "none";
+          __$('date').style.display = "none";
+          __$('percent').style.display = "none";
+          __$('qwerty').style.display = "none";
+          __$('decimal').style.display = "none";
+          __$('comma').style.display = "none";
+          __$('Unknown').style.display = "block";
         }
 
         keys = document.getElementsByClassName("keyboardButton");
